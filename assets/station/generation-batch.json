@@ -1,0 +1,330 @@
+{
+  "items": [
+    {
+      "tool": "partner_generate",
+      "type": "image",
+      "model": "vertexai/nano-banana-pro",
+      "aspect_ratio": "16:9",
+      "description": "Asterion Station concept",
+      "prompt": "Art direction reference for an original isometric 3D space-station laboratory game inspired by the departmental layout and busy simulation atmosphere of Space Station 13, without copying any game assets, logos or characters. A complete roofless cutaway station floating above a huge softly lit blue planet, deep starfield. Six interconnected departments around a broad cruciform tiled central corridor: cyan research laboratory with specimen cylinders and lab benches, green hydroponics with lush planting racks, amber engineering with glowing contained reactor and pipes, white and coral medical bay with beds, blue command bridge with semicircular consoles, cargo bay with orange crates and external airlock. Bold clear floorplan, thick industrial bulkhead frames, sliding airlocks, floor markings, exposed pipes, window panels, stairs and machinery. Warm task lights against cool teal ambient, restrained neon magenta accents. Several tiny stylized human crew moving between stations. Beautiful tactile miniature game diorama, low-poly architectural geometry with sophisticated materials, ambient occlusion, cinematic lighting, orthographic three-quarter view, readable whole station, no UI, no text labels, no watermark. Detailed enough to guide a real interactive WebGL reconstruction."
+    },
+    {
+      "tool": "submit_workflow",
+      "description": "Station astronaut rigged walk and idle",
+      "workflow": {
+        "1": {
+          "class_type": "TripoPSeriesTextToModelNode",
+          "_meta": {
+            "title": "Create riggable astronaut"
+          },
+          "inputs": {
+            "model": "P2",
+            "model.prompt": "One full-body stylized adult human astronaut for an original space station game. Dark-skinned woman in white and orange astronaut suit, open helmet, friendly face. Clean low-poly textured game character, standard human proportions, symmetrical T-pose, straight arms extended sideways, separated fingers, straight legs apart, feet on ground, complete head and limbs, no base, no held props, no environment. Designed for humanoid skeletal rigging.",
+            "model.quad": false,
+            "model.face_limit": 12000,
+            "model.texture": "standard",
+            "model.pbr": true,
+            "model.model_seed": 731,
+            "model.image_seed": 731,
+            "model.texture_seed": 731,
+            "model.auto_size": false,
+            "model.export_uv": true,
+            "model.compress_geometry": false
+          }
+        },
+        "2": {
+          "class_type": "TripoRigNode",
+          "_meta": {
+            "title": "Rig humanoid skeleton"
+          },
+          "inputs": {
+            "original_model_task_id": [
+              "1",
+              0
+            ],
+            "model_version": "v1.0-20240301",
+            "rig_type": "biped",
+            "spec": "tripo",
+            "out_format": "glb"
+          }
+        },
+        "3": {
+          "class_type": "TripoRetargetNode",
+          "_meta": {
+            "title": "Retarget in-place walk cycle"
+          },
+          "inputs": {
+            "original_model_task_id": [
+              "2",
+              1
+            ],
+            "animation": "preset:walk",
+            "out_format": "glb",
+            "export_with_geometry": true,
+            "animate_in_place": true
+          }
+        },
+        "4": {
+          "class_type": "TripoRetargetNode",
+          "_meta": {
+            "title": "Retarget idle cycle"
+          },
+          "inputs": {
+            "original_model_task_id": [
+              "2",
+              1
+            ],
+            "animation": "preset:idle",
+            "out_format": "glb",
+            "export_with_geometry": true,
+            "animate_in_place": true
+          }
+        },
+        "5": {
+          "class_type": "Save3DAdvanced",
+          "_meta": {
+            "title": "Save walking character"
+          },
+          "inputs": {
+            "model_3d": [
+              "3",
+              2
+            ],
+            "filename_prefix": "station/astronaut-walk",
+            "viewport_state": "",
+            "width": 1024,
+            "height": 1024
+          }
+        },
+        "6": {
+          "class_type": "Save3DAdvanced",
+          "_meta": {
+            "title": "Save idle character"
+          },
+          "inputs": {
+            "model_3d": [
+              "4",
+              2
+            ],
+            "filename_prefix": "station/astronaut-idle",
+            "viewport_state": "",
+            "width": 1024,
+            "height": 1024
+          }
+        }
+      }
+    },
+    {
+      "tool": "submit_workflow",
+      "description": "Station engineer rigged walk and idle",
+      "workflow": {
+        "1": {
+          "class_type": "TripoPSeriesTextToModelNode",
+          "_meta": {
+            "title": "Create riggable engineer"
+          },
+          "inputs": {
+            "model": "P2",
+            "model.prompt": "One full-body stylized adult human engineer for an original space station game. Brown-skinned man with short hair in teal engineering jumpsuit with yellow utility accents. Clean low-poly textured game character, standard human proportions, symmetrical T-pose, straight arms extended sideways, separated fingers, straight legs apart, feet on ground, complete head and limbs, no base, no held props, no environment. Designed for humanoid skeletal rigging.",
+            "model.quad": false,
+            "model.face_limit": 12000,
+            "model.texture": "standard",
+            "model.pbr": true,
+            "model.model_seed": 732,
+            "model.image_seed": 732,
+            "model.texture_seed": 732,
+            "model.auto_size": false,
+            "model.export_uv": true,
+            "model.compress_geometry": false
+          }
+        },
+        "2": {
+          "class_type": "TripoRigNode",
+          "_meta": {
+            "title": "Rig humanoid skeleton"
+          },
+          "inputs": {
+            "original_model_task_id": [
+              "1",
+              0
+            ],
+            "model_version": "v1.0-20240301",
+            "rig_type": "biped",
+            "spec": "tripo",
+            "out_format": "glb"
+          }
+        },
+        "3": {
+          "class_type": "TripoRetargetNode",
+          "_meta": {
+            "title": "Retarget in-place walk cycle"
+          },
+          "inputs": {
+            "original_model_task_id": [
+              "2",
+              1
+            ],
+            "animation": "preset:walk",
+            "out_format": "glb",
+            "export_with_geometry": true,
+            "animate_in_place": true
+          }
+        },
+        "4": {
+          "class_type": "TripoRetargetNode",
+          "_meta": {
+            "title": "Retarget idle cycle"
+          },
+          "inputs": {
+            "original_model_task_id": [
+              "2",
+              1
+            ],
+            "animation": "preset:idle",
+            "out_format": "glb",
+            "export_with_geometry": true,
+            "animate_in_place": true
+          }
+        },
+        "5": {
+          "class_type": "Save3DAdvanced",
+          "_meta": {
+            "title": "Save walking character"
+          },
+          "inputs": {
+            "model_3d": [
+              "3",
+              2
+            ],
+            "filename_prefix": "station/engineer-walk",
+            "viewport_state": "",
+            "width": 1024,
+            "height": 1024
+          }
+        },
+        "6": {
+          "class_type": "Save3DAdvanced",
+          "_meta": {
+            "title": "Save idle character"
+          },
+          "inputs": {
+            "model_3d": [
+              "4",
+              2
+            ],
+            "filename_prefix": "station/engineer-idle",
+            "viewport_state": "",
+            "width": 1024,
+            "height": 1024
+          }
+        }
+      }
+    },
+    {
+      "tool": "submit_workflow",
+      "description": "Station botanist rigged walk and idle",
+      "workflow": {
+        "1": {
+          "class_type": "TripoPSeriesTextToModelNode",
+          "_meta": {
+            "title": "Create riggable botanist"
+          },
+          "inputs": {
+            "model": "P2",
+            "model.prompt": "One full-body stylized adult human botanist for an original space station game. Brown-skinned woman with short curly hair in lime green and ivory botanist suit. Clean low-poly textured game character, standard human proportions, symmetrical T-pose, straight arms extended sideways, separated fingers, straight legs apart, feet on ground, complete head and limbs, no base, no held props, no environment. Designed for humanoid skeletal rigging.",
+            "model.quad": false,
+            "model.face_limit": 12000,
+            "model.texture": "standard",
+            "model.pbr": true,
+            "model.model_seed": 733,
+            "model.image_seed": 733,
+            "model.texture_seed": 733,
+            "model.auto_size": false,
+            "model.export_uv": true,
+            "model.compress_geometry": false
+          }
+        },
+        "2": {
+          "class_type": "TripoRigNode",
+          "_meta": {
+            "title": "Rig humanoid skeleton"
+          },
+          "inputs": {
+            "original_model_task_id": [
+              "1",
+              0
+            ],
+            "model_version": "v1.0-20240301",
+            "rig_type": "biped",
+            "spec": "tripo",
+            "out_format": "glb"
+          }
+        },
+        "3": {
+          "class_type": "TripoRetargetNode",
+          "_meta": {
+            "title": "Retarget in-place walk cycle"
+          },
+          "inputs": {
+            "original_model_task_id": [
+              "2",
+              1
+            ],
+            "animation": "preset:walk",
+            "out_format": "glb",
+            "export_with_geometry": true,
+            "animate_in_place": true
+          }
+        },
+        "4": {
+          "class_type": "TripoRetargetNode",
+          "_meta": {
+            "title": "Retarget idle cycle"
+          },
+          "inputs": {
+            "original_model_task_id": [
+              "2",
+              1
+            ],
+            "animation": "preset:idle",
+            "out_format": "glb",
+            "export_with_geometry": true,
+            "animate_in_place": true
+          }
+        },
+        "5": {
+          "class_type": "Save3DAdvanced",
+          "_meta": {
+            "title": "Save walking character"
+          },
+          "inputs": {
+            "model_3d": [
+              "3",
+              2
+            ],
+            "filename_prefix": "station/botanist-walk",
+            "viewport_state": "",
+            "width": 1024,
+            "height": 1024
+          }
+        },
+        "6": {
+          "class_type": "Save3DAdvanced",
+          "_meta": {
+            "title": "Save idle character"
+          },
+          "inputs": {
+            "model_3d": [
+              "4",
+              2
+            ],
+            "filename_prefix": "station/botanist-idle",
+            "viewport_state": "",
+            "width": 1024,
+            "height": 1024
+          }
+        }
+      }
+    }
+  ]
+}

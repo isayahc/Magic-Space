@@ -1,11 +1,18 @@
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
 import { root } from './paths.mjs';
 import { currentRuns, legacyRuns } from './models.mjs';
 const require = createRequire(`${root}/package.json`);
 const { createServer } = await import(pathToFileURL(require.resolve('vite')).href);
+const stationAssets = await readdir(new URL('assets/station/', import.meta.url));
+const mime = { glb: 'model/gltf-binary', png: 'image/png', jpg: 'image/jpeg', txt: 'text/plain', json: 'application/json', webm: 'video/webm', gif: 'image/gif' };
 const files = new Map([
+  ['/station', ['station/index.html', 'text/html']],
+  ['/station/', ['station/index.html', 'text/html']],
+  ...['main.mjs', 'world.mjs', 'navigation.mjs'].map(name => [`/station/${name}`, [`station/${name}`, 'application/javascript']]),
+  ['/station/style.css', ['station/style.css', 'text/css']],
+  ...stationAssets.filter(name => mime[name.split('.').at(-1)]).map(name => [`/station/assets/${name}`, [`assets/station/${name}`, mime[name.split('.').at(-1)]]]),
   ['/comparison', ['viewer.html', 'text/html']],
   ...[...currentRuns, ...legacyRuns].map(run => [`/comparison/${run.slug}.json`, [`assets/${run.slug}.scene.json`, 'application/json']]),
   ...['astronaut', 'engineer', 'botanist'].map(name => [`/comparison/assets/${name}.glb`, [`assets/${name}.glb`, 'model/gltf-binary']]),
@@ -19,7 +26,7 @@ const server = await createServer({ root, server: { host: '127.0.0.1', port, str
       const file = files.get(path);
       if (!file) return next();
       try {
-        let body = await readFile(new URL(file[0], import.meta.url), file[1] === 'model/gltf-binary' ? undefined : 'utf8');
+        let body = await readFile(new URL(file[0], import.meta.url), /^(model|image|video)\//.test(file[1]) ? undefined : 'utf8');
         if (file[1] === 'text/html') body = await server.transformIndexHtml(path, body);
         res.setHeader('Content-Type', file[1]); res.end(body);
       } catch (error) { next(error); }
@@ -28,3 +35,4 @@ const server = await createServer({ root, server: { host: '127.0.0.1', port, str
 }] });
 await server.listen();
 console.log(`Animated comparison: http://127.0.0.1:${port}/comparison`);
+console.log(`Living space station: http://127.0.0.1:${port}/station`);
