@@ -1,0 +1,3414 @@
+{
+  "schemaVersion": 1,
+  "units": "m",
+  "upAxis": "Y",
+  "scope": "room",
+  "motion": "animation",
+  "width": 480,
+  "height": 480,
+  "frameCount": 40,
+  "frameDelayMs": 100,
+  "durationSeconds": 4,
+  "room": [
+    12,
+    10,
+    4
+  ],
+  "assets": [
+    {
+      "id": "step-d4f334030bfb8c4d80fcceb006607ff5c8eb66a312d930131ee5d5252793f727-Z-1",
+      "instanceId": "bed-left-front",
+      "name": "Lettuce Grow Bed",
+      "source": {
+        "kind": "step",
+        "filename": "cleanroom_desk.step",
+        "digest": "d4f334030bfb8c4d80fcceb006607ff5c8eb66a312d930131ee5d5252793f727"
+      },
+      "position": [
+        -3,
+        0,
+        -2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "visible": true,
+      "warnings": []
+    },
+    {
+      "id": "step-d4f334030bfb8c4d80fcceb006607ff5c8eb66a312d930131ee5d5252793f727-Z-1",
+      "instanceId": "bed-left-back",
+      "name": "Herb Grow Bed",
+      "source": {
+        "kind": "step",
+        "filename": "cleanroom_desk.step",
+        "digest": "d4f334030bfb8c4d80fcceb006607ff5c8eb66a312d930131ee5d5252793f727"
+      },
+      "position": [
+        -3,
+        0,
+        2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "visible": true,
+      "warnings": []
+    },
+    {
+      "id": "step-d4f334030bfb8c4d80fcceb006607ff5c8eb66a312d930131ee5d5252793f727-Z-1",
+      "instanceId": "bed-right-front",
+      "name": "Tomato Grow Bed",
+      "source": {
+        "kind": "step",
+        "filename": "cleanroom_desk.step",
+        "digest": "d4f334030bfb8c4d80fcceb006607ff5c8eb66a312d930131ee5d5252793f727"
+      },
+      "position": [
+        3,
+        0,
+        -2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "visible": true,
+      "warnings": []
+    },
+    {
+      "id": "step-d4f334030bfb8c4d80fcceb006607ff5c8eb66a312d930131ee5d5252793f727-Z-1",
+      "instanceId": "bed-right-back",
+      "name": "Microgreens Grow Bed",
+      "source": {
+        "kind": "step",
+        "filename": "cleanroom_desk.step",
+        "digest": "d4f334030bfb8c4d80fcceb006607ff5c8eb66a312d930131ee5d5252793f727"
+      },
+      "position": [
+        3,
+        0,
+        2
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "visible": true,
+      "warnings": []
+    },
+    {
+      "id": "step-37e1e7bcb93047a3ba6e9effe16675d430b1aee09b692806fdb0ec4e1c700cf8-Z-1",
+      "instanceId": "rover",
+      "name": "Harvest Rover",
+      "source": {
+        "kind": "step",
+        "filename": "swab_bot.step",
+        "digest": "37e1e7bcb93047a3ba6e9effe16675d430b1aee09b692806fdb0ec4e1c700cf8"
+      },
+      "position": [
+        0,
+        0,
+        1.5999999999999996
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "visible": true,
+      "warnings": []
+    }
+  ],
+  "note": "Authored timeline evaluated at the recorded frame times; fixed review camera.",
+  "animation": {
+    "duration": 20,
+    "loop": true,
+    "tracks": [
+      {
+        "id": "rover:instance",
+        "instanceId": "rover",
+        "keys": [
+          {
+            "time": 0,
+            "position": [
+              0,
+              0,
+              -4
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "id": "key-0"
+          },
+          {
+            "time": 5,
+            "position": [
+              0,
+              0,
+              -2
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "id": "key-1"
+          },
+          {
+            "time": 10,
+            "position": [
+              0,
+              0,
+              4
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "id": "key-2"
+          },
+          {
+            "time": 15,
+            "position": [
+              0,
+              0,
+              -2
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "id": "key-3"
+          },
+          {
+            "time": 20,
+            "position": [
+              0,
+              0,
+              -4
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "id": "key-4"
+          }
+        ]
+      }
+    ]
+  },
+  "frames": [
+    {
+      "time": 8,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            1.5999999999999996
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 8.1,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            1.7199999999999993
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 8.2,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            1.8399999999999994
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 8.3,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            1.9600000000000009
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 8.4,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            2.08
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 8.5,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            2.1999999999999993
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 8.6,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            2.3200000000000003
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 8.7,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            2.4399999999999995
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 8.8,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            2.5600000000000005
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 8.9,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            2.6799999999999997
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 9,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            2.8000000000000007
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 9.1,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            2.92
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 9.2,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            3.039999999999999
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 9.3,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            3.16
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 9.4,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            3.280000000000001
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 9.5,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            3.4000000000000004
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 9.6,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            3.5199999999999996
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 9.7,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            3.639999999999999
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 9.8,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            3.7600000000000016
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 9.9,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            3.880000000000001
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 10,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            4
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 10.1,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            3.8800000000000003
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 10.2,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            3.7600000000000007
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 10.3,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            3.6399999999999992
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 10.4,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            3.5199999999999996
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 10.5,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            3.4
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 10.6,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            3.2800000000000002
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 10.7,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            3.160000000000001
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 10.8,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            3.039999999999999
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 10.9,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            2.9199999999999995
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 11,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            2.8
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 11.1,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            2.6800000000000006
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 11.2,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            2.560000000000001
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 11.3,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            2.4399999999999995
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 11.4,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            2.3199999999999994
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 11.5,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            2.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 11.6,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            2.08
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 11.7,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            1.9600000000000009
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 11.8,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            1.839999999999999
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    },
+    {
+      "time": 11.9,
+      "instances": [
+        {
+          "id": "bed-left-front",
+          "position": [
+            -3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-left-back",
+          "position": [
+            -3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-front",
+          "position": [
+            3,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "bed-right-back",
+          "position": [
+            3,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        },
+        {
+          "id": "rover",
+          "position": [
+            0,
+            0,
+            1.7199999999999998
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true,
+          "parts": {}
+        }
+      ]
+    }
+  ]
+}

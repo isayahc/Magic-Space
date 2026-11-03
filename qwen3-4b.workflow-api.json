@@ -1,0 +1,44 @@
+{
+  "1": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "qwen_3_4b.safetensors",
+      "type": "ltxv",
+      "device": "default"
+    },
+    "_meta": {
+      "title": "Load open-weight Qwen3 4B"
+    }
+  },
+  "2": {
+    "class_type": "TextGenerate",
+    "inputs": {
+      "clip": [
+        "1",
+        0
+      ],
+      "prompt": "Create an OpenIndustries scene for a miniature robotic farm planning demo. Return ONLY a valid JSON object, no markdown fences, explanation, or reasoning. This is a scene-authoring test, not a request for code.\nContract: root fields exactly name, room, instances, animation. room={width:number,depth:number,height:number}. Each instance has exactly id:string, name:string, asset:{kind:\"example\",id:\"cleanroom-desk\" or \"cleanroom-robot\"}, position:[x,y,z], rotation:[x,y,z], visible:boolean. animation={duration:number,loop:boolean,tracks:[{instance_id:string,keys:[{time:number,position:[x,y,z],rotation:[x,y,z]}]}]}. Meters, Y up, Euler rotation degrees. Room is centered in X and Z, floor Y=0. All instance IDs must be unique. Use only the two provided asset references. The desks stand in for grow beds, not actual crops. Do not invent other asset IDs or fields.\nTask: room width 12, depth 10, height 4. Exactly four stationary grow-bed desk instances, two on the left (x=-3) and two on the right (x=3), at z=-2 and z=2. Give the four beds distinct descriptive names. Exactly one robot instance named Harvest Rover, id rover, starting at [0,0,-4]. All five instances visible and on floor. Keep the center aisle clear. Animate ONLY the robot, one whole-instance track, 20 seconds, looping. Exactly five keys at t=0,5,10,15,20. Robot must travel along the center aisle from z=-4 to z=4 and back, never leave x=0 or y=0, and end at exactly its starting position AND rotation. No hidden instances, no part animation. Give the scene a creative descriptive name. Output compact JSON. /no_think",
+      "max_length": 4096,
+      "sampling_mode": "off",
+      "thinking": false,
+      "use_default_template": true
+    },
+    "_meta": {
+      "title": "Generate robotic farm scene"
+    }
+  },
+  "3": {
+    "class_type": "SaveText",
+    "inputs": {
+      "text": [
+        "2",
+        0
+      ],
+      "filename_prefix": "oi_benchmark_qwen3_4b",
+      "format": "txt"
+    },
+    "_meta": {
+      "title": "Save untouched model answer"
+    }
+  }
+}

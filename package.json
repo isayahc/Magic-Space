@@ -1,0 +1,14 @@
+{
+  "name": "openindustries-llm-comparison",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Open-weight versus closed-source LLM scene authoring with Comfy Cloud and OpenIndustries",
+  "scripts": {
+    "start": "node serve.mjs",
+    "evaluate": "node --import tsx evaluate.mjs",
+    "workflows": "node workflows.mjs"
+  },
+  "engines": { "node": ">=22.14.0" },
+  "devDependencies": { "tsx": "^4.20.0" }
+}

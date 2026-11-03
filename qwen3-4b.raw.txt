@@ -1,0 +1,81 @@
+{
+  "name": "Robotic Farm Planning Demo",
+  "room": {
+    "width": 12,
+    "depth": 10,
+    "height": 4
+  },
+  "instances": [
+    {
+      "id": "desk1",
+      "name": "Grow Bed A",
+      "asset": {
+        "kind": "example",
+        "id": "cleanroom-desk"
+      },
+      "position": [-3, 0, -2],
+      "rotation": [0, 0, 0],
+      "visible": true
+    },
+    {
+      "id": "desk2",
+      "name": "Grow Bed B",
+      "asset": {
+        "kind": "example",
+        "id": "cleanroom-desk"
+      },
+      "position": [-3, 0, 2],
+      "rotation": [0, 0, 0],
+      "visible": true
+    },
+    {
+      "id": "desk3",
+      "name": "Grow Bed C",
+      "asset": {
+        "kind": "example",
+        "id": "cleanroom-desk"
+      },
+      "position": [3, 0, -2],
+      "rotation": [0, 0, 0],
+      "visible": true
+    },
+    {
+      "id": "desk4",
+      "name": "Grow Bed D",
+      "asset": {
+        "kind": "example",
+        "id": "cleanroom-desk"
+      },
+      "position": [3, 0, 2],
+      "rotation": [0, 0, 0],
+      "visible": true
+    },
+    {
+      "id": "rover",
+      "name": "Harvest Rover",
+      "asset": {
+        "kind": "example",
+        "id": "cleanroom-robot"
+      },
+      "position": [0, 0, -4],
+      "rotation": [0, 0, 0],
+      "visible": true
+    }
+  ],
+  "animation": {
+    "duration": 20,
+    "loop": true,
+    "tracks": [
+      {
+        "instance_id": "rover",
+        "keys": [
+          { "time": 0, "position": [0, 0, -4], "rotation": [0, 0, 0] },
+          { "time": 5, "position": [0, 0, -2], "rotation": [0, 0, 0] },
+          { "time": 10, "position": [0, 0, 2], "rotation": [0, 0, 0] },
+          { "time": 15, "position": [0, 0, 4], "rotation": [0, 0, 0] },
+          { "time": 20, "position": [0, 0, -4], "rotation": [0, 0, 0] }
+        ]
+      }
+    ]
+  }
+}

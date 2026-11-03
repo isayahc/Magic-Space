@@ -1,0 +1,16 @@
+import { readFile, writeFile } from 'node:fs/promises';
+const prompt = (await readFile(new URL('prompt.txt', import.meta.url), 'utf8')).trim();
+const qwen = {
+  '1': { class_type: 'CLIPLoader', inputs: { clip_name: 'qwen_3_4b.safetensors', type: 'ltxv', device: 'default' }, _meta: { title: 'Load open-weight Qwen3 4B' } },
+  '2': { class_type: 'TextGenerate', inputs: { clip: ['1', 0], prompt, max_length: 4096, sampling_mode: 'off', thinking: false, use_default_template: true }, _meta: { title: 'Generate robotic farm scene' } },
+  '3': { class_type: 'SaveText', inputs: { text: ['2', 0], filename_prefix: 'oi_benchmark_qwen3_4b', format: 'txt' }, _meta: { title: 'Save untouched model answer' } },
+};
+const gpt = {
+  '1': { class_type: 'OpenAIChatConfig', inputs: { truncation: 'disabled', max_output_tokens: 4096 }, _meta: { title: 'Match output budget' } },
+  '2': { class_type: 'OpenAIChatNode', inputs: { prompt, model: 'gpt-4.1', persist_context: false, advanced_options: ['1', 0] }, _meta: { title: 'Generate scene with GPT-4.1' } },
+  '3': { class_type: 'SaveText', inputs: { text: ['2', 0], filename_prefix: 'oi_benchmark_gpt41', format: 'txt' }, _meta: { title: 'Save untouched model answer' } },
+};
+for (const [name, workflow] of [['qwen3-4b', qwen], ['gpt-4.1', gpt]]) {
+  await writeFile(new URL(`${name}.workflow-api.json`, import.meta.url), JSON.stringify(workflow, null, 2) + '\n');
+}
+console.log('Wrote both API-format workflows. No jobs submitted.');
