@@ -1,4 +1,4 @@
-# Open-weight vs closed-source scene-authoring smoke test
+# Magic-Space
 
 **Can a small open-weight LLM generate an importable, animated 3D scene as reliably as a closed-source model?** This hackathon prototype runs Qwen3 4B and GPT-4.1 through Comfy Cloud, validates their unedited JSON, and renders both in OpenIndustries.
 
@@ -16,8 +16,8 @@ cd Open-Industries
 git checkout 5e306c2033bfdb15510f98f575f937e1578f6a3f
 npm ci
 cd ..
-git clone https://github.com/isayahc/openindustries-llm-comparison.git
-cd openindustries-llm-comparison
+git clone https://github.com/isayahc/Magic-Space.git
+cd Magic-Space
 npm ci
 npm start
 ```
