@@ -1,9 +1,10 @@
-import { STARTERS,PRESETS } from './catalog.mjs';
+import { STARTERS,PRESETS,groupWardrobe } from './catalog.mjs';
 import { createPreview } from './preview.mjs';
 const $=s=>document.querySelector(s),preview=createPreview($('#model-preview'));
 let characters=[],current,configured=false,connectionMessage='',view='model',tab='loadout',pendingStage,dirty=false,loading=0,pollTimer,toastTimer,submitting=false;
 const busy=()=>current?.job&&['submitting','running','uncertain'].includes(current.job.status);
 const immutable=()=>current?.starter||current?.bundled;
+const selectedOutfits=new Map();
 async function api(path='',options={}){
   const r=await fetch(`/api/characters${path}`,{...options,headers:{'Content-Type':'application/json',...options.headers}});
   const value=await r.json();if(!r.ok)throw new Error(value.error||`HTTP ${r.status}`);return value;
@@ -20,41 +21,48 @@ for(const [key,preset] of Object.entries(PRESETS)){
   button.onclick=()=>{for(const [slot,value]of Object.entries(preset.loadout))$(`#slot-${slot}`).value=value;$('#notes').value=preset.notes;dirty=true;updateButtons();document.querySelectorAll('#presets button').forEach(b=>b.classList.toggle('active',b===button));};$('#presets').append(button);
 }
 function renderRoster(){
-  $('#crew-count').textContent=String(characters.length).padStart(2,'0');
-  $('#roster-list').replaceChildren(...characters.map(c=>{
-    const button=document.createElement('button');button.className=`roster-card${c.id===current?.id?' selected':''}`;button.setAttribute('aria-label',`Select ${c.name}`);
+  const groups=groupWardrobe(characters);
+  $('#crew-count').textContent=String(groups.length).padStart(2,'0');
+  $('#roster-list').replaceChildren(...groups.map(group=>{
+    const c=group.outfits.find(c=>c.id===selectedOutfits.get(group.id))||group.outfits.find(c=>c.deployed)||group.outfits[0];
+    const button=document.createElement('button');button.className=`roster-card${group.id===current?.characterId?' selected':''}`;button.setAttribute('aria-label',`Select ${group.name}`);
     const img=document.createElement('img');img.src=c.look||c.portrait;img.alt='';
-    const info=document.createElement('span'),name=document.createElement('b'),role=document.createElement('small');name.textContent=c.name;role.textContent=c.role;info.append(name,role);
-    const marker=document.createElement('span');marker.className='indicator';marker.textContent=c.deployed||c.starter?'•':'↗';button.append(img,info,marker);
-    button.onclick=run(async()=>{if(dirty&&!immutable())await save();await select(c.id);});return button;
+    const info=document.createElement('span'),name=document.createElement('b'),role=document.createElement('small'),count=document.createElement('small');name.textContent=group.name;role.textContent=group.role;count.textContent=`${group.outfits.length} ${group.outfits.length===1?'LOOK':'LOOKS'}`;count.className='look-count';info.append(name,role,count);
+    const marker=document.createElement('span');marker.className='indicator';marker.textContent=group.outfits.some(c=>c.deployed||c.starter)?'•':'↗';button.append(img,info,marker);
+    button.onclick=run(async()=>{if(dirty)await save();await select(c.id);});return button;
   }));
 }
-function formValue(){return {name:$('#name').value,role:$('#role').value,baseId:current.baseId,loadout:Object.fromEntries(Object.keys(slotLabels).map(k=>[k,$(`#slot-${k}`).value])),notes:$('#notes').value,semantic:$('#semantic').value};}
+function formValue(){return {name:$('#name').value,role:$('#role').value,outfitName:$('#outfit-name').value,baseId:current.baseId,loadout:Object.fromEntries(Object.keys(slotLabels).map(k=>[k,$(`#slot-${k}`).value])),notes:$('#notes').value,semantic:$('#semantic').value};}
 function fill(){
   $('#name').value=current.name;$('#role').value=current.role;$('#notes').value=current.notes||'';$('#semantic').value=current.semantic||'';
+  $('#outfit-name').value=current.outfitName||'Original';
   for(const k of Object.keys(slotLabels))$(`#slot-${k}`).value=current.loadout[k]||'';
   document.querySelectorAll('#presets button').forEach(b=>b.classList.remove('active'));
   dirty=false;
 }
-function replace(c){characters=characters.map(x=>x.id===c.id?c:x);current=c;renderRoster();update();}
+function replace(c){characters=characters.map(x=>x.id===c.id?c:x);current=c;selectedOutfits.set(c.characterId,c.id);renderRoster();update();}
 async function select(id){
-  clearTimeout(pollTimer);current=characters.find(c=>c.id===id)||characters[0];fill();renderRoster();update();
+  clearTimeout(pollTimer);current=characters.find(c=>c.id===id)||characters[0];selectedOutfits.set(current.characterId,current.id);fill();renderRoster();update();
   view=current.look&&!current.modelReady?'look':'model';await showView(view);schedulePoll();
 }
 function updateButtons(){
-  const locked=busy();$('#save').disabled=immutable()||locked||!dirty;
+  const locked=busy();$('#save').disabled=locked||!dirty;
   $('#generate-look').disabled=locked;$('#generate-model').disabled=locked||!current.look||dirty;
   $('#analyze').disabled=locked;$('#reference-upload').disabled=locked||immutable();
-  $('#deploy').hidden=!current.modelReady||current.starter;$('#deploy').disabled=locked||dirty||current.deployed;
-  $('#deploy').textContent=current.deployed?'✓ On the station roster':'＋ Add to station crew';
-  $('#save').textContent=immutable()?'Duplicate to save edits':dirty?'Save changes':'Saved';
+  const originalEquipped=current.starter&&!characters.some(c=>c.characterId===current.characterId&&c.deployed);
+  $('#deploy').hidden=!current.modelReady&&!current.starter;$('#deploy').disabled=locked||dirty||current.deployed||originalEquipped;
+  $('#deploy').textContent=current.deployed||originalEquipped?'✓ Wearing on station':STARTERS.some(s=>s.id===current.characterId)?'Wear this outfit on station':'＋ Add to station crew';
+  $('#save').textContent=dirty?(immutable()?'Save as new outfit':'Save changes'):'Saved';
   $('#view-look').disabled=!current.look;$('#view-model').disabled=!current.modelReady&&!current.starter;
   $('#export-workflow').textContent= current.look&&!dirty?'Download 3D workflow ↗':'Download outfit workflow ↗';
   document.querySelectorAll('#character-form input:not([type=file]), #character-form textarea, #presets button').forEach(el=>el.disabled=locked);
+  $('#name').readOnly=immutable()||current.characterId!==current.id;$('#role').readOnly=$('#name').readOnly;
+  document.querySelectorAll('.outfit-card').forEach(el=>el.disabled=!!locked);
   $('#new-character').disabled=locked&&current.job.status!=='uncertain';$('#duplicate').disabled=locked&&current.job.status!=='uncertain';
 }
 function update(){
-  $('#character-name').textContent=current.name;$('#character-role').textContent=current.role.toUpperCase();$('#subject-id').textContent=String(characters.indexOf(current)+1).padStart(2,'0');
+  $('#character-name').textContent=current.name;$('#character-role').textContent=current.role.toUpperCase();$('#subject-id').textContent=String(groupWardrobe(characters).findIndex(g=>g.id===current.characterId)+1).padStart(2,'0');
+  renderOutfits();
   $('#base-thumb').src=current.reference||current.portrait;$('#look-thumb').hidden=!current.look;if(current.look)$('#look-thumb').src=current.look;
   $('#look-caption').textContent=current.look?'CONCEPT GENERATED':'IMAGE → IMAGE';$('#model-caption').textContent=current.modelReady?'WALK + IDLE READY':'IMAGE → RIGGED 3D';
   $('#connection-note').textContent=configured?'Comfy MCP connected · existing sign-in · each run asks before spending credits.':connectionMessage;
@@ -62,6 +70,18 @@ function update(){
   $('#recovery').hidden=j?.status!=='uncertain';
   updateButtons();
 }
+function renderOutfits(){
+  const group=groupWardrobe(characters).find(g=>g.id===current.characterId);
+  $('#wardrobe-title').textContent=`${current.name}’s wardrobe`;
+  $('#outfit-list').replaceChildren(...group.outfits.map(c=>{
+    const button=document.createElement('button');button.type='button';button.className=`outfit-card${c.id===current.id?' selected':''}`;button.setAttribute('aria-pressed',String(c.id===current.id));button.setAttribute('aria-label',`Wear preview: ${c.outfitName}`);
+    const img=document.createElement('img');img.src=c.look||c.reference||c.portrait;img.alt='';
+    const info=document.createElement('span'),name=document.createElement('b'),state=document.createElement('small');name.textContent=c.outfitName;
+    state.textContent=c.deployed?'ON STATION':c.starter||c.bundled?'ORIGINAL':busyRecord(c)?'GENERATING':c.modelReady?'3D READY':c.look?'CONCEPT READY':'DRAFT';info.append(name,state);button.append(img,info);
+    button.onclick=run(async()=>{if(dirty)await save();await select(c.id);});return button;
+  }));
+}
+function busyRecord(c){return c.job&&['submitting','running','uncertain'].includes(c.job.status);}
 async function showView(next){
   view=next;const mine=++loading;const customReference=next==='base'&&current.reference&&current.reference!==STARTERS.find(s=>s.id===current.baseId).portrait;const image=next==='look'||customReference;
   $('#look-preview').hidden=!image;$('#model-preview').hidden=image;$('.pose-controls').hidden=image;
@@ -74,20 +94,21 @@ async function showView(next){
 }
 async function ensureDraft(){
   if(!immutable())return;
-  const input=formValue(),c=await api('',{method:'POST',body:JSON.stringify({sourceId:current.id,name:input.name+' II'})});
+  const input=formValue(),c=await api('',{method:'POST',body:JSON.stringify({sourceId:current.id,kind:'outfit'})});
+  if(input.outfitName===current.outfitName)input.outfitName=c.outfitName;
   characters.push(c);current=c;replace(await api(`/${c.id}`,{method:'PATCH',body:JSON.stringify({...input,name:c.name})}));fill();
 }
 async function save(){await ensureDraft();const c=await api(`/${current.id}`,{method:'PATCH',body:JSON.stringify(formValue())});replace(c);fill();updateButtons();await showView(c.look&&!c.modelReady?'look':'model');}
-$('#character-form').onsubmit=run(async e=>{e.preventDefault();await save();notify('Character saved.');});
+$('#character-form').onsubmit=run(async e=>{e.preventDefault();await save();notify('Outfit saved to this character’s wardrobe.');});
 $('#character-form').addEventListener('input',()=>{dirty=true;updateButtons();});
-$('#duplicate').onclick=run(async()=>{const c=await api('',{method:'POST',body:JSON.stringify({sourceId:current.id})});characters.push(c);await select(c.id);notify('Character duplicated. Make it yours.');});
+$('#duplicate').onclick=run(async()=>{if(dirty)await save();const c=await api('',{method:'POST',body:JSON.stringify({sourceId:current.id,kind:'outfit'})});characters.push(c);await select(c.id);setTab('loadout');$('#outfit-name').focus();$('#outfit-name').select();notify('New outfit, same crewmate.');});
 function setTab(next){tab=next;$('#identity-fields').hidden=next!=='character';$('#loadout-fields').hidden=next!=='loadout';$('#tab-character').setAttribute('aria-selected',String(next==='character'));$('#tab-loadout').setAttribute('aria-selected',String(next==='loadout'));$('#editor-title').textContent=next==='character'?'A life in orbit.':'Build the drip.';$('#editor-subtitle').textContent=next==='character'?'An identity worth keeping.':'Same character. Whole new energy.';}
 $('#tab-character').onclick=()=>setTab('character');$('#tab-loadout').onclick=()=>setTab('loadout');
 $('#view-base').onclick=run(()=>showView('base'));$('#view-look').onclick=run(()=>showView('look'));$('#view-model').onclick=run(()=>showView('model'));
 for(const mode of ['walk','idle'])$(`#pose-${mode}`).onclick=()=>{preview.pose(mode);for(const m of ['walk','idle'])$(`#pose-${m}`).classList.toggle('selected',m===mode);};
 $('#reset-camera').onclick=()=>preview.reset();
 $('#new-character').onclick=()=>{
-  $('#new-base').replaceChildren(...characters.map(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=`${c.name} / ${c.role}`;return o;}));$('#new-base').value=current.id;$('#new-name').value='';$('#new-dialog').showModal();
+  $('#new-base').replaceChildren(...groupWardrobe(characters).map(g=>{const o=document.createElement('option');o.value=g.id;o.textContent=`${g.name} / ${g.role}`;return o;}));$('#new-base').value=current.characterId;$('#new-name').value='';$('#new-dialog').showModal();
 };
 $('#new-close').onclick=()=>$('#new-dialog').close();
 $('#new-form').onsubmit=run(async e=>{e.preventDefault();const c=await api('',{method:'POST',body:JSON.stringify({sourceId:$('#new-base').value,name:$('#new-name').value})});characters.push(c);$('#new-dialog').close();await select(c.id);setTab('loadout');notify('New character created. Choose their look.');});

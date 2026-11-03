@@ -16,6 +16,22 @@ try{
   await page.getByRole('button',{name:'Walk',exact:true}).click();
   expect((await page.evaluate(()=>window.characterStudio.preview.snapshot())).mode).toBe('walk');
   await page.getByRole('button',{name:'Idle',exact:true}).click();
+  const rosterCount=await page.locator('.roster-card').count();
+  await page.locator('#duplicate').click();
+  await expect(page.locator('#toast')).toContainText('New outfit, same crewmate');
+  const outfitId=await page.evaluate(()=>window.characterStudio.current().id);created.push(outfitId);
+  await expect(page.locator('#character-name')).toHaveText('Latch');expect(await page.locator('.roster-card').count()).toBe(rosterCount);
+  await expect(page.getByRole('button',{name:'Select Latch',exact:true})).toHaveCount(1);
+  await page.locator('#outfit-name').fill('Flight jacket');await page.locator('#slot-outerwear').fill('Ivory flight jacket');
+  await page.getByRole('button',{name:'Save changes',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Wear preview: Flight jacket',exact:true})).toHaveAttribute('aria-pressed','true');
+  await page.reload();await expect(page.locator('body')).toHaveAttribute('data-ready','true');
+  await page.getByRole('button',{name:'Wear preview: Flight jacket',exact:true}).click();
+  await expect(page.locator('#slot-outerwear')).toHaveValue('Ivory flight jacket');
+  expect(await page.locator('.roster-card').count()).toBe(rosterCount);
+  await rm(join(out,'characters/local',outfitId),{recursive:true,force:true});
+  await page.reload();await expect(page.locator('body')).toHaveAttribute('data-ready','true');
+  await page.screenshot({path:join(out,'characters/wardrobe-after.png')});
   await page.screenshot({path:join(out,'characters/studio-desktop.png')});
   const existingIds=await page.evaluate(()=>window.characterStudio.characters().map(c=>c.id));
   await page.evaluate(()=>window.characterStudio.select('nova-orbital'));
@@ -38,7 +54,15 @@ try{
   const recruit=await station.evaluate(id=>window.station.snapshot().crew.find(c=>c.id===id),deployedId);
   expect(recruit.skins).toBeGreaterThan(0);expect(recruit.distance).toBeGreaterThan(1);
   await station.getByRole('button',{name:'Follow Nova',exact:true}).click();
-  await station.screenshot({path:join(out,'characters/nova-in-station.png')});await station.close();
+  await station.screenshot({path:join(out,'characters/nova-in-station.png')});
+  const stationCount=await station.locator('.crew-card').count();
+  // Supply an equipped outfit in the browser response only; leave the user's roster intact.
+  await station.route('**/api/characters',async route=>{const response=await route.fetch(),data=await response.json();const nova=data.characters.find(c=>c.id==='nova-orbital');data.characters.push({...nova,id:'wardrobe-preview',characterId:'engineer',name:'Latch',bundled:false,deployed:true});await route.fulfill({response,json:data});});
+  await station.reload();await expect(station.locator('body')).toHaveAttribute('data-ready','true',{timeout:90000});
+  expect(await station.locator('.crew-card').count()).toBe(stationCount);
+  await expect(station.getByRole('button',{name:'Follow Latch',exact:true})).toHaveCount(1);
+  expect(await station.evaluate(()=>window.station.snapshot().crew.some(c=>c.id==='wardrobe-preview'))).toBe(true);
+  await station.close();
   await page.evaluate(()=>window.characterStudio.select('engineer'));
   await page.getByRole('button',{name:'New character',exact:false}).click();
   await page.locator('#new-name').fill('Nova browser test');await page.locator('#new-base').selectOption('engineer');
@@ -68,6 +92,6 @@ try{
   await page.screenshot({path:join(out,'characters/studio-mobile.png'),fullPage:true});
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   expect(errors).toEqual([]);
-  await writeFile(join(out,'characters/verification.json'),JSON.stringify({checks:['3D skinned preview','generated outfit rig and moving bones','approved concept image','deploy generated character to station','deployed character navigation','walk/idle controls','create character','edit and persist outfit','reload persistence','paid confirmation cancel without submission','image upload','identity notes','workflow download','desktop/mobile'],sample:{before,after,recruit},errors},null,2));
+  await writeFile(join(out,'characters/verification.json'),JSON.stringify({checks:['one roster entry per identity','new outfit keeps character count','outfit naming and reload selection','equipped outfit replaces station crewmate','3D skinned preview','generated outfit rig and moving bones','approved concept image','deploy generated character to station','deployed character navigation','walk/idle controls','create character','edit and persist outfit','reload persistence','paid confirmation cancel without submission','image upload','identity notes','workflow download','desktop/mobile'],sample:{before,after,recruit},errors},null,2));
   console.log('PASS: character studio, draft persistence, reference upload, loadout editing, workflow download, spend dialog, 3D preview, desktop/mobile.');
 }finally{await browser.close();for(const id of created)await rm(join(out,'characters/local',id),{recursive:true,force:true});}

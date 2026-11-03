@@ -19,8 +19,9 @@ try {
   const libraryResponse=await fetch('/api/characters');
   if(!libraryResponse.ok)throw new Error('Could not load the local crew library');
   const library=await libraryResponse.json();
-  const recruits=library.characters.filter(c=>c.deployed&&c.modelReady&&!c.starter).map(c=>({id:c.id,callsign:c.name,role:c.role,color:c.color||'#d3ed91',walk:c.walk,idle:c.idle,tasks:data.crew.find(base=>base.id===c.baseId).tasks}));
-  const definitions=[...data.crew,...recruits];
+  const equipped=new Map(library.characters.filter(c=>c.deployed&&c.modelReady&&!c.starter).map(c=>[c.characterId||c.id,c]));
+  const recruits=[...equipped.values()].map(c=>({id:c.id,callsign:c.name,role:c.role,color:c.color||'#d3ed91',walk:c.walk,idle:c.idle,tasks:data.crew.find(base=>base.id===c.baseId).tasks}));
+  const definitions=[...data.crew.filter(c=>!equipped.has(c.id)),...recruits];
   const nav=makeNavigation(data),world=createStation(data);
   $('#station-name').textContent=data.name;$('#tagline').textContent=data.tagline;
   document.title=`${data.name} / Magic-Space`;

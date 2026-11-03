@@ -19,3 +19,32 @@ export const PRESETS = {
 export function outfitPrompt(c){
   return `Edit this image of ONE adult space-station character. Preserve the same face, skin tone, hairstyle, body proportions, and recognizable identity. Change the clothing to this complete coordinated outfit: ${Object.entries(c.loadout).map(([k,v])=>`${k}: ${v}`).join('; ')}. ${c.notes||''} ${c.semantic?`Visible reference details to preserve: ${c.semantic}.`:''} Full body from head to toes, front view, symmetrical relaxed A-pose with arms clearly separated from the torso and legs apart. Both hands and all limbs visible. Stylized polished 3D game-character concept, clean detailed materials. Neutral light gray studio background, soft even lighting, no text, no logos, no floor props, no weapons, no extra people, no split panels. Keep silhouette simple enough for humanoid skeletal rigging. Clothing should be worn on the character, not floating beside them.`;
 }
+
+// Older builds stored automatic outfit drafts as “Name II”. Resolve those records
+// into a wardrobe without changing IDs, media paths, or their generation history.
+export function characterWardrobe(records){
+  const byId=new Map(records.map(c=>[c.id,c]));
+  function owner(c,seen=new Set()){
+    if(seen.has(c.id))return c.id;seen.add(c.id);
+    if(c.characterId)return c.characterId;
+    const source=byId.get(c.sourceBundle||c.sourceCharacter);
+    if(source&&(c.sourceBundle||c.name===`${source.name} II`))return owner(source,seen);
+    return c.id;
+  }
+  const counts=new Map();
+  return records.map(c=>{
+    const characterId=owner(c),identity=byId.get(characterId)||c;
+    const index=counts.get(characterId)||0;counts.set(characterId,index+1);
+    return {...c,characterId,name:identity.name,role:identity.role,
+      outfitName:c.outfitName||(c.id===characterId?'Original':`Look ${String(index).padStart(2,'0')}`)};
+  });
+}
+
+export function groupWardrobe(records){
+  const groups=new Map();
+  for(const c of characterWardrobe(records)){
+    if(!groups.has(c.characterId))groups.set(c.characterId,{id:c.characterId,name:c.name,role:c.role,outfits:[]});
+    groups.get(c.characterId).outfits.push(c);
+  }
+  return [...groups.values()];
+}
