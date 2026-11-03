@@ -7,7 +7,7 @@ const require = createRequire(`${root}/package.json`);
 const { createServer } = await import(pathToFileURL(require.resolve('vite')).href);
 const files = new Map([
   ['/comparison', ['viewer.html', 'text/html']],
-  ...[...currentRuns, ...legacyRuns].map(run => [`/comparison/${run.slug}.json`, [`${run.slug}.scene.json`, 'application/json']]),
+  ...[...currentRuns, ...legacyRuns].map(run => [`/comparison/${run.slug}.json`, [`assets/${run.slug}.scene.json`, 'application/json']]),
   ...['astronaut', 'engineer', 'botanist'].map(name => [`/comparison/assets/${name}.glb`, [`assets/${name}.glb`, 'model/gltf-binary']]),
 ]);
 const port = Number(process.env.PORT || 4194);
