@@ -6,9 +6,46 @@
 | --- | --- |
 | ![Qwen animated scene](qwen3-4b.gif) | ![GPT animated scene](gpt-4.1.gif) |
 
-## Run the interactive viewer
+## Why care?
 
-Requires Node.js 22.14+ and an OpenIndustries checkout with its dependencies installed. Clone both repositories into the same parent directory:
+**Generating an asset is only the beginning. Magic-Space explores how to bring it to life in a world.**
+
+Stable Diffusion can generate visual concepts, and dedicated 3D-generation models can produce meshes. OpenIndustries adds a shared space: named objects, real-world placement, editable scene data, and authored motion. In this demo, the LLMs arrange existing geometry and animate a robot rather than generate new meshes.
+
+For game designers, the next step is **persistent world context**: retain object identities, layout, roles, and previous decisions so a new generation can extend a world without losing continuity. The current prototype preserves a serialized scene and its animation; cross-generation continuity and autonomous behavior are future work.
+
+## Hackathon checklist
+
+- [x] Create and publish the GitHub repository.
+- [x] Document how to run the codebase locally.
+- [x] Run an open-weight vs. closed-weight model comparison.
+- [x] Include GIFs and screenshots of sample outputs.
+- [ ] Record a walkthrough video of the generation-to-world workflow.
+- [ ] Add video clips of sample outputs alongside the GIFs.
+- [ ] Carry world context across generations to help game designers maintain continuity.
+
+## Tools used
+
+| Tool | Role |
+| --- | --- |
+| **Comfy MCP** (`comfy-cloud`) | Run LLM workflows on Comfy Cloud and retrieve their outputs. The local `comfy-mcp` connection is optional and was not used for these generations. |
+| **Qwen3 4B — open-weight** | Generate the first scene layout and animation as JSON. |
+| **GPT-4.1 — closed-weight** | Generate the comparison scene from the same prompt. This is the tested baseline; additional models can be added later. |
+| **OpenIndustries / its MCP scene contract** | Validate scene structure, resolve existing assets, import portable projects, and render animation. This run uses its schema and libraries directly; an autonomous OpenIndustries MCP tool loop is future work. |
+| **OpenCode** | Coordinate model calls, write the adapter/evaluator, and package the demo. |
+| **Playwright + Chrome** | Verify real browser imports and capture screenshots; GIFs use OpenIndustries’ renderer. |
+
+## Run locally
+
+### 1. Install prerequisites
+
+- **Git** and **Node.js 22.14+** (including npm).
+- A browser for the viewer. **Google Chrome** is required only for `npm run evaluate`.
+- No local GPU, Python, ComfyUI installation, or API credentials are needed to view and evaluate the saved outputs.
+
+### 2. Clone and install
+
+Run these commands in a terminal. They work in PowerShell, macOS, and Linux shells. Keep both repositories in the same parent directory; the pinned OpenIndustries commit matches the recorded demo.
 
 ```sh
 git clone https://github.com/Mapped-Assembly/OpenIndustries.git Open-Industries
@@ -22,7 +59,37 @@ npm ci
 npm start
 ```
 
-Open **http://127.0.0.1:4194/comparison**. Switch models, orbit/zoom, scrub the full 20-second animation, or download a portable scene. Viewing the saved outputs needs no Comfy account or API credentials. `OI_ROOT` can point to a different OpenIndustries checkout; `PORT` overrides the viewer port.
+### 3. Open the 3D space
+
+Open **http://127.0.0.1:4194/comparison** and leave the terminal running.
+
+- Switch between **Qwen3 4B** and **GPT-4.1** using the dropdown.
+- Drag to orbit, scroll to zoom, and right-drag to pan.
+- Pause or scrub the full 20-second robot animation.
+- Click **Download editable scene** to import the project into OpenIndustries.
+- Press **Ctrl+C** in the terminal to stop the viewer.
+
+On subsequent runs, open a terminal in `Magic-Space` and run `npm start`.
+
+### Existing OpenIndustries checkout or occupied port
+
+The default checkout path is `../Open-Industries`. Set `OI_ROOT` to use another location and optionally set `PORT` if 4194 is occupied.
+
+**PowerShell:**
+
+```powershell
+$env:OI_ROOT = "C:\path\to\Open-Industries"
+$env:PORT = "4196"
+npm start
+```
+
+**macOS / Linux:**
+
+```sh
+OI_ROOT=/path/to/Open-Industries PORT=4196 npm start
+```
+
+With these examples, open `http://127.0.0.1:4196/comparison`. If dependencies are missing, run `npm ci` in both repositories. New model generations require a separate authenticated Comfy Cloud MCP connection; see [Repeat model generation](#repeat-model-generation-through-comfy-mcp).
 
 ## Results and methodology
 
