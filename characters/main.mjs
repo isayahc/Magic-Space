@@ -1,7 +1,7 @@
 import { STARTERS,PRESETS } from './catalog.mjs';
 import { createPreview } from './preview.mjs';
 const $=s=>document.querySelector(s),preview=createPreview($('#model-preview'));
-let characters=[],current,configured=false,view='model',tab='loadout',pendingStage,dirty=false,loading=0,pollTimer,toastTimer,submitting=false;
+let characters=[],current,configured=false,connectionMessage='',view='model',tab='loadout',pendingStage,dirty=false,loading=0,pollTimer,toastTimer,submitting=false;
 const busy=()=>current?.job&&['submitting','running','uncertain'].includes(current.job.status);
 const immutable=()=>current?.starter||current?.bundled;
 async function api(path='',options={}){
@@ -57,7 +57,7 @@ function update(){
   $('#character-name').textContent=current.name;$('#character-role').textContent=current.role.toUpperCase();$('#subject-id').textContent=String(characters.indexOf(current)+1).padStart(2,'0');
   $('#base-thumb').src=current.reference||current.portrait;$('#look-thumb').hidden=!current.look;if(current.look)$('#look-thumb').src=current.look;
   $('#look-caption').textContent=current.look?'CONCEPT GENERATED':'IMAGE → IMAGE';$('#model-caption').textContent=current.modelReady?'WALK + IDLE READY':'IMAGE → RIGGED 3D';
-  $('#connection-note').textContent=configured?'Generation connected · each run asks before spending credits.':'Drafts work offline. For generation buttons, set COMFY_API_KEY on the server and restart. Or export the workflow to Comfy MCP.';
+  $('#connection-note').textContent=configured?'Comfy MCP connected · existing sign-in · each run asks before spending credits.':connectionMessage;
   const j=current.job;$('#job-status').textContent=j?`${{look:'Outfit',model:'3D + rig',analyze:'Visual reading'}[j.stage]} · ${j.status}${j.promptId?` · ${j.promptId}`:''}${j.error?` — ${j.error}`:''}`:'';
   $('#recovery').hidden=j?.status!=='uncertain';
   updateButtons();
@@ -120,6 +120,6 @@ $('#export-workflow').onclick=run(async()=>{
   await ensureDraft();if(dirty)await save();const stage=current.look?'model':'look',graph=await api(`/${current.id}/workflow?stage=${stage}`);
   const url=URL.createObjectURL(new Blob([JSON.stringify(graph,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download=`${current.name.replace(/[^a-z0-9-]/gi,'-')}-${stage}.workflow-api.json`;a.click();URL.revokeObjectURL(url);notify('Upload the reference in Comfy and replace node 1’s image filename before running.');
 });
-async function refresh(){const state=await api();characters=state.characters;configured=state.configured;await select(current?.id);}
+async function refresh(){const state=await api();characters=state.characters;configured=state.configured;connectionMessage=state.connection?.message||'Connect Comfy Cloud MCP in OpenCode and refresh.';await select(current?.id);}
 try{await refresh();document.body.dataset.ready='true';window.characterStudio={preview,select,characters:()=>characters,current:()=>current};}
 catch(e){$('#stage-loading').textContent=e.message;document.body.dataset.ready='failed';}

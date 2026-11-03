@@ -1,0 +1,14 @@
+{
+  "transport": "OpenCode plugin → authenticated Comfy Cloud MCP",
+  "connected": true,
+  "promptId": "ee120d37-1309-4091-bd74-d63c1b8e615e",
+  "status": "succeeded",
+  "outputBytes": 646062,
+  "checks": [
+    "existing MCP sign-in",
+    "completed job status",
+    "output node mapping",
+    "existing PNG download"
+  ],
+  "paidSubmissions": 0
+}

@@ -48,7 +48,7 @@ For game designers, the next step is **persistent world context**: retain object
 | **Nano Banana Pro** | Generate the station concept image supplied to GPT-6. |
 | **FLUX Kontext Pro / Black Forest Labs** | Edit a default character reference into a new coordinated outfit. |
 | **Tripo P2 + rig/retarget nodes** | Generate textured crew GLBs; a new station crew has biped skeletons and walk/idle clips. |
-| **Comfy TypeScript SDK / API v2** | Server-side character generation, persisted job IDs, result collection and local asset storage. |
+| **Comfy Cloud MCP through OpenCode** | Character generation through your existing sign-in, persisted job IDs, result collection and local asset storage. |
 | **Three.js** | Build the station from reusable procedural architecture and props; execute navigation and skeletal animation. |
 | **OpenIndustries / its MCP scene contract** | Validate scene structure, resolve existing assets, import portable projects, and render animation. This run uses its schema and libraries directly; an autonomous OpenIndustries MCP tool loop is future work. |
 | **OpenCode** | Coordinate model calls, write the adapter/evaluator, and package the demo. |
@@ -294,24 +294,13 @@ Wardrobe slots describe the next generated outfit. They do not instantly change 
 
 ### Enable the in-app generation buttons
 
-Drafts, the saved sample, 3D previews, and sample deployment work without credentials. For new generations, set a Comfy API key **in the terminal that starts this server**:
+**No separate Comfy API key is needed.** Open this checkout in OpenCode V2 with your existing **comfy-cloud** MCP connection signed in, then run `npm start`. The studio reports **Comfy MCP connected** when ready. If OpenCode was already open before updating, reload this project's configuration to load the included plugin.
 
-```powershell
-# Windows PowerShell
-$env:COMFY_API_KEY = "your-comfy-api-key"
-npm start
-```
-
-```sh
-# macOS / Linux
-COMFY_API_KEY="your-comfy-api-key" npm start
-```
-
-Create a key in your [Comfy workspace](https://platform.comfy.org/profile/api-keys). The SDK uses Comfy Cloud's API v2 and needs the applicable subscription/credits. Every paid action asks for confirmation. Keys stay on the Node server and are not included in browser responses, workflow files, or saved characters. This server does not read OpenCode's MCP OAuth credentials; the authenticated MCP session is an alternative execution path below.
+The bundled `.opencode/plugins/character-mcp` plugin calls the existing authenticated MCP tools. The website connects to OpenCode's local service using its supported service-discovery API; Comfy credentials stay inside OpenCode. Outfit editing, visual reading, 3D generation, job recovery, and output retrieval all use MCP. Each paid action still asks for confirmation in the studio. Drafts and bundled assets work while MCP is disconnected.
 
 Job state and media live under **`assets/characters/local/<id>/`**, which is Git-ignored. Submitted IDs survive browser/server restarts; selecting a pending character resumes result collection. No automatic resubmission occurs after an ambiguous submit failure. If the job exists in Cloud, attach its matching UUID in the recovery field to collect it without paying for another generation. Provider rejections and missing output files are surfaced in the UI.
 
-### Use the existing Comfy MCP connection instead
+### Manual workflow export and import
 
 **Download Comfy workflow** exports the current outfit workflow, or the image-to-3D graph after an outfit image exists. Upload the reference through Comfy MCP, replace node `1.inputs.image` with its returned input filename, and submit the API graph with approved credit spend. Download the completed outputs. To bring a complete externally generated character into the local atelier:
 
@@ -329,9 +318,11 @@ The bundled sample's two paid jobs completed through MCP. Exact image/model reci
 npm test
 # With npm start running and Google Chrome installed:
 node scripts/verify-characters.mjs
+# Read an existing completed job through your authenticated MCP (no paid run):
+node scripts/verify-character-mcp.mjs
 ```
 
-Set `CHARACTER_URL` for a non-default port. Browser checks cover creation, persisted loadout edits, image upload, identity notes, workflow download, cancelled spend confirmation, actual generated skeleton movement, desktop/mobile layouts, and deploying Nova into the station. Test-created local recruits are removed afterward. The SDK service's paid lifecycle is tested with an injected provider. The real sample was generated through MCP; these tests make no paid SDK calls.
+Set `CHARACTER_URL` for a non-default port. Browser checks cover creation, persisted loadout edits, image upload, identity notes, workflow download, cancelled spend confirmation, actual generated skeleton movement, desktop/mobile layouts, and deploying Nova into the station. Test-created local recruits are removed afterward. Automated transport tests use injected MCP replies; the live bridge was verified by reading Nova's completed job and downloading its existing output without starting another paid generation.
 
 ## Generated sci-fi people (comparison viewer)
 

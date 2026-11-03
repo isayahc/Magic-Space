@@ -28,5 +28,5 @@
       "workflow": "orbital-model.workflow-api.json"
     }
   },
-  "notes": "Both paid sample jobs completed and their outputs were downloaded. Outfit geometry/textures are baked into each generated character; clothing is not a detachable runtime equipment system. Vision reading is optional and was not run for this sample. The application SDK transport is covered by mocked-provider tests; these real generations used the connected Comfy Cloud MCP."
+  "notes": "Both paid sample jobs completed and their outputs were downloaded. Outfit geometry/textures are baked into each generated character; clothing is not a detachable runtime equipment system. Vision reading is optional and was not run for this sample. Both the sample and the studio use Comfy Cloud MCP. The studio bridge was live-verified with the existing completed job and output retrieval; paid submission is covered by injected-transport tests."
 }
