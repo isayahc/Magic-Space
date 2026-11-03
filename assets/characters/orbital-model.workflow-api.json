@@ -1,0 +1,116 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Read approved orbital streetwear"
+    },
+    "inputs": {
+      "image": "fe303a239adc28e2a8d6cc99a85f2958b52e0960959e6338497b64fd280b76ac.png"
+    }
+  },
+  "2": {
+    "class_type": "TripoPSeriesImageToModelNode",
+    "_meta": {
+      "title": "Build the approved outfit in 3D"
+    },
+    "inputs": {
+      "model": "P2",
+      "model.image": [
+        "1",
+        0
+      ],
+      "model.quad": false,
+      "model.face_limit": 12000,
+      "model.texture": "standard",
+      "model.pbr": true,
+      "model.model_seed": 8451,
+      "model.texture_alignment": "original_image",
+      "model.orientation": "default",
+      "model.enable_image_autofix": false,
+      "model.texture_seed": 8451,
+      "model.auto_size": false,
+      "model.export_uv": true,
+      "model.compress_geometry": false
+    }
+  },
+  "3": {
+    "class_type": "TripoRigNode",
+    "_meta": {
+      "title": "Rig a station-ready biped"
+    },
+    "inputs": {
+      "original_model_task_id": [
+        "2",
+        0
+      ],
+      "model_version": "v1.0-20240301",
+      "rig_type": "biped",
+      "spec": "tripo",
+      "out_format": "glb"
+    }
+  },
+  "4": {
+    "class_type": "TripoRetargetNode",
+    "_meta": {
+      "title": "Retarget in-place walking"
+    },
+    "inputs": {
+      "original_model_task_id": [
+        "3",
+        1
+      ],
+      "animation": "preset:walk",
+      "out_format": "glb",
+      "export_with_geometry": true,
+      "animate_in_place": true
+    }
+  },
+  "5": {
+    "class_type": "TripoRetargetNode",
+    "_meta": {
+      "title": "Retarget idle stance"
+    },
+    "inputs": {
+      "original_model_task_id": [
+        "3",
+        1
+      ],
+      "animation": "preset:idle",
+      "out_format": "glb",
+      "export_with_geometry": true,
+      "animate_in_place": true
+    }
+  },
+  "6": {
+    "class_type": "Save3DAdvanced",
+    "_meta": {
+      "title": "Save walking crew member"
+    },
+    "inputs": {
+      "model_3d": [
+        "4",
+        2
+      ],
+      "filename_prefix": "characters/walk",
+      "viewport_state": "",
+      "width": 1024,
+      "height": 1024
+    }
+  },
+  "7": {
+    "class_type": "Save3DAdvanced",
+    "_meta": {
+      "title": "Save idle crew member"
+    },
+    "inputs": {
+      "model_3d": [
+        "5",
+        2
+      ],
+      "filename_prefix": "characters/idle",
+      "viewport_state": "",
+      "width": 1024,
+      "height": 1024
+    }
+  }
+}

@@ -6,6 +6,10 @@
 
 [Watch the walking crew (WebM)](assets/station/crew-walking.webm) · [Crew close-up](assets/station/crew-close.png) · [Concept art](assets/station/concept.png) · [Original GPT-6 blueprint](assets/station/blueprint.raw.txt)
 
+**New: the character atelier.** Start from a default crew member, design their outfit with image-to-image editing, and turn the approved look into a rigged 3D crewmate. Open `/characters` to try the included **Nova** sample, created with **FLUX Kontext Pro → Tripo P2 → biped rig → walk/idle**.
+
+![Nova in the character atelier](assets/characters/nova-3d.png)
+
 The separate benchmark asks: **Can an open-weight LLM generate an importable, animated 3D scene as reliably as a closed-weight model?** It compares **DeepSeek-V4-Pro and GPT-6 Astra** through Comfy Cloud, validates their unedited JSON, and renders both in OpenIndustries.
 
 | DeepSeek-V4-Pro · open weight | GPT-6 Astra · closed weight |
@@ -42,7 +46,9 @@ For game designers, the next step is **persistent world context**: retain object
 | **DeepSeek-V4-Pro — open-weight** | Generate scene layout and animation as JSON through Comfy's OpenRouter LLM node. Hosted inference; weights are not run locally. |
 | **GPT-6 Astra — closed-weight** | Generate the comparison scene, plus the image-conditioned Brineglass blueprint and crew routines. |
 | **Nano Banana Pro** | Generate the station concept image supplied to GPT-6. |
+| **FLUX Kontext Pro / Black Forest Labs** | Edit a default character reference into a new coordinated outfit. |
 | **Tripo P2 + rig/retarget nodes** | Generate textured crew GLBs; a new station crew has biped skeletons and walk/idle clips. |
+| **Comfy TypeScript SDK / API v2** | Server-side character generation, persisted job IDs, result collection and local asset storage. |
 | **Three.js** | Build the station from reusable procedural architecture and props; execute navigation and skeletal animation. |
 | **OpenIndustries / its MCP scene contract** | Validate scene structure, resolve existing assets, import portable projects, and render animation. This run uses its schema and libraries directly; an autonomous OpenIndustries MCP tool loop is future work. |
 | **OpenCode** | Coordinate model calls, write the adapter/evaluator, and package the demo. |
@@ -80,6 +86,7 @@ Open **http://127.0.0.1:4194/station** and leave the terminal running.
 - Click a crew card or **Crew view** to follow a walking character; **Overview** resets the camera.
 - Pause/resume, select 1×/2×/4× speed, toggle walls, or open the original concept art.
 - The saved world runs entirely in your browser without model calls or credits.
+- Open **Character studio** or **http://127.0.0.1:4194/characters** to create recruits, design loadouts, and add the included Nova rig to your station.
 
 For the model comparison, open **http://127.0.0.1:4194/comparison**:
 
@@ -269,6 +276,63 @@ node scripts/record-station.mjs
 
 Set `STATION_URL` to override `http://127.0.0.1:4194/station`. Verification checks six rooms, 36 props, loaded skins, changing bone rotations, walking, opening doors, completed tasks, concept loading, and desktop/mobile layouts. It advances 168 simulated seconds and saves screenshots plus `assets/station/verification.json`. Recording captures twelve seconds of real-time crew playback (plus initial page load) in `assets/station/crew-walking.webm`.
 
+## Character atelier and loadouts
+
+Open **http://127.0.0.1:4194/characters**. The original three crew are reusable defaults; **Nova** is a completed image-to-image → animated-3D sample. The atelier has two screens:
+
+- **Character:** callsign, role, reference upload, and editable visual identity notes. The optional **Read visual details** action uses GPT-6 Astra to describe visible design details from the image.
+- **Loadout:** outerwear, base layer, bottoms, footwear, accessories, and color palette, plus free-form art direction and three starter styles.
+
+### Default character → new drip → 3D
+
+1. **New character** creates a local recruit from a selected base. Choose a preset or edit the six outfit slots. Existing defaults and the bundled sample are duplicated before editing.
+2. **Generate outfit** sends the character reference and wardrobe description to **FLUX Kontext Pro**. The identity-preserving prompt keeps the face/hair/body while redesigning clothing. Review the actual result under **The new look**.
+3. **Turn this look into 3D** sends that approved image to **Tripo P2 Image to Model**, then rigs a biped skeleton and retargets walk and idle clips. Both GLBs must contain skins and animation before deployment is enabled.
+4. Preview the actual mesh, rotate/zoom it, and switch **Idle / Walk**. **Add to station crew** puts it on the local station roster. Open or reload `/station`; the new crewmate follows the selected base crew member's routine.
+
+Wardrobe slots describe the next generated outfit. They do not instantly change the current mesh. Clothing is baked into each generated character, not separate detachable equipment; a new outfit needs another image edit and 3D generation. Changing design fields invalidates the previous approval and removes that draft from the deployed roster until rebuilt. An uploaded reference is used by the image model; the original base rig remains the 3D preview until a replacement is generated.
+
+### Enable the in-app generation buttons
+
+Drafts, the saved sample, 3D previews, and sample deployment work without credentials. For new generations, set a Comfy API key **in the terminal that starts this server**:
+
+```powershell
+# Windows PowerShell
+$env:COMFY_API_KEY = "your-comfy-api-key"
+npm start
+```
+
+```sh
+# macOS / Linux
+COMFY_API_KEY="your-comfy-api-key" npm start
+```
+
+Create a key in your [Comfy workspace](https://platform.comfy.org/profile/api-keys). The SDK uses Comfy Cloud's API v2 and needs the applicable subscription/credits. Every paid action asks for confirmation. Keys stay on the Node server and are not included in browser responses, workflow files, or saved characters. This server does not read OpenCode's MCP OAuth credentials; the authenticated MCP session is an alternative execution path below.
+
+Job state and media live under **`assets/characters/local/<id>/`**, which is Git-ignored. Submitted IDs survive browser/server restarts; selecting a pending character resumes result collection. No automatic resubmission occurs after an ambiguous submit failure. If the job exists in Cloud, attach its matching UUID in the recovery field to collect it without paying for another generation. Provider rejections and missing output files are surfaced in the UI.
+
+### Use the existing Comfy MCP connection instead
+
+**Download Comfy workflow** exports the current outfit workflow, or the image-to-3D graph after an outfit image exists. Upload the reference through Comfy MCP, replace node `1.inputs.image` with its returned input filename, and submit the API graph with approved credit spend. Download the completed outputs. To bring a complete externally generated character into the local atelier:
+
+```sh
+node scripts/import-character.mjs --name Nova --base engineer --image outfit.png --walk walk.glb --idle idle.glb
+```
+
+Optionally supply `--image-job <uuid>` and `--model-job <uuid>` for provenance. This imports local files and spends nothing. Reload `/characters` to see the imported rig. `--base` accepts `engineer`, `astronaut`, or `botanist` and determines the station routine.
+
+The bundled sample's two paid jobs completed through MCP. Exact image/model recipes, source portraits, output images/GLBs and job IDs are in `assets/characters/`; `node scripts/character-recipes.mjs` rewrites its catalog/recipes without paid calls. The optional semantic-reading stage is wired but was not run for this sample.
+
+### Character verification
+
+```sh
+npm test
+# With npm start running and Google Chrome installed:
+node scripts/verify-characters.mjs
+```
+
+Set `CHARACTER_URL` for a non-default port. Browser checks cover creation, persisted loadout edits, image upload, identity notes, workflow download, cancelled spend confirmation, actual generated skeleton movement, desktop/mobile layouts, and deploying Nova into the station. Test-created local recruits are removed afterward. The SDK service's paid lifecycle is tested with an injected provider. The real sample was generated through MCP; these tests make no paid SDK calls.
+
 ## Generated sci-fi people (comparison viewer)
 
 Three textured **Tripo P2** assets are included: [astronaut](assets/astronaut.glb), [engineer](assets/engineer.glb), and [botanist](assets/botanist.glb). Each generation requested a 12,000-face budget and a relaxed A-pose. The GLBs contain their geometry and textures, and can be opened in a GLB-compatible tool such as Blender.
@@ -292,6 +356,7 @@ All generated assets and recorded results live in `assets/`. Source scripts, the
 - `assets/*.glb`: generated crew meshes; `assets/provenance.json` and `assets/crew-batch.json` document their origin and recipe.
 - `assets/viewer-verification.json`: browser checks for crew loading, model switching, scrubbing, and desktop/mobile layouts.
 - `assets/station/`: concept art, untouched station blueprint, six rigged walk/idle GLBs, generation recipes/provenance, browser screenshots, verification, and sample video.
+- `assets/characters/`: default reference portraits, FLUX outfit edit, Nova's animated GLBs, generation recipes/catalog/provenance, and atelier browser evidence. User drafts/generated outputs are under its ignored `local/` directory.
 - `evaluate.mjs`: reruns validation, portable conversion, browser import, and GIF capture without making paid model calls.
 
 The pinned OpenIndustries checkout retains legacy `astra.scene` serialization and Mergence UI branding. Its supported parser and scene contract were used directly. The farm is a planning layout: existing cleanroom desks stand in for grow beds, and the bundled robot is reused. The LLMs generated the scene arrangement/animation; Tripo generated the separate crew geometry. See [source attribution and geometry notices](PROVENANCE.md).

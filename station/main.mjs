@@ -16,6 +16,11 @@ try {
   const response=await fetch('/station/assets/blueprint.raw.txt');
   if(!response.ok)throw new Error(`Blueprint HTTP ${response.status}`);
   const data=validateBlueprint(await response.json());
+  const libraryResponse=await fetch('/api/characters');
+  if(!libraryResponse.ok)throw new Error('Could not load the local crew library');
+  const library=await libraryResponse.json();
+  const recruits=library.characters.filter(c=>c.deployed&&c.modelReady&&!c.starter).map(c=>({id:c.id,callsign:c.name,role:c.role,color:c.color||'#d3ed91',walk:c.walk,idle:c.idle,tasks:data.crew.find(base=>base.id===c.baseId).tasks}));
+  const definitions=[...data.crew,...recruits];
   const nav=makeNavigation(data),world=createStation(data);
   $('#station-name').textContent=data.name;$('#tagline').textContent=data.tagline;
   document.title=`${data.name} / Magic-Space`;
@@ -34,12 +39,12 @@ try {
   log('Shift handover complete. Department routines loaded from GPT-6’s world blueprint.');
   const loader=new GLTFLoader();
   status.textContent='Loading rigged crew and animation clips…';
-  const loaded=await Promise.all(data.crew.map(async (definition,index)=>{
-    const [walk,idle]=await Promise.all(['walk','idle'].map(clip=>loader.loadAsync(`/station/assets/${definition.id}-${clip}.glb`)));
+  const loaded=await Promise.all(definitions.map(async (definition,index)=>{
+    const [walk,idle]=await Promise.all(['walk','idle'].map(clip=>loader.loadAsync(definition[clip]||`/station/assets/${definition.id}-${clip}.glb`)));
     if(!walk.animations.length||!idle.animations.length)throw new Error(`${definition.id}: missing animation clips`);
     let skinCount=0;walk.scene.traverse(o=>{if(o.isSkinnedMesh)skinCount++;if(o.isMesh){o.castShadow=true;o.receiveShadow=true;}});
     if(!skinCount)throw new Error(`${definition.id}: no skinned mesh`);
-    const body=walk.scene,root=new THREE.Group();root.name=definition.id;root.add(body);world.scene.add(root);
+    const body=walk.scene,root=new THREE.Group();body.rotation.y=-Math.PI/2;root.name=definition.id;root.add(body);world.scene.add(root);
     const bounds=new THREE.Box3().setFromObject(body),height=bounds.getSize(new THREE.Vector3()).y;
     if(!Number.isFinite(height)||height<=0)throw new Error('Invalid character bounds');
     body.scale.multiplyScalar(1.8/height);
@@ -50,9 +55,10 @@ try {
     const actions={walk:mixer.clipAction(walk.animations[0]),idle:mixer.clipAction(idle.animations[0])};
     idle.scene.traverse(o=>{if(o.isMesh){o.geometry.dispose();for(const m of Array.isArray(o.material)?o.material:[o.material]){for(const v of Object.values(m))if(v?.isTexture)v.dispose();m.dispose();}}});
     actions.idle.play();
-    const first=ROOM_CENTERS[definition.tasks[0].room];root.position.set(first[0]+index-1,0,first[1]);
-    const halo=new THREE.Mesh(new THREE.RingGeometry(.42,.47,32),new THREE.MeshBasicMaterial({color:colors[definition.id],transparent:true,opacity:.7,side:THREE.DoubleSide,depthWrite:false}));halo.rotation.x=-Math.PI/2;halo.position.y=.025;root.add(halo);
-    const card=document.createElement('button');card.className='crew-card';card.style.setProperty('--crew-color',colors[definition.id]);card.setAttribute('aria-label',`Follow ${definition.callsign}`);
+    const first=ROOM_CENTERS[definition.tasks[0].room];root.position.set(first[0]+index%3-1,0,first[1]);
+    const color=definition.color||colors[definition.id];
+    const halo=new THREE.Mesh(new THREE.RingGeometry(.42,.47,32),new THREE.MeshBasicMaterial({color,transparent:true,opacity:.7,side:THREE.DoubleSide,depthWrite:false}));halo.rotation.x=-Math.PI/2;halo.position.y=.025;root.add(halo);
+    const card=document.createElement('button');card.className='crew-card';card.style.setProperty('--crew-color',color);card.setAttribute('aria-label',`Follow ${definition.callsign}`);
     const avatar=document.createElement('span');avatar.className='crew-avatar';avatar.textContent=String(index+1).padStart(2,'0');
     const name=document.createElement('div');name.className='crew-name';name.textContent=definition.callsign;
     const role=document.createElement('div');role.className='crew-role';role.textContent=definition.role;
@@ -69,7 +75,7 @@ try {
   function beginTask(c){
     c.taskIndex=(c.taskIndex+1)%c.definition.tasks.length;
     const task=c.definition.tasks[c.taskIndex],center=ROOM_CENTERS[task.room];
-    c.path=nav.path([c.position.x,c.position.z],[center[0]+c.index-1,center[1]]);c.waypoint=0;
+    c.path=nav.path([c.position.x,c.position.z],[center[0]+c.index%3-1,center[1]]);c.waypoint=0;
     setMode(c,'walk');
   }
   const emitted=new Set();
@@ -123,5 +129,6 @@ try {
   });
   // Read-only snapshots plus bounded deterministic advancement for browser verification.
   window.station={snapshot:()=>({time,playing,departments:data.rooms.length,props:data.rooms.reduce((n,r)=>n+r.props.length,0),drawCalls:renderer.info.render.calls,crew:crew.map(c=>({id:c.definition.id,position:c.position.toArray(),mode:c.mode,distance:c.distance,completed:c.completed,skins:c.skinCount,bone:c.bone?.quaternion.toArray(),task:c.definition.tasks[c.taskIndex]})),doors:world.doors.map(d=>d.open)}),advance:seconds=>{if(!Number.isFinite(seconds)||seconds<0||seconds>180)throw new Error('Advance between 0 and 180 seconds');for(let t=0;t<seconds;t+=.05)tick(Math.min(.05,seconds-t));updateUI();},inspectRoom:id=>{const room=data.rooms.find(r=>r.id===id);if(!room)return;const [x,z]=ROOM_CENTERS[id];selected=null;camera.position.set(x+10,13,z+15);controls.target.set(x,0,z);controls.update();}};
-  document.body.dataset.ready='true';status.textContent='6 departments · 3 animated crew · 36 equipment stations';
+  document.body.dataset.ready='true';status.textContent=`6 departments · ${crew.length} animated crew · 36 equipment stations`;
+  $('.crew-panel .panel-heading .muted').textContent=`${String(crew.length).padStart(2,'0')} CREW`;
 }catch(error){console.error(error);status.textContent=`Station failed to load: ${error.message}`;document.body.dataset.ready='failed';}

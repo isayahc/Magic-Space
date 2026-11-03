@@ -1,0 +1,32 @@
+{
+  "default_references": "engineer-base.png, astronaut-base.png and botanist-base.png are Three.js portraits rendered from the existing station rigs, not fresh text-to-image characters.",
+  "sample": {
+    "name": "Nova",
+    "base": "engineer-base.png",
+    "outfit": "Orbital streetwear: cream jacket, black technical layers, orange utility accents",
+    "image": {
+      "model": "bfl/flux-kontext-pro",
+      "prompt_id": "ee120d37-1309-4091-bd74-d63c1b8e615e",
+      "workflow_id": "ffca1846-2277-45c5-a25f-c3d3617ee7a5",
+      "status": "completed",
+      "seed": 8451,
+      "file": "orbital-look.png",
+      "workflow": "orbital-look.workflow-api.json",
+      "shortlink": "https://cloud.comfy.org/api/s/vtPySwZI2M4FP2KNR42WMA?raw=1",
+      "size": [832,1248]
+    },
+    "rig": {
+      "model": "Tripo P2 Image to Model",
+      "prompt_id": "470cac6d-3372-4198-8e5f-049e4f8cc579",
+      "status": "completed",
+      "source": "orbital-look.png",
+      "seed": 8451,
+      "rig": "v1.0-20240301 / biped / tripo",
+      "clips": ["preset:walk","preset:idle"],
+      "in_place": true,
+      "files": ["orbital-walk.glb","orbital-idle.glb"],
+      "workflow": "orbital-model.workflow-api.json"
+    }
+  },
+  "notes": "Both paid sample jobs completed and their outputs were downloaded. Outfit geometry/textures are baked into each generated character; clothing is not a detachable runtime equipment system. Vision reading is optional and was not run for this sample. The application SDK transport is covered by mocked-provider tests; these real generations used the connected Comfy Cloud MCP."
+}

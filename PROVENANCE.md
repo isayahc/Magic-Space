@@ -27,3 +27,11 @@ The live viewer adds the same three static people at documented fixed positions 
 The Three.js station architecture, prop builders, navigation, interface, and simulation runtime are authored source code in `station/`. GPT-6 authored the blueprint's room identities, equipment choices/slots, colors, narrative, crew roles and repeating tasks within the renderer's fixed six-department layout. The concept image is a visual reference, not a directly converted mesh. The runtime plays generated skeletal animation and does not make live model calls.
 
 Space Station 13 is an inspiration for departmental atmosphere, not the source of any copied sprites, meshes, characters, or branding. Station screenshots and video are captured from this repository's browser renderer.
+
+## Character atelier / Nova
+
+The default character images in `assets/characters/*-base.png` are portraits rendered from the existing station GLBs. FLUX Kontext Pro (Black Forest Labs) edited the engineer portrait into `orbital-look.png`, retaining recognizable identity while changing the outfit. Tripo P2 consumed that exact generated image to make a new mesh, followed by biped rigging and real walk/idle animation exports. It did not generate this mesh from text alone.
+
+Both user-approved paid jobs were confirmed completed and downloaded: `ee120d37-1309-4091-bd74-d63c1b8e615e` (image edit) and `470cac6d-3372-4198-8e5f-049e4f8cc579` (image-to-model/rig/animations). `assets/characters/provenance.json`, the two `orbital-*.workflow-api.json` graphs, and `catalog.json` preserve the sources, settings and relationships. The image graph was checked against the stored executed graph. Provider terms apply to these generated assets.
+
+The character UI, workflow builders and local server integration are authored application code. Optional GPT-6 visual-description reading is separate from the sample, which did not run that stage. The included sample was generated through Comfy MCP; the application's SDK transport is covered with injected-provider tests. Browser evidence verifies the actual generated GLBs, moving bones, persistence, reference upload, and station deployment. User-created library entries remain local in Git-ignored `assets/characters/local/`.

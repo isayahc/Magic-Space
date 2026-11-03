@@ -1,0 +1,41 @@
+[
+  {
+    "id": "nova-orbital",
+    "name": "Nova",
+    "role": "Orbital stylist",
+    "baseId": "engineer",
+    "color": "#d3ed91",
+    "bundled": true,
+    "loadout": {
+      "outerwear": "Cropped cream utility jacket with black paneling",
+      "top": "Black technical undersuit",
+      "bottoms": "Relaxed black cargo trousers",
+      "footwear": "Cream high-top magnetic boots",
+      "accessory": "Orange cross-body utility strap and compact belt pouches",
+      "palette": "Bone white / charcoal / signal orange"
+    },
+    "notes": "Premium technical streetwear, tactile fabric, clean graphic color blocking, original unbranded design.",
+    "semantic": "",
+    "portrait": "/characters/assets/engineer-base.png",
+    "reference": "/characters/assets/engineer-base.png",
+    "look": "/characters/assets/orbital-look.png",
+    "walk": "/characters/assets/orbital-walk.glb",
+    "idle": "/characters/assets/orbital-idle.glb",
+    "modelReady": true,
+    "deployed": false,
+    "jobs": [
+      {
+        "stage": "look",
+        "status": "succeeded",
+        "promptId": "ee120d37-1309-4091-bd74-d63c1b8e615e",
+        "model": "bfl/flux-kontext-pro"
+      },
+      {
+        "stage": "model",
+        "status": "succeeded",
+        "promptId": "470cac6d-3372-4198-8e5f-049e4f8cc579",
+        "model": "Tripo P2 + rig + walk/idle"
+      }
+    ]
+  }
+]
