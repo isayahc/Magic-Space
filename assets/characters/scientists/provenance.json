@@ -1,0 +1,15 @@
+{
+  "purpose": "Two distinct fully clothed scientist starters with real biped walk/idle animation and station routines.",
+  "transport": "Existing authenticated Comfy Cloud MCP connection",
+  "image_model": "Nano Banana 2 (Gemini 3.1 Flash Image)",
+  "image_template": "api_google_nano_banana2_text_to_image",
+  "characters": [
+    {"id":"astrophysicist","name":"Aster","seed":8711,"image_job":"1aae7209-241f-4480-bac2-7b690a33cf8c","rig_job":"9050e164-70cf-4fa0-82fc-d1b56224e12b","concept":"astrophysicist-concept.png","image_workflow":"astrophysicist-image.workflow-api.json","rig_workflow":"astrophysicist-rig.workflow-api.json","portrait":"../astrophysicist-base.png","files":["../../station/astrophysicist-walk.glb","../../station/astrophysicist-idle.glb"]},
+    {"id":"materials-scientist","name":"Flint","seed":8712,"image_job":"a566a60a-5a04-405d-9037-7f85f294f097","rig_job":"91de513f-86ff-4deb-b4e9-2bb0f18657bd","concept":"materials-scientist-concept.png","image_workflow":"materials-scientist-image.workflow-api.json","rig_workflow":"materials-scientist-rig.workflow-api.json","portrait":"../materials-scientist-base.png","files":["../../station/materials-scientist-walk.glb","../../station/materials-scientist-idle.glb"]}
+  ],
+  "rig_pipeline": "Tripo P2 from the exact saved concept; 12000 face budget, standard PBR texture; biped rig v1.0-20240301; in-place preset:walk and preset:idle GLBs.",
+  "material_finish": "node scripts/finish-neutral-materials.mjs astrophysicist materials-scientist: non-metallic, roughness 0.85, shared glossy metallic/roughness texture disconnected; geometry, skin, color/normal textures and animation retained.",
+  "completion": "Both two-job batches confirmed ready via wait_for_batch. Two concepts and four animated GLBs downloaded and validated. Exact executed graphs retrieved with get_job_status(include_workflow:true).",
+  "verification": "node scripts/verify-neutral-bases.mjs --scientists verifies moving bones, captures portraits from actual rigs and front/rear studio views. Station verification covers all five crew navigating and completing tasks.",
+  "routines": "Authored scientist extensions in station/crew.mjs; original GPT-6 blueprint remains archived verbatim."
+}

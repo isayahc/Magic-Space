@@ -4,11 +4,13 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { out } from '../paths.mjs';
 import { validateBlueprint,makeNavigation,ROOM_CENTERS,onFloor } from '../station/navigation.mjs';
+import { stationCrew,SCIENTIST_ROUTINES } from '../station/crew.mjs';
+import { STARTERS } from '../characters/catalog.mjs';
 const data=JSON.parse(readFileSync(join(out,'station/blueprint.raw.txt'),'utf8'));
 test('untouched GPT-6 blueprint satisfies the station contract',()=>{validateBlueprint(data);});
 test('every crew task has a continuous safe route around equipment',()=>{
   const nav=makeNavigation(data);
-  for(const [i,person] of data.crew.entries())for(let j=0;j<person.tasks.length;j++){
+  for(const [i,person] of stationCrew(data,[]).entries())for(let j=0;j<person.tasks.length;j++){
     const a=ROOM_CENTERS[person.tasks[j].room],b=ROOM_CENTERS[person.tasks[(j+1)%person.tasks.length].room];
     const path=nav.path([a[0]+i-1,a[1]],[b[0]+i-1,b[1]]);
     assert.ok(path.length);
@@ -19,8 +21,8 @@ test('every crew task has a continuous safe route around equipment',()=>{
     }
   }
 });
-test('all six character files contain real skins and animation channels',()=>{
-  for(const name of ['astronaut','engineer','botanist'])for(const mode of ['walk','idle']){
+test('every starter has real skins and animation channels in both clips',()=>{
+  for(const {id:name} of STARTERS)for(const mode of ['walk','idle']){
     const b=readFileSync(join(out,`station/${name}-${mode}.glb`));
     assert.equal(b.toString('ascii',0,4),'glTF');assert.equal(b.readUInt32LE(8),b.length);
     const gltf=JSON.parse(b.toString('utf8',20,20+b.readUInt32LE(12)));
@@ -28,4 +30,19 @@ test('all six character files contain real skins and animation channels',()=>{
     assert.ok(gltf.animations?.some(a=>a.channels.length>20));
     assert.ok(gltf.meshes?.length);
   }
+});
+test('scientist outfits replace their base and inherit their research routines',()=>{
+  const original=JSON.stringify(data);
+  for(const id of Object.keys(SCIENTIST_ROUTINES)){
+    const outfit={id:`${id}-outfit`,characterId:id,baseId:id,name:'Saved scientist',role:'Research',deployed:true,modelReady:true,walk:'/walk.glb',idle:'/idle.glb'};
+    const crew=stationCrew(data,[outfit]);
+    assert.equal(crew.length,STARTERS.length);
+    assert.ok(!crew.some(c=>c.id===id));
+    assert.deepEqual(crew.find(c=>c.id===outfit.id).tasks,SCIENTIST_ROUTINES[id]);
+    assert.ok(new Set(SCIENTIST_ROUTINES[id].map(t=>t.room)).size>=3);
+    const recruit=stationCrew(data,[{...outfit,characterId:'separate-recruit'}]);
+    assert.equal(recruit.length,STARTERS.length+1);
+    assert.ok(recruit.some(c=>c.id===id));
+  }
+  assert.equal(JSON.stringify(data),original);
 });

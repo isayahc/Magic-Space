@@ -17,7 +17,7 @@ const files = new Map([
   ['/characters/viewport.css',['characters/viewport.css','text/css']],
   ['/station', ['station/index.html', 'text/html']],
   ['/station/', ['station/index.html', 'text/html']],
-  ...['main.mjs', 'world.mjs', 'navigation.mjs'].map(name => [`/station/${name}`, [`station/${name}`, 'application/javascript']]),
+  ...['main.mjs', 'world.mjs', 'navigation.mjs', 'crew.mjs'].map(name => [`/station/${name}`, [`station/${name}`, 'application/javascript']]),
   ['/station/style.css', ['station/style.css', 'text/css']],
   ...stationAssets.filter(name => mime[name.split('.').at(-1)]).map(name => [`/station/assets/${name}`, [`assets/station/${name}`, mime[name.split('.').at(-1)]]]),
   ['/comparison', ['viewer.html', 'text/html']],
