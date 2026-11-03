@@ -7,7 +7,10 @@
   "scripts": {
     "start": "node serve.mjs",
     "evaluate": "node --import tsx evaluate.mjs",
-    "workflows": "node workflows.mjs"
+    "workflows": "node workflows.mjs",
+    "agent": "node scripts/agent.mjs",
+    "smoke": "node scripts/smoke.mjs",
+    "test": "node --test scripts/smoke.test.mjs"
   },
   "engines": { "node": ">=22.14.0" },
   "devDependencies": { "tsx": "^4.20.0" }

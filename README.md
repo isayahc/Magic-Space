@@ -6,6 +6,8 @@
 | --- | --- |
 | ![Qwen animated scene](qwen3-4b.gif) | ![GPT animated scene](gpt-4.1.gif) |
 
+[View the demo locally](#run-locally) · [Install OpenCode + Comfy MCP](#install-opencode--comfy-mcp) · [Run smoke tests](#smoke-tests)
+
 ## Why care?
 
 **Generating an asset is only the beginning. Magic-Space explores how to bring it to life in a world.**
@@ -90,6 +92,114 @@ OI_ROOT=/path/to/Open-Industries PORT=4196 npm start
 ```
 
 With these examples, open `http://127.0.0.1:4196/comparison`. If dependencies are missing, run `npm ci` in both repositories. New model generations require a separate authenticated Comfy Cloud MCP connection; see [Repeat model generation](#repeat-model-generation-through-comfy-mcp).
+
+## Install OpenCode + Comfy MCP
+
+This is optional for viewing the saved scenes. Use it to connect an agent and create new workflows. Start in the **Magic-Space repository** with Node.js 22.14+ installed. The setup scripts do not require the OpenIndustries checkout.
+
+### Linux and macOS
+
+The same Bash script supports both platforms. It also requires `curl`.
+
+```sh
+bash scripts/setup.sh
+```
+
+### Windows
+
+Run from PowerShell (no administrator shell required):
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup.ps1
+```
+
+`-ExecutionPolicy Bypass` applies to this process only. The script does not change your machine's execution policy.
+
+### What setup does
+
+1. Reuses OpenCode V2 if installed, or installs it from the official V2 distribution. An existing V1 installation is reported rather than silently replaced.
+2. Installs **both** the `comfy-cloud` connection and local `comfy-mcp` by default. Cloud-only and local-only modes are available below.
+3. For local mode, reuses or installs `uv`, provisions Python 3.12 if needed, and installs `comfy-mcp==0.10.0` plus `comfy-cli==1.24.0` into `.magic-space/venv`.
+4. Registers the connections using `opencode mcp add`, with absolute executable paths and `COMFY_BIN` for the local server. Configuration is scoped to **this checkout**, not your global OpenCode config.
+5. Saves machine-local paths in `.magic-space/setup.json`. That directory and the generated `opencode.json(c)` are ignored by Git. Existing project config is backed up there before the CLI merges the Comfy entries; unrelated entries are preserved.
+
+The scripts can be rerun. They do not remove a previously configured connection when you select a different mode. If you move the repository, rerun setup to update its absolute paths. They install the MCP bridge, **not ComfyUI, model weights, or GPU drivers**, and do not start generation jobs. No system-wide Python packages are changed. On Windows the downloaded OpenCode executable is kept under your home directory and launched through `npm run agent`; no permanent PATH change is needed.
+
+### Choose cloud or local
+
+**Cloud only** (no Python/uv/local MCP installation):
+
+```sh
+# Linux / macOS
+bash scripts/setup.sh --mode cloud
+```
+
+```powershell
+# Windows
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup.ps1 -Mode cloud
+```
+
+**Local only**, optionally selecting an existing ComfyUI workspace:
+
+```sh
+# Linux / macOS
+bash scripts/setup.sh --mode local --workspace /path/to/ComfyUI
+```
+
+```powershell
+# Windows
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup.ps1 -Mode local -Workspace "C:\path\to\ComfyUI"
+```
+
+The workspace must contain `main.py`. Omit the workspace argument to keep the current comfy-cli default; supplying it runs `comfy set-default`, which changes **comfy-cli's user-level default workspace**. Use `both` instead of `local` to configure both connections with a workspace.
+
+### Sign in and open the agent
+
+```sh
+npm run agent
+```
+
+- Use **`/connect`** to select an OpenCode agent model/provider. This is separate from Comfy authentication.
+- For Comfy Cloud, use **`/mcps` → `comfy-cloud` → sign in** and finish OAuth in your browser. Setup registers the connection but cannot complete sign-in for you.
+- The local MCP connection itself needs no Cloud sign-in. Local workflow execution requires a running ComfyUI; paid partner nodes have separate authentication requirements.
+
+OpenCode V2 loads configuration changes automatically. Use `/reload` if a manual refresh is needed.
+
+## Smoke tests
+
+After setup and, for cloud mode, sign-in:
+
+```sh
+npm run smoke
+```
+
+This checks OpenCode V2 and reads its structured MCP connection status for this checkout. It requires every connection selected during setup to report **connected**; unrelated MCP failures do not affect the result. Pending startup is retried for up to 30 seconds. Missing configuration, authentication-required, and failed connections produce a nonzero exit code with next steps.
+
+The test uses **no LLM calls or generation credits**. A connected local MCP proves the bridge initialized; it does not prove that ComfyUI or a model can execute a workflow.
+
+```sh
+# Test just one connection
+node scripts/smoke.mjs --mode cloud
+node scripts/smoke.mjs --mode local
+
+# Also check a running local ComfyUI's read-only /system_stats endpoint
+node scripts/smoke.mjs --mode local --require-comfyui
+
+# If your local ComfyUI uses another port
+node scripts/smoke.mjs --mode local --require-comfyui --comfyui-url http://127.0.0.1:8000
+
+# Offline fixture smoke test: no installation or sign-in needed
+node scripts/smoke.mjs --offline
+
+# Regression tests for status handling, argument passing, and saved outputs
+npm test
+```
+
+The offline check verifies the saved scene objects, timeline duration, and identical workflow prompts. For full schema validation, actual browser imports, and GIF rendering, use `npm run evaluate` as described below.
+
+[Cross-platform CI](https://github.com/isayahc/Magic-Space/actions/workflows/smoke.yml) runs regression tests, offline checks, installer syntax checks, fresh local MCP setup, and the OpenCode/local-MCP handshake on Linux, macOS, and Windows. Cloud OAuth and GPU generation are user-run checks, not CI requirements.
+
+Setup sources: [OpenCode V2 installation](https://opencode.ai/v2/docs/), [OpenCode MCP configuration](https://opencode.ai/v2/docs/mcp-servers), [Comfy MCP guide](https://docs.comfy.org/agent-tools/mcp), and [uv installer](https://docs.astral.sh/uv/reference/installer/).
 
 ## Results and methodology
 
