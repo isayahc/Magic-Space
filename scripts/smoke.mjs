@@ -39,11 +39,11 @@ async function main() {
   run(command, ['mcp', 'list'], { capture: true });
   const path = `/api/mcp?location%5Bdirectory%5D=${encodeURIComponent(project.replace(/[\\/]$/, ''))}`;
   let checks;
-  // Startup can be pending on the first read. Retry only that transient state, for at most 30 seconds.
-  const deadline = Date.now() + 30000;
+  // Discovery is asynchronous: fresh locations can be empty before entries become pending.
+  const deadline = Date.now() + 60000;
   do {
     checks = checkServers(JSON.parse(run(command, ['api', 'get', path], { capture: true })), mode);
-    if (!checks.some(check => check.status === 'pending') || Date.now() >= deadline) break;
+    if (!checks.some(check => ['missing', 'pending'].includes(check.status)) || Date.now() >= deadline) break;
     await new Promise(resolve => setTimeout(resolve, 1000));
   } while (true);
   for (const check of checks) {

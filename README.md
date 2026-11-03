@@ -173,7 +173,7 @@ After setup and, for cloud mode, sign-in:
 npm run smoke
 ```
 
-This checks OpenCode V2, initializes the checkout's MCP connections through `opencode mcp list`, then reads their structured status. It requires every connection selected during setup to report **connected**; unrelated MCP failures do not affect the result. Pending startup is retried for up to 30 seconds. Missing configuration, authentication-required, and failed connections produce a nonzero exit code with next steps.
+This checks OpenCode V2, initializes the checkout's MCP connections through `opencode mcp list`, then reads their structured status. It requires every connection selected during setup to report **connected**; unrelated MCP failures do not affect the result. Initial discovery and pending startup are retried for up to 60 seconds. Missing configuration, authentication-required, and failed connections produce a nonzero exit code with next steps.
 
 The test uses **no LLM calls or generation credits**. A connected local MCP proves the bridge initialized; it does not prove that ComfyUI or a model can execute a workflow.
 
