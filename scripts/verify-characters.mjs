@@ -11,6 +11,7 @@ try{
   page.on('response',r=>{if(r.status()>=400&&new URL(r.url()).hostname==='127.0.0.1')errors.push(`${r.status()} ${new URL(r.url()).pathname}`);});
   const url=process.env.CHARACTER_URL||'http://127.0.0.1:4194/characters';
   await page.goto(url);await expect(page.locator('body')).toHaveAttribute('data-ready','true',{timeout:90000});
+  if(process.env.VERIFY_MCP==='1')await expect(page.locator('#connection-note')).toContainText('Comfy MCP connected');
   expect((await page.evaluate(()=>window.characterStudio.preview.snapshot())).skins).toBeGreaterThan(0);
   await page.getByRole('button',{name:'Walk',exact:true}).click();
   expect((await page.evaluate(()=>window.characterStudio.preview.snapshot())).mode).toBe('walk');

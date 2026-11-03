@@ -4,6 +4,7 @@ import { join,resolve,relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { STARTERS,DEFAULT_LOADOUT } from './catalog.mjs';
 import { makeWorkflow } from './workflows.mjs';
+import { createMcpClient,connection } from './mcp.mjs';
 
 export const assetsRoot=fileURLToPath(new URL('../assets/characters/',import.meta.url));
 const active=new Set();
@@ -54,12 +55,11 @@ export function createCharacterService({directory=assetsRoot,cloudFactory}={}){
     if(rel.startsWith('..')||resolve(path)===resolve(directory))throw new Error('Invalid asset path');return path;
   }
   const assetURL=(c,name)=>`/characters/assets/local/${c.id}/${name}`;
-  const key=()=>process.env.COMFY_API_KEY||process.env.COMFY_CLOUD_API_KEY;
-  const configured=()=>!!(cloudFactory||key());
+  const connectionStatus=async()=>cloudFactory?{connected:true,message:'Test MCP provider connected'}:connection();
+  const configured=async()=>(await connectionStatus()).connected;
   async function client(){
     if(cloudFactory)return cloudFactory();
-    if(!key())throw new Error('Set COMFY_API_KEY in the server environment, then restart npm start. The key stays on the server.');
-    const {Comfy}=await import('@comfyorg/sdk');return new Comfy({apiKey:key()});
+    return createMcpClient();
   }
   function writable(c){if(c.starter||c.bundled)throw new Error('Duplicate this character before editing');if(busy(c))throw new Error('Resolve the current generation before changing this character');}
   async function create(input){return serial(async()=>{
@@ -86,7 +86,7 @@ export function createCharacterService({directory=assetsRoot,cloudFactory}={}){
   async function submit(id,stage,confirm){
     const c=await serial(async()=>{
       if(confirm!==true)throw new Error('Confirm Comfy credit spend before generating');
-      if(!configured())throw new Error('Generation needs COMFY_API_KEY on the server. You can still create drafts and export workflows.');
+      const connection=await connectionStatus();if(!connection.connected)throw new Error(connection.message);
       const c=await get(id);writable(c);
       if(!['look','model','analyze'].includes(stage))throw new Error('Invalid generation stage');
       if(stage==='model'&&!c.look)throw new Error('Generate and review an outfit image first');
@@ -101,7 +101,7 @@ export function createCharacterService({directory=assetsRoot,cloudFactory}={}){
         const api=await client(),graph=makeWorkflow(stage,c,'reference.png',c.job.seed);
         await writeFile(join(local,id,`${c.job.id}.workflow-api.json`),JSON.stringify(graph,null,2));
         const wf=api.workflows.fromJson(graph);wf.setInput('1','image',api.assets.fromFile(assetPath(c.job.source)));
-        job=await api.submit(wf,{apiKey:key(),idempotencyKey:c.job.id});
+        job=await api.submit(wf,{confirm:true});
         await serial(async()=>{const current=await get(id);current.job.promptId=job.id;current.job.status='running';current.jobs[current.jobs.length-1]=current.job;await save(current);});
       }catch(error){
         await serial(async()=>{const current=await get(id);
@@ -147,7 +147,7 @@ export function createCharacterService({directory=assetsRoot,cloudFactory}={}){
     const api=await client();await api.jobs.get(promptId); // Confirm this account can read it before attaching.
     c.job.promptId=promptId;c.job.status='running';delete c.job.error;c.jobs[c.jobs.length-1]=c.job;return save(c);
   });}
-  return {list,get,create,update,reference,submit,refresh,deploy,recover,configured,assetPath,waitForSubmission:id=>submissions.get(id)};
+  return {list,get,create,update,reference,submit,refresh,deploy,recover,configured,connectionStatus,assetPath,waitForSubmission:id=>submissions.get(id)};
 }
 
 export function characterMiddleware(service=createCharacterService()){
@@ -157,7 +157,7 @@ export function characterMiddleware(service=createCharacterService()){
     const url=new URL(req.url,'http://localhost');if(!url.pathname.startsWith('/api/characters'))return next();
     try{
       if(req.headers.origin&&req.headers.origin!==`http://${req.headers.host}`)return send(res,403,{error:'Same-origin requests only'});
-      if(req.method==='GET'&&url.pathname==='/api/characters')return send(res,200,{characters:await service.list(),configured:service.configured()});
+      if(req.method==='GET'&&url.pathname==='/api/characters'){const connection=await service.connectionStatus();return send(res,200,{characters:await service.list(),configured:connection.connected,connection});}
       if(req.method==='POST'&&url.pathname==='/api/characters')return send(res,201,await service.create(await body(req)));
       const match=url.pathname.match(/^\/api\/characters\/([a-z0-9-]+)(?:\/(reference|generate|status|deploy|workflow|recover))?$/);
       if(!match)return send(res,404,{error:'Unknown character route'});
