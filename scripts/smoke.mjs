@@ -35,6 +35,8 @@ async function main() {
   if (mode === 'cloud' && values['require-comfyui']) throw new Error('--require-comfyui needs local or both mode.');
   const command = opencodePath();
   console.log(`PASS: ${requireV2(command)}`);
+  // The CLI initializes MCP for a fresh location; the status API alone only reads existing state.
+  run(command, ['mcp', 'list'], { capture: true });
   const path = `/api/mcp?location%5Bdirectory%5D=${encodeURIComponent(project.replace(/[\\/]$/, ''))}`;
   let checks;
   // Startup can be pending on the first read. Retry only that transient state, for at most 30 seconds.
