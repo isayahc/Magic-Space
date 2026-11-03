@@ -5,6 +5,7 @@ import { parseArgs } from 'node:util';
 import assert from 'node:assert/strict';
 import { project, state, modeNames, opencodePath, requireV2, run } from './common.mjs';
 import { currentRuns, legacyRuns } from '../models.mjs';
+import { out } from '../paths.mjs';
 
 export function checkServers(payload, mode) {
   if (!Array.isArray(payload?.data)) throw new Error('Unexpected OpenCode /api/mcp response; expected a data array.');
@@ -16,9 +17,9 @@ export function checkServers(payload, mode) {
 export function offlineSmoke() {
   const prompt = readFileSync(join(project, 'prompt.txt'), 'utf8').trim();
   for (const { slug: name } of [...currentRuns, ...legacyRuns]) {
-    const raw = JSON.parse(readFileSync(join(project, `${name}.raw.txt`), 'utf8'));
-    const scene = JSON.parse(readFileSync(join(project, `${name}.scene.json`), 'utf8'));
-    const workflow = JSON.parse(readFileSync(join(project, `${name}.workflow-api.json`), 'utf8'));
+    const raw = JSON.parse(readFileSync(join(out, `${name}.raw.txt`), 'utf8'));
+    const scene = JSON.parse(readFileSync(join(out, `${name}.scene.json`), 'utf8'));
+    const workflow = JSON.parse(readFileSync(join(out, `${name}.workflow-api.json`), 'utf8'));
     assert.equal(raw.instances.length, 5, `${name}: five raw scene objects`);
     assert.equal(scene.instances.length, 5, `${name}: five portable scene objects`);
     assert.equal(raw.animation.duration, 20, `${name}: twenty-second timeline`);
@@ -26,7 +27,7 @@ export function offlineSmoke() {
     assert.equal(workflow['3'].class_type, 'SaveText', `${name}: text output node`);
   }
   for (const name of ['astronaut', 'engineer', 'botanist']) {
-    const glb = readFileSync(join(project, 'assets', `${name}.glb`));
+    const glb = readFileSync(join(out, `${name}.glb`));
     assert.equal(glb.toString('ascii', 0, 4), 'glTF', `${name}: binary glTF header`);
     assert.equal(glb.readUInt32LE(4), 2, `${name}: glTF version`);
     assert.equal(glb.readUInt32LE(8), glb.length, `${name}: complete download`);

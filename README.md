@@ -4,9 +4,9 @@
 
 | DeepSeek-V4-Pro · open weight | GPT-6 Astra · closed weight |
 | --- | --- |
-| ![DeepSeek animated scene](deepseek-v4-pro.gif) | ![GPT-6 animated scene](gpt-6-astra.gif) |
+| ![DeepSeek animated scene](assets/deepseek-v4-pro.gif) | ![GPT-6 animated scene](assets/gpt-6-astra.gif) |
 
-![Generated sci-fi crew in the live viewer](sci-fi-crew.png)
+![Generated sci-fi crew in the live viewer](assets/sci-fi-crew.png)
 
 [View the demo locally](#run-locally) · [Install OpenCode + Comfy MCP](#install-opencode--comfy-mcp) · [Run smoke tests](#smoke-tests)
 
@@ -224,27 +224,30 @@ Both satisfy the required endpoints, aisle, and loop. DeepSeek makes two round t
 
 ### Original baseline
 
-The earlier Qwen3 4B / GPT-4.1 results and media remain available, with checks in `legacy-results.json`. Both passed 13/13 checks. Their original settings used 4096-token caps; Qwen used `TextGenerate` with sampling off and thinking false. Re-evaluate them with `node --import tsx evaluate.mjs --legacy`.
+The earlier Qwen3 4B / GPT-4.1 results and media remain available, with checks in `assets/legacy-results.json`. Both passed 13/13 checks. Their original settings used 4096-token caps; Qwen used `TextGenerate` with sampling off and thinking false. Re-evaluate them with `node --import tsx evaluate.mjs --legacy`.
 
 ## Generated sci-fi people
 
 Three textured **Tripo P2** assets are included: [astronaut](assets/astronaut.glb), [engineer](assets/engineer.glb), and [botanist](assets/botanist.glb). Each generation requested a 12,000-face budget and a relaxed A-pose. The GLBs contain their geometry and textures, and can be opened in a GLB-compatible tool such as Blender.
 
-The viewer normalizes each character to 1.75 m and places the same crew beside either model's farm. This is a **presentation layer**, not LLM-authored placement, and is excluded from the 13 benchmark checks and benchmark-scene download. Characters are static meshes, not rigged walking agents. The GIFs above show the benchmark alone; `*.crew.png` and `sci-fi-crew.png` show the crew layer.
+The viewer normalizes each character to 1.75 m and places the same crew beside either model's farm. This is a **presentation layer**, not LLM-authored placement, and is excluded from the 13 benchmark checks and benchmark-scene download. Characters are static meshes, not rigged walking agents. The GIFs above show the benchmark alone; `assets/*.crew.png` and `assets/sci-fi-crew.png` show the crew layer.
 
 `assets/provenance.json` records job IDs and placement. `assets/crew-batch.json` preserves exact prompts, seeds, and template overrides. Regenerate these recipe files with `node scripts/crew-workflows.mjs` (no spend). To generate new meshes, submit its three items through Comfy Cloud's `submit_batch` after approving credit spend; verify template addresses with `get_template_schema` if the upstream template changes.
 
 ## Artifacts
 
-- `*.raw.txt`: original unedited answers.
-- `*.scene.json`: portable scene with existing example geometry bundled by a deterministic adapter. Open in OpenIndustries using Import project. The adapter maps field names and adds track/key IDs without changing model choices.
-- `*.png`: screenshots after real browser import at 1440×1000.
-- `*.gif`: native OpenIndustries authored-animation render, 480×480, 40 frames at 10 fps. These show **seconds 8–12** of the original 20-second timeline, because the native GIF renderer limits each clip to four seconds. They are not full-loop exports.
-- `*.gif-metadata.json`: exact per-frame world poses and provenance.
-- `results.json`: individual checks, job IDs, speeds, and browser evidence.
-- `legacy-results.json`: preserved Qwen3 4B / GPT-4.1 baseline results.
+All generated assets and recorded results live in `assets/`. Source scripts, the shared `prompt.txt`, and documentation live at the repository root.
+
+- `assets/*.raw.txt`: original unedited answers.
+- `assets/*.scene.json`: portable scene with existing example geometry bundled by a deterministic adapter. Open in OpenIndustries using Import project. The adapter maps field names and adds track/key IDs without changing model choices.
+- `assets/*.png`: browser screenshots, including model imports, crew views, and the mobile viewer.
+- `assets/*.gif`: native OpenIndustries authored-animation render, 480×480, 40 frames at 10 fps. These show **seconds 8–12** of the original 20-second timeline, because the native GIF renderer limits each clip to four seconds. They are not full-loop exports.
+- `assets/*.gif-metadata.json`: exact per-frame world poses and provenance.
+- `assets/*.workflow-api.json`: reproducible LLM workflow graphs.
+- `assets/results.json`: individual checks, job IDs, speeds, and browser evidence.
+- `assets/legacy-results.json`: preserved Qwen3 4B / GPT-4.1 baseline results.
 - `assets/*.glb`: generated crew meshes; `assets/provenance.json` and `assets/crew-batch.json` document their origin and recipe.
-- `viewer-verification.json`: browser checks for crew loading, model switching, scrubbing, and desktop/mobile layouts.
+- `assets/viewer-verification.json`: browser checks for crew loading, model switching, scrubbing, and desktop/mobile layouts.
 - `evaluate.mjs`: reruns validation, portable conversion, browser import, and GIF capture without making paid model calls.
 
 The pinned OpenIndustries checkout retains legacy `astra.scene` serialization and Mergence UI branding. Its supported parser and scene contract were used directly. The farm is a planning layout: existing cleanroom desks stand in for grow beds, and the bundled robot is reused. The LLMs generated the scene arrangement/animation; Tripo generated the separate crew geometry. See [source attribution and geometry notices](PROVENANCE.md).
@@ -259,12 +262,12 @@ npm run evaluate
 
 This validates the saved answers, regenerates the portable scenes, imports each in a fresh browser, and exports screenshots/GIFs. It starts a temporary local Vite server on port 4195 and shuts it down when finished. It does not call a model or spend credits.
 
-With `npm start` running in another terminal, run `node scripts/verify-viewer.mjs` to check both current models, actual crew GLB loading, scrubbing, toggling, and desktop/mobile layouts. Set `VIEWER_URL` if using a different port. This writes crew screenshots and `viewer-verification.json`. Restart `npm start` after editing `viewer.html` so Vite refreshes its inline-module cache.
+With `npm start` running in another terminal, run `node scripts/verify-viewer.mjs` to check both current models, actual crew GLB loading, scrubbing, toggling, and desktop/mobile layouts. Set `VIEWER_URL` if using a different port. This writes crew screenshots and `viewer-verification.json` into `assets/`. Restart `npm start` after editing `viewer.html` so Vite refreshes its inline-module cache.
 
 ## Repeat model generation through Comfy MCP
 
-`npm run workflows` regenerates current and legacy `*.workflow-api.json` files from the shared prompt. For the current comparison, submit **`deepseek-v4-pro.workflow-api.json` and `gpt-6-astra.workflow-api.json`** as two `submit_batch` items with `tool: "submit_workflow"`. These are API-format graphs, not editor drag-and-drop files. They correspond to the node graphs used in this run. Both use `SaveText` to preserve the raw answer. Submit through an authenticated Comfy Cloud MCP connection, wait for the jobs, and download their outputs. New generations consume Comfy credits.
+`npm run workflows` regenerates current and legacy `assets/*.workflow-api.json` files from the shared prompt. For the current comparison, submit **`assets/deepseek-v4-pro.workflow-api.json` and `assets/gpt-6-astra.workflow-api.json`** as two `submit_batch` items with `tool: "submit_workflow"`. These are API-format graphs, not editor drag-and-drop files. They correspond to the node graphs used in this run. Both use `SaveText` to preserve the raw answer. Submit through an authenticated Comfy Cloud MCP connection, wait for the jobs, and download their outputs. New generations consume Comfy credits.
 
-To evaluate a new run, replace the corresponding `*.raw.txt` files and update the job identifiers in `models.mjs`, then rerun the evaluator. Keep separate copies for multiple trials. The recorded run is a single-sample smoke test, not a statistical benchmark.
+To evaluate a new run, replace the corresponding `assets/*.raw.txt` files and update the job identifiers in `models.mjs`, then rerun the evaluator. Keep separate copies for multiple trials. The recorded run is a single-sample smoke test, not a statistical benchmark.
 
-The two current LLM jobs and three character-generation jobs have completed. Their IDs are in `results.json` and `assets/provenance.json`. No provider keys or signed download URLs are stored here.
+The two current LLM jobs and three character-generation jobs have completed. Their IDs are in `assets/results.json` and `assets/provenance.json`. No provider keys or signed download URLs are stored here.
