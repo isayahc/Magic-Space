@@ -30,6 +30,10 @@ Space Station 13 is an inspiration for departmental atmosphere, not the source o
 
 ## Character atelier
 
+### Aster / Flint scientist starters
+
+Two Nano Banana 2 concepts were generated as one Comfy Cloud batch, then used as the exact inputs to a second batch of Tripo P2 mesh/biped/walk/idle workflows. All four jobs completed. `assets/characters/scientists/provenance.json` links the saved concepts, executed graphs, job IDs, portraits and animated GLBs. Shared materials receive the same matte finish as Kite/Pip. Front/rear browser captures verify clothing coverage on the actual meshes. Their authored research routines live in `station/crew.mjs`, extending the archived original world blueprint. Wardrobe variants inherit these routines and replace their scientist's base appearance.
+
 ### Neutral Kite / Pip base refresh
 
 The user approved two FLUX Kontext Pro edits and two Tripo P2 image-to-model/rig/animation workflows through the existing Comfy Cloud MCP. The edits use the original rendered base portraits as identity references, replacing fitted clothing with neutral practical workwear. All four jobs completed; both concepts and all four GLBs were downloaded. The models replace Kite/Pip's base walk/idle assets in the station and studio. The existing comparison benchmark keeps its original assets.

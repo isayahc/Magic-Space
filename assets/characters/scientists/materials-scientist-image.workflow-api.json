@@ -1,0 +1,33 @@
+{
+  "9": {
+    "_meta": {
+      "title": "Save Image"
+    },
+    "class_type": "SaveImage",
+    "inputs": {
+      "filename_prefix": "characters/materials-scientist-concept",
+      "images": [
+        "24",
+        0
+      ]
+    }
+  },
+  "24": {
+    "_meta": {
+      "title": "Nano Banana 2.1"
+    },
+    "class_type": "GeminiNanoBanana2V2",
+    "inputs": {
+      "model": "Nano Banana 2 (Gemini 3.1 Flash Image)",
+      "model.aspect_ratio": "2:3",
+      "model.resolution": "1K",
+      "model.thinking_level": "MINIMAL",
+      "prompt": "Single adult space-station scientist, full-body head-to-toe front view, relaxed symmetric A-pose, hands separated from hips, feet apart. Stylized polished 3D game crew character, friendly rounded face, slightly oversized head and sturdy proportions, detailed matte canvas clothing. Opaque thick relaxed-fit clothing fully covers chest, hips, buttocks and legs, flat non-anatomical chest panel, straight untapered waist, no exposed midriff, no skintight fabric, no heels. Gray studio background, soft even light, generous margins, no text, no handheld props, no extra people, no panels. Designed for biped rigging. Flint, adult man materials scientist, warm light tan skin, broad square face, dark eyes, swept-back dark auburn hair with gray temples and short neat auburn beard. Rust-orange straight-cut hip-length laboratory field jacket with slate-gray shoulder panels and large square pockets, charcoal high-neck undershirt, relaxed slate cargo trousers with rust knee patches, chunky flat charcoal work boots, dark protective gloves, small belt sample pouches. Sturdy stocky build, friendly thoughtful expression.",
+      "response_modalities": "IMAGE",
+      "seed": 8712,
+      "system_prompt": "You are an expert image-generation engine. You must ALWAYS produce an image.\nInterpret all user input—regardless of format, intent, or abstraction—as literal visual directives for image composition.\nIf a prompt is conversational or lacks specific visual details, you must creatively invent a concrete visual scenario that depicts the concept.\nPrioritize generating the visual representation above any text, formatting, or conversational requests.",
+      "temperature": 1,
+      "top_p": 0.95
+    }
+  }
+}

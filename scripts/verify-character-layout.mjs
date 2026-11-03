@@ -16,6 +16,8 @@ try{
       await page.getByRole('tab',{name:tab,exact:true}).click();
       const measure=await page.evaluate(()=>({page:[document.documentElement.clientHeight,document.documentElement.scrollHeight],editor:[document.querySelector('.editor').clientHeight,document.querySelector('.editor').scrollHeight],right:document.documentElement.scrollWidth,bottom:document.querySelector('#export-workflow').getBoundingClientRect().bottom,canvas:document.querySelector('#model-preview').getBoundingClientRect().height}));
       results.push({width,height,tab,...measure});
+      const roster=await page.locator('#roster-list').evaluate(el=>[el.clientHeight,el.scrollHeight]);
+      expect(roster[1],`default roster overflow ${width}×${height}`).toBeLessThanOrEqual(roster[0]+1);
       expect(measure.page[1],`page overflow ${width}×${height} ${tab}`).toBeLessThanOrEqual(height);
       expect(measure.editor[1],`editor overflow ${width}×${height} ${tab}`).toBeLessThanOrEqual(measure.editor[0]+1);
       expect(measure.right).toBeLessThanOrEqual(width);expect(measure.bottom).toBeLessThanOrEqual(height);expect(measure.canvas).toBeGreaterThan(250);

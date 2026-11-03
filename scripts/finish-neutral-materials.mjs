@@ -3,7 +3,7 @@
 // Only the GLB JSON material factors change; mesh, skin, textures and clips remain.
 import {readFile,writeFile} from 'node:fs/promises';
 import {validateRig} from '../characters/server.mjs';
-for(const id of ['astronaut','botanist'])for(const clip of ['walk','idle']){
+for(const id of (process.argv.slice(2).length?process.argv.slice(2):['astronaut','botanist']))for(const clip of ['walk','idle']){
   const file=new URL(`../assets/station/${id}-${clip}.glb`,import.meta.url),bytes=await readFile(file);
   validateRig(bytes);
   const oldLength=bytes.readUInt32LE(12),json=JSON.parse(bytes.toString('utf8',20,20+oldLength));

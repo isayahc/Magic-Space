@@ -278,7 +278,7 @@ Set `STATION_URL` to override `http://127.0.0.1:4194/station`. Verification chec
 
 ## Character atelier and loadouts
 
-Open **http://127.0.0.1:4194/characters**. The original three crew are reusable defaults; **Nova** is a completed image-to-image → animated-3D sample. The atelier has two screens:
+Open **http://127.0.0.1:4194/characters**. Five crew are reusable defaults: **Latch**, **Kite**, **Pip**, **Aster** (astrophysics) and **Flint** (materials science). **Nova** is a completed image-to-image → animated-3D sample. The atelier has two screens:
 
 - **Character:** callsign, role, reference upload, and editable visual identity notes. The optional **Read visual details** action uses GPT-6 Astra to describe visible design details from the image.
 - **Loadout:** outerwear, base layer, bottoms, footwear, accessories, and color palette, plus free-form art direction and three starter styles.

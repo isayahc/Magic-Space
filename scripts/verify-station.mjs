@@ -15,6 +15,7 @@ try {
   await page.getByRole('button',{name:'Pause',exact:false}).click();
   const start=await page.evaluate(()=>window.station.snapshot());
   expect(start.departments).toBe(6);expect(start.props).toBe(36);expect(start.crew.every(c=>c.skins>0)).toBe(true);
+  for(const name of ['Aster','Flint'])await expect(page.getByRole('button',{name:`Follow ${name}`,exact:true})).toHaveCount(1);
   await page.evaluate(()=>window.station.advance(18));
   const walking=await page.evaluate(()=>window.station.snapshot());
   expect(walking.crew.some(c=>c.mode==='walk'&&c.distance>1)).toBe(true);
@@ -40,5 +41,5 @@ try {
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   expect(errors).toEqual([]);
   await writeFile(join(out,'station/verification.json'),JSON.stringify({start,walking,completed,errors,desktop:[1600,1000],mobile:[390,844]},null,2));
-  console.log('PASS: six departments, 36 props, three skinned characters, bone animation, navigation, task completion, concept image, desktop/mobile.');
+  console.log(`PASS: six departments, 36 props, ${start.crew.length} skinned characters, bone animation, navigation, task completion, concept image, desktop/mobile.`);
 }finally{await browser.close();}
