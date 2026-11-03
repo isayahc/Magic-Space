@@ -1,0 +1,62 @@
+{
+  "checks": [
+    "two rebuilt skinned meshes",
+    "changing walk bone transforms",
+    "idle portraits rendered from actual rigs",
+    "updated base thumbnails",
+    "desktop/mobile"
+  ],
+  "evidence": {
+    "astronaut": {
+      "before": {
+        "loadedURL": "/station/assets/astronaut-walk.glb|/station/assets/astronaut-idle.glb",
+        "skins": 1,
+        "mode": "walk",
+        "bone": [
+          0.9972515970672453,
+          0.0451712100624151,
+          -0.01009320150095551,
+          0.05785273121210478
+        ]
+      },
+      "after": {
+        "loadedURL": "/station/assets/astronaut-walk.glb|/station/assets/astronaut-idle.glb",
+        "skins": 1,
+        "mode": "walk",
+        "bone": [
+          0.9806635921420455,
+          -0.03348533991481222,
+          -0.06687109830488137,
+          0.1808480370444283
+        ]
+      },
+      "portrait": "astronaut-base.png"
+    },
+    "botanist": {
+      "before": {
+        "loadedURL": "/station/assets/botanist-walk.glb|/station/assets/botanist-idle.glb",
+        "skins": 1,
+        "mode": "walk",
+        "bone": [
+          0.9959827087262169,
+          0.042627202366474506,
+          -0.015142074169797758,
+          0.07727966043615164
+        ]
+      },
+      "after": {
+        "loadedURL": "/station/assets/botanist-walk.glb|/station/assets/botanist-idle.glb",
+        "skins": 1,
+        "mode": "walk",
+        "bone": [
+          0.9735183400220415,
+          -0.03287977791600578,
+          -0.0684939708342675,
+          0.21561434429634677
+        ]
+      },
+      "portrait": "botanist-base.png"
+    }
+  },
+  "errors": []
+}

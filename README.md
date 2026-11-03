@@ -283,6 +283,8 @@ Open **http://127.0.0.1:4194/characters**. The original three crew are reusable 
 - **Character:** callsign, role, reference upload, and editable visual identity notes. The optional **Read visual details** action uses GPT-6 Astra to describe visible design details from the image.
 - **Loadout:** outerwear, base layer, bottoms, footwear, accessories, and color palette, plus free-form art direction and three starter styles.
 
+**Kite and Pip's neutral base refresh:** Kite wears a roomy orange pressure suit with a flat equipment plate; Pip wears a straight-cut green work jacket and relaxed cargo trousers. Both have flat work boots and soft matte materials. Their portraits are rendered from the rebuilt animated meshes used in the studio and station. Original references, edited concepts, exact MCP job graphs and provenance live in `assets/characters/neutral-bases/`. Run `node scripts/verify-neutral-bases.mjs` with the site open to check their animations and refresh the portraits/screenshots.
+
 ### Default character → new drip → 3D
 
 1. The roster lists **one entry per character**. Select a character to see their saved looks in **Loadout → wardrobe**. **New outfit** creates another look for that same person; editing an original saves a new outfit automatically. Name your outfits and switch between their thumbnails. Existing automatic “Latch II” copies appear as looks under Latch, with their assets and job history retained. **New character** is reserved for creating a separately named recruit.
