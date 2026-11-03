@@ -1,6 +1,12 @@
 # Magic-Space
 
-**Can an open-weight LLM generate an importable, animated 3D scene as reliably as a closed-weight model?** This hackathon prototype compares **DeepSeek-V4-Pro and GPT-6 Astra** through Comfy Cloud, validates their unedited JSON, and renders both in OpenIndustries. Three newly generated sci-fi people join the live viewer as a shared crew layer.
+**From generated concepts to inhabited 3D worlds.** Explore **Brineglass**, an original Space Station 13–inspired orbital laboratory: six departments, 36 equipment stations, sliding airlocks, and three rigged crew following GPT-6-authored routines. Nano Banana Pro created the visual brief; GPT-6 Astra received that image and authored the station blueprint.
+
+![Brineglass living station](assets/station/overview.png)
+
+[Watch the walking crew (WebM)](assets/station/crew-walking.webm) · [Crew close-up](assets/station/crew-close.png) · [Concept art](assets/station/concept.png) · [Original GPT-6 blueprint](assets/station/blueprint.raw.txt)
+
+The separate benchmark asks: **Can an open-weight LLM generate an importable, animated 3D scene as reliably as a closed-weight model?** It compares **DeepSeek-V4-Pro and GPT-6 Astra** through Comfy Cloud, validates their unedited JSON, and renders both in OpenIndustries.
 
 | DeepSeek-V4-Pro · open weight | GPT-6 Astra · closed weight |
 | --- | --- |
@@ -16,7 +22,7 @@
 
 Stable Diffusion can generate visual concepts, and dedicated 3D-generation models can produce meshes. OpenIndustries adds a shared space: named objects, real-world placement, editable scene data, and authored motion. In this demo, the LLMs arrange existing geometry and animate a robot; **Tripo P2** generates the new astronaut, engineer, and botanist meshes.
 
-For game designers, the next step is **persistent world context**: retain object identities, layout, roles, and previous decisions so a new generation can extend a world without losing continuity. The current prototype preserves a serialized scene and its animation; cross-generation continuity and autonomous behavior are future work.
+For game designers, the next step is **persistent world context**: retain object identities, layout, roles, and previous decisions so a new generation can extend a world without losing continuity. The current prototype preserves serialized scenes and an offline station blueprint with repeating crew routines; cross-generation continuity and live LLM decision-making are future work.
 
 ## Hackathon checklist
 
@@ -25,7 +31,7 @@ For game designers, the next step is **persistent world context**: retain object
 - [x] Run an open-weight vs. closed-weight model comparison.
 - [x] Include GIFs and screenshots of sample outputs.
 - [ ] Record a walkthrough video of the generation-to-world workflow.
-- [ ] Add video clips of sample outputs alongside the GIFs.
+- [x] Add video clips of sample outputs alongside the GIFs.
 - [ ] Carry world context across generations to help game designers maintain continuity.
 
 ## Tools used
@@ -34,8 +40,10 @@ For game designers, the next step is **persistent world context**: retain object
 | --- | --- |
 | **Comfy MCP** (`comfy-cloud`) | Run LLM workflows on Comfy Cloud and retrieve their outputs. The local `comfy-mcp` connection is optional and was not used for these generations. |
 | **DeepSeek-V4-Pro — open-weight** | Generate scene layout and animation as JSON through Comfy's OpenRouter LLM node. Hosted inference; weights are not run locally. |
-| **GPT-6 Astra — closed-weight** | Generate the comparison scene from the same prompt through the OpenAI ChatGPT node. |
-| **Tripo P2** | Generate three textured sci-fi people as self-contained GLB assets through Comfy Cloud. |
+| **GPT-6 Astra — closed-weight** | Generate the comparison scene, plus the image-conditioned Brineglass blueprint and crew routines. |
+| **Nano Banana Pro** | Generate the station concept image supplied to GPT-6. |
+| **Tripo P2 + rig/retarget nodes** | Generate textured crew GLBs; a new station crew has biped skeletons and walk/idle clips. |
+| **Three.js** | Build the station from reusable procedural architecture and props; execute navigation and skeletal animation. |
 | **OpenIndustries / its MCP scene contract** | Validate scene structure, resolve existing assets, import portable projects, and render animation. This run uses its schema and libraries directly; an autonomous OpenIndustries MCP tool loop is future work. |
 | **OpenCode** | Coordinate model calls, write the adapter/evaluator, and package the demo. |
 | **Playwright + Chrome** | Verify real browser imports and capture screenshots; GIFs use OpenIndustries’ renderer. |
@@ -66,7 +74,14 @@ npm start
 
 ### 3. Open the 3D space
 
-Open **http://127.0.0.1:4194/comparison** and leave the terminal running.
+Open **http://127.0.0.1:4194/station** and leave the terminal running.
+
+- Drag to orbit, scroll to zoom, and click a department to inspect its equipment.
+- Click a crew card or **Crew view** to follow a walking character; **Overview** resets the camera.
+- Pause/resume, select 1×/2×/4× speed, toggle walls, or open the original concept art.
+- The saved world runs entirely in your browser without model calls or credits.
+
+For the model comparison, open **http://127.0.0.1:4194/comparison**:
 
 - Switch between **DeepSeek-V4-Pro** and **GPT-6 Astra** using the dropdown. Qwen3 4B / GPT-4.1 remain available under Original baseline.
 - Drag to orbit, scroll to zoom, and right-drag to pan.
@@ -95,7 +110,7 @@ npm start
 OI_ROOT=/path/to/Open-Industries PORT=4196 npm start
 ```
 
-With these examples, open `http://127.0.0.1:4196/comparison`. If dependencies are missing, run `npm ci` in both repositories. New model generations require a separate authenticated Comfy Cloud MCP connection; see [Repeat model generation](#repeat-model-generation-through-comfy-mcp).
+With these examples, open `http://127.0.0.1:4196/station` or `/comparison`. If dependencies are missing, run `npm ci` in both repositories. New model generations require a separate authenticated Comfy Cloud MCP connection; see [Repeat model generation](#repeat-model-generation-through-comfy-mcp).
 
 ## Install OpenCode + Comfy MCP
 
@@ -226,7 +241,35 @@ Both satisfy the required endpoints, aisle, and loop. DeepSeek makes two round t
 
 The earlier Qwen3 4B / GPT-4.1 results and media remain available, with checks in `assets/legacy-results.json`. Both passed 13/13 checks. Their original settings used 4096-token caps; Qwen used `TextGenerate` with sampling off and thinking false. Re-evaluate them with `node --import tsx evaluate.mjs --legacy`.
 
-## Generated sci-fi people
+## Living station: Brineglass
+
+The station takes inspiration from Space Station 13's departmental life and cutaway readability, with original generated assets and narrative. Its six departments are research, hydroponics, engineering, medical, cargo, and command. GPT-6 named the rooms and crew, chose equipment/colors, and wrote their task sequences after seeing the concept image.
+
+The renderer supplies the fixed floorplan, procedural prop library, lighting, planet, stars, and airlocks. A half-meter navigation grid routes crew around equipment; Three.js blends real walk/idle animation clips on Tripo skeletons. Each character is normalized to 1.8 m. This is **image-guided reconstruction**, not automatic pixel-exact image-to-3D conversion.
+
+**Simulation scope:** routines are generated offline and repeat deterministically. Walking and door motion are real animations; work activities use idle poses and task labels. Announcements are narrative, and power, atmosphere, damage, crew-to-crew avoidance, and live LLM decisions are not simulated. The station blueprint is a separate format from the benchmark's portable OpenIndustries scene.
+
+### Reproduce station generation
+
+1. `node scripts/station-workflows.mjs` writes `assets/station/generation-batch.json` without spending credits. It preserves the original concept prompt and three T-pose → biped rig → walk/idle export graphs.
+2. With approved Comfy credit spend, submit its four independent items through `comfy-cloud.submit_batch`; wait for completion and download the concept and six GLBs into `assets/station/` using the existing filenames.
+3. Upload `concept.png` through `upload_file`. Set node `5.inputs.image` in `assets/station/blueprint.workflow-api.json` to the returned input name, then submit that API graph with approved spend. This graph was retrieved from the executed GPT-6 job, including high reasoning effort. Save the unedited text output as `blueprint.raw.txt`.
+4. Update `assets/station/provenance.json`, run `npm test`, and restart the viewer. New generations may differ or fail the schema; retain their raw output rather than silently repairing it.
+
+These are execution-format graphs, not editor drag-and-drop files. Use Comfy's `save_workflow` conversion if an editable canvas is wanted. Paid generation is optional; all outputs needed to view the demo are included.
+
+### Verify the station
+
+With `npm start` running and Google Chrome installed:
+
+```sh
+node scripts/verify-station.mjs
+node scripts/record-station.mjs
+```
+
+Set `STATION_URL` to override `http://127.0.0.1:4194/station`. Verification checks six rooms, 36 props, loaded skins, changing bone rotations, walking, opening doors, completed tasks, concept loading, and desktop/mobile layouts. It advances 168 simulated seconds and saves screenshots plus `assets/station/verification.json`. Recording captures twelve seconds of real-time crew playback (plus initial page load) in `assets/station/crew-walking.webm`.
+
+## Generated sci-fi people (comparison viewer)
 
 Three textured **Tripo P2** assets are included: [astronaut](assets/astronaut.glb), [engineer](assets/engineer.glb), and [botanist](assets/botanist.glb). Each generation requested a 12,000-face budget and a relaxed A-pose. The GLBs contain their geometry and textures, and can be opened in a GLB-compatible tool such as Blender.
 
@@ -248,6 +291,7 @@ All generated assets and recorded results live in `assets/`. Source scripts, the
 - `assets/legacy-results.json`: preserved Qwen3 4B / GPT-4.1 baseline results.
 - `assets/*.glb`: generated crew meshes; `assets/provenance.json` and `assets/crew-batch.json` document their origin and recipe.
 - `assets/viewer-verification.json`: browser checks for crew loading, model switching, scrubbing, and desktop/mobile layouts.
+- `assets/station/`: concept art, untouched station blueprint, six rigged walk/idle GLBs, generation recipes/provenance, browser screenshots, verification, and sample video.
 - `evaluate.mjs`: reruns validation, portable conversion, browser import, and GIF capture without making paid model calls.
 
 The pinned OpenIndustries checkout retains legacy `astra.scene` serialization and Mergence UI branding. Its supported parser and scene contract were used directly. The farm is a planning layout: existing cleanroom desks stand in for grow beds, and the bundled robot is reused. The LLMs generated the scene arrangement/animation; Tripo generated the separate crew geometry. See [source attribution and geometry notices](PROVENANCE.md).

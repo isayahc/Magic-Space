@@ -1,0 +1,33 @@
+{
+  "3": {
+    "_meta": { "title": "OpenAI ChatGPT" },
+    "class_type": "OpenAIChatNode",
+    "inputs": {
+      "advanced_options": ["4", 0],
+      "images": ["5", 0],
+      "model": "gpt-6-astra",
+      "persist_context": false,
+      "prompt": "Design an impressive original space-station laboratory simulation inspired by Space Station 13 departmental life. Use the attached isometric concept art as visual context: industrial cutaway walls, tiled corridors, cyan science tanks, green hydroponics, amber reactor, coral medical, blue command consoles, orange cargo crates, planet and stars. Design a coherent inhabited place, not a sparse benchmark. Return ONLY valid JSON, no fences. Exact root keys: name,tagline,rooms,crew,events. name is a short station name; tagline one sentence. rooms must contain exactly these ids: research,hydroponics,engineering,medical,cargo,command. Each room has id,name,description,accent (hex #RRGGBB),props. Room centers are fixed by the engine: research [-7,-9], hydroponics [7,-9], engineering [-7,0], medical [7,0], cargo [-7,9], command [7,9]. Each room is 8m wide and 7m deep, local coordinates centered at [0,0], X right and Z down. Each props item has exactly type,x,z,rotation,label. type must be console,labBench,specimen,plantRack,reactor,medBed,crate,locker,tank,server,hologram. Choose 6 to 8 props per room to establish its role, with varied purposeful labels. Props x must be one of -2.5,0,2.5 and z either -2.2 or 2.2; one prop per slot, so at most 6 props per room. Use exactly 6 per room. All props have at most 1.5m square footprint. rotation must be 0,90,180 or270 degrees. Keep the local central aisle z=-1 to1 empty. Include a reactor in engineering, at least 3 plantRack in hydroponics, at least 2 medBed in medical, and a hologram in command. crew must contain exactly 3 entries id astronaut,engineer,botanist; each with callsign,role,tasks. Each tasks array has 4-6 sequential repeating tasks {room,action,seconds}; room refers to a valid room id, action is a short specific present-tense task description, seconds is an integer 4-12 for working after arriving. They walk between rooms via the engine navigation grid. Assign distinct meaningful routines visiting at least 3 departments per character, including their specialist department, to make the station feel alive. events is exactly 4 entries {at,title,detail} with at in seconds 15,40,70,100, original nonviolent station flavor announcements, not claims of real physical simulation. Make names, colors, task choreography, equipment choices, and environmental storytelling creative and coherent. Output compact JSON."
+    }
+  },
+  "4": {
+    "_meta": { "title": "OpenAI ChatGPT Advanced Options" },
+    "class_type": "OpenAIChatConfig",
+    "inputs": {
+      "instructions": "You are the creative director and simulation planner for a browser-based 3D station. Author structured data only, exactly matching the requested schema. Do not write code.",
+      "max_output_tokens": 16384,
+      "reasoning_effort": "high",
+      "truncation": "disabled"
+    }
+  },
+  "5": {
+    "_meta": { "title": "Load Image" },
+    "class_type": "LoadImage",
+    "inputs": { "image": "bc51eb80275b4c24e5805a3fa3eda8d2d52f8bd188d841365fb3fe4fad94fe4c.png" }
+  },
+  "19": {
+    "_meta": { "title": "Save Text" },
+    "class_type": "SaveText",
+    "inputs": { "filename_prefix": "station/gpt6_blueprint", "format": "txt", "text": ["3", 0] }
+  }
+}

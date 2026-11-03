@@ -10,7 +10,7 @@
     "workflows": "node workflows.mjs",
     "agent": "node scripts/agent.mjs",
     "smoke": "node scripts/smoke.mjs",
-    "test": "node --test scripts/smoke.test.mjs"
+    "test": "node --test scripts/smoke.test.mjs scripts/station.test.mjs"
   },
   "engines": { "node": ">=22.14.0" },
   "devDependencies": { "tsx": "^4.20.0" }

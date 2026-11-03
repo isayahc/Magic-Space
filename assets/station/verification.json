@@ -1,0 +1,269 @@
+{
+  "start": {
+    "time": 0.303,
+    "playing": false,
+    "departments": 6,
+    "props": 36,
+    "drawCalls": 1,
+    "crew": [
+      {
+        "id": "astronaut",
+        "position": [
+          6,
+          0,
+          9
+        ],
+        "mode": "idle",
+        "distance": 0,
+        "completed": 0,
+        "skins": 1,
+        "bone": [
+          0.9972053864920558,
+          0.03625230668316936,
+          -0.015848605085390318,
+          0.06337276099939268
+        ],
+        "task": {
+          "room": "command",
+          "action": "Mark cloud bands on the survey planner",
+          "seconds": 8
+        }
+      },
+      {
+        "id": "engineer",
+        "position": [
+          -7,
+          0,
+          0
+        ],
+        "mode": "idle",
+        "distance": 0,
+        "completed": 0,
+        "skins": 1,
+        "bone": [
+          0.9984923265438382,
+          0.04818063760158716,
+          -0.01965679801902345,
+          0.017472649453475438
+        ],
+        "task": {
+          "room": "engineering",
+          "action": "Review the garden heat allocation",
+          "seconds": 8
+        }
+      },
+      {
+        "id": "botanist",
+        "position": [
+          8,
+          0,
+          -9
+        ],
+        "mode": "idle",
+        "distance": 0,
+        "completed": 0,
+        "skins": 1,
+        "bone": [
+          0.9967912329267555,
+          0.0459536923734657,
+          -0.008181859477237992,
+          0.06502708460717771
+        ],
+        "task": {
+          "room": "hydroponics",
+          "action": "Trim salt peas and label leaf samples",
+          "seconds": 10
+        }
+      }
+    ],
+    "doors": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "walking": {
+    "time": 18.303000000000004,
+    "playing": false,
+    "departments": 6,
+    "props": 36,
+    "drawCalls": 1,
+    "crew": [
+      {
+        "id": "astronaut",
+        "position": [
+          -1.5,
+          0,
+          3.62500000000015
+        ],
+        "mode": "walk",
+        "distance": 12.87499999999985,
+        "completed": 1,
+        "skins": 1,
+        "bone": [
+          -0.9928571842109041,
+          -0.020955092857148326,
+          0.05815129363654563,
+          0.10204875037486905
+        ],
+        "task": {
+          "room": "research",
+          "action": "Compare atlas plates with pigment swatches",
+          "seconds": 10
+        }
+      },
+      {
+        "id": "engineer",
+        "position": [
+          -1.5,
+          0,
+          7.37499999999985
+        ],
+        "mode": "walk",
+        "distance": 12.87499999999985,
+        "completed": 1,
+        "skins": 1,
+        "bone": [
+          -0.9863143537210133,
+          -0.03568707935498133,
+          0.06445163993384677,
+          0.14750064180043437
+        ],
+        "task": {
+          "room": "cargo",
+          "action": "Collect a coolant seal kit",
+          "seconds": 5
+        }
+      },
+      {
+        "id": "botanist",
+        "position": [
+          -2.37499999999985,
+          0,
+          -9
+        ],
+        "mode": "walk",
+        "distance": 10.37499999999985,
+        "completed": 1,
+        "skins": 1,
+        "bone": [
+          0.9943480707446182,
+          0.009682866106276215,
+          -0.05861747823724303,
+          0.0879895208555426
+        ],
+        "task": {
+          "room": "research",
+          "action": "Compare moss pigment with atlas swatches",
+          "seconds": 8
+        }
+      }
+    ],
+    "doors": [
+      0.9797672825268142,
+      0.00018163308354528145,
+      1.9715014903749685e-7,
+      0,
+      0.00003559199469733195,
+      1.5043801950290976e-9
+    ]
+  },
+  "completed": {
+    "time": 168.30300000000406,
+    "playing": false,
+    "departments": 6,
+    "props": 36,
+    "drawCalls": 1,
+    "crew": [
+      {
+        "id": "astronaut",
+        "position": [
+          -6.437499999999822,
+          0,
+          -9
+        ],
+        "mode": "walk",
+        "distance": 137.56250000000003,
+        "completed": 7,
+        "skins": 1,
+        "bone": [
+          0.9896469655324065,
+          -0.002659037299078942,
+          -0.0655497249670703,
+          0.12765201810404858
+        ],
+        "task": {
+          "room": "cargo",
+          "action": "Stamp the atlas shipment manifest",
+          "seconds": 6
+        }
+      },
+      {
+        "id": "engineer",
+        "position": [
+          -1.5,
+          0,
+          1.9374999999998224
+        ],
+        "mode": "walk",
+        "distance": 147.56250000000003,
+        "completed": 7,
+        "skins": 1,
+        "bone": [
+          -0.9913305264752318,
+          0.009828794781618322,
+          0.053305441311385794,
+          0.11969011424252607
+        ],
+        "task": {
+          "room": "engineering",
+          "action": "Fit a seal on the service jig",
+          "seconds": 11
+        }
+      },
+      {
+        "id": "botanist",
+        "position": [
+          8,
+          0,
+          0
+        ],
+        "mode": "idle",
+        "distance": 128.99999999999972,
+        "completed": 7,
+        "skins": 1,
+        "bone": [
+          -0.9996403454101883,
+          -0.014789430732630629,
+          0.022074852235001066,
+          0.003630084804147831
+        ],
+        "task": {
+          "room": "medical",
+          "action": "Submit leaves for edible-crop screening",
+          "seconds": 6
+        }
+      }
+    ],
+    "doors": [
+      2.087967556461015e-21,
+      8.507729566341482e-25,
+      1.471457740595838e-32,
+      1.212388784364008e-13,
+      3.7767775584582914e-7,
+      4.248406722342615e-47
+    ]
+  },
+  "errors": [],
+  "desktop": [
+    1600,
+    1000
+  ],
+  "mobile": [
+    390,
+    844
+  ]
+}
