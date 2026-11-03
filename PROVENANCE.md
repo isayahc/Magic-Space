@@ -28,7 +28,15 @@ The Three.js station architecture, prop builders, navigation, interface, and sim
 
 Space Station 13 is an inspiration for departmental atmosphere, not the source of any copied sprites, meshes, characters, or branding. Station screenshots and video are captured from this repository's browser renderer.
 
-## Character atelier / Nova
+## Character atelier
+
+### Neutral Kite / Pip base refresh
+
+The user approved two FLUX Kontext Pro edits and two Tripo P2 image-to-model/rig/animation workflows through the existing Comfy Cloud MCP. The edits use the original rendered base portraits as identity references, replacing fitted clothing with neutral practical workwear. All four jobs completed; both concepts and all four GLBs were downloaded. The models replace Kite/Pip's base walk/idle assets in the station and studio. The existing comparison benchmark keeps its original assets.
+
+`assets/characters/neutral-bases/provenance.json` links source portraits, edited concepts, exact executed graphs, job IDs and the current GLBs. `scripts/finish-neutral-materials.mjs` applies a non-metallic matte finish to the provider's shared materials without changing geometry, skeletons or animation. `scripts/verify-neutral-bases.mjs` verifies skin/bone playback and renders the new base portraits from these actual meshes. Studio/station screenshots and the walking demo were refreshed after replacement.
+
+### Nova sample
 
 The default character images in `assets/characters/*-base.png` are portraits rendered from the existing station GLBs. FLUX Kontext Pro (Black Forest Labs) edited the engineer portrait into `orbital-look.png`, retaining recognizable identity while changing the outfit. Tripo P2 consumed that exact generated image to make a new mesh, followed by biped rigging and real walk/idle animation exports. It did not generate this mesh from text alone.
 

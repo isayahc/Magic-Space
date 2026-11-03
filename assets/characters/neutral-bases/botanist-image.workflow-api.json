@@ -1,0 +1,42 @@
+{
+  "1": {
+    "_meta": {
+      "title": "Read original character identity"
+    },
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "4831bdd1f39c017e18425b552db19490c6b79add6c88900b8bcca090392057f4.png"
+    }
+  },
+  "2": {
+    "_meta": {
+      "title": "Design neutral practical workwear"
+    },
+    "class_type": "FluxKontextProImageNode",
+    "inputs": {
+      "aspect_ratio": "2:3",
+      "guidance": 3,
+      "input_image": [
+        "1",
+        0
+      ],
+      "prompt": "Redesign the clothing and body silhouette of this same adult space-station botanist, Pip. Preserve the recognizable warm brown face, friendly expression, short swept dark wavy hair, and green-and-ivory hydroponics team colors. Replace the fitted fashion outfit with practical loose unisex gardening workwear: a roomy moss-green straight-cut utility jacket with an ivory shoulder yoke and high crew-neck undershirt, rectangular chest pockets, a straight horizontal hem at the upper thighs, relaxed olive cargo trousers, reinforced knees, soft work gloves, and wide flat-soled dark green work boots. Ordinary neutral adult proportions; a straight relaxed torso and comfortably loose clothing that conceals body contours. Chest pockets lie on a flat fabric panel, no bust sculpting. Jacket hangs straight from the shoulders with no pinched waist, no peplum, no pointed waistcoat tails. Matte woven canvas and cotton with visible seams, not shiny spandex; no heels, no tight leggings. Compact belt pouches, no handheld tools. Single character, full body head to toes with generous margins, straight-on front view, relaxed symmetric A-pose with hands separated from the hips, feet slightly apart. Stylized polished 3D game crew asset matching the source art style. Neutral light gray studio background, soft even light, no text, no extra objects, no comparison panels.",
+      "prompt_upsampling": false,
+      "seed": 8612,
+      "steps": 50
+    }
+  },
+  "3": {
+    "_meta": {
+      "title": "Save neutral character concept"
+    },
+    "class_type": "SaveImage",
+    "inputs": {
+      "filename_prefix": "characters/botanist-neutral-concept",
+      "images": [
+        "2",
+        0
+      ]
+    }
+  }
+}

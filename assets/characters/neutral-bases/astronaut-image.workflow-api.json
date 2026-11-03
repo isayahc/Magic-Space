@@ -1,0 +1,42 @@
+{
+  "1": {
+    "_meta": {
+      "title": "Read original character identity"
+    },
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "4effe6eaa1763e63e25914e7cccb7de57edbacc66be2c10b09337f5fb49d2f45.png"
+    }
+  },
+  "2": {
+    "_meta": {
+      "title": "Design neutral practical workwear"
+    },
+    "class_type": "FluxKontextProImageNode",
+    "inputs": {
+      "aspect_ratio": "2:3",
+      "guidance": 3,
+      "input_image": [
+        "1",
+        0
+      ],
+      "prompt": "Redesign the clothing and body silhouette of this same adult space-station surveyor, Kite. Keep the recognizable dark-skinned face, friendly eyes, short dark hair, helmet, and orange-and-ivory survey team colors. Replace the fitted fashion silhouette with a practical bulky unisex astronaut pressure suit: a broad straight boxy ivory torso shell, softly padded orange sleeves, a loose continuous waist with no inward taper, roomy orange utility trousers, reinforced knee pads, sturdy wide flat-soled ivory magnetic work boots, work gloves, and compact life-support pack. The chest panel is a flat rectangular equipment plate, not anatomy-shaped. Ordinary neutral adult proportions under thick loose protective clothing; the garment conceals body contours. Matte woven fabric and scuffed hard-surface fittings, not glossy latex. The suit is fully enclosed, with a horizontal belt and normal trouser construction, no high-cut leotard-shaped hip panels, no sculpted bust, no narrow corset waist, no heels. Single character, full body head to toes with generous margins, straight-on front view, relaxed symmetric A-pose with hands separated from the hips, feet slightly apart. Stylized polished 3D game crew asset matching the source art style. Neutral light gray studio background, soft even light, no text, no extra objects, no comparison panels.",
+      "prompt_upsampling": false,
+      "seed": 8611,
+      "steps": 50
+    }
+  },
+  "3": {
+    "_meta": {
+      "title": "Save neutral character concept"
+    },
+    "class_type": "SaveImage",
+    "inputs": {
+      "filename_prefix": "characters/astronaut-neutral-concept",
+      "images": [
+        "2",
+        0
+      ]
+    }
+  }
+}

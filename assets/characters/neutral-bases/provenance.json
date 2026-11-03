@@ -1,0 +1,39 @@
+{
+  "purpose": "Replace Kite and Pip's fitted silhouettes with neutral practical workwear, retaining their recognizable faces and departmental colors.",
+  "transport": "Existing authenticated Comfy Cloud MCP; user approved two image edits and two 3D/rig/animation workflows.",
+  "image_batch": "batch_eyJ2IjoxLCJpdGVtcyI6W3siaWQiOiI3OTdjODBiYy1mZmFkLTRjYTktYjAyMS1kZTE2NDY0YTVlNDciLCJsYWJlbCI6ImFzdHJvbmF1dC1uZXV0cmFsLWJhc2UifSx7ImlkIjoiZmFmZGZlMTAtZmIwOS00OTg2LTk0NzMtZDc2NmEzYTQxOGE2IiwibGFiZWwiOiJib3RhbmlzdC1uZXV0cmFsLWJhc2UifV19",
+  "rig_batch": "batch_eyJ2IjoxLCJpdGVtcyI6W3siaWQiOiI4MzM0MDI5YS1hMDE4LTQ0NjgtOWViMi03NWYzMDllMjY2YTciLCJsYWJlbCI6ImFzdHJvbmF1dC1uZXV0cmFsLXJpZyJ9LHsiaWQiOiJlY2YyNmYyZS1iMGQ3LTQyYmUtYjc0Mi1jMDY3ODNhOWZmMTciLCJsYWJlbCI6ImJvdGFuaXN0LW5ldXRyYWwtcmlnIn1dfQ",
+  "characters": [
+    {
+      "id": "astronaut",
+      "name": "Kite",
+      "source": "astronaut-before.png",
+      "image_model": "FLUX Kontext Pro",
+      "image_job": "797c80bc-ffad-4ca9-b021-de16464a5e47",
+      "concept": "astronaut-concept.png",
+      "image_workflow": "astronaut-image.workflow-api.json",
+      "rig_job": "8334029a-a018-4468-9eb2-75f309e266a7",
+      "rig_workflow": "astronaut-rig.workflow-api.json",
+      "seed": 8611,
+      "files": ["../../station/astronaut-walk.glb", "../../station/astronaut-idle.glb"],
+      "portrait": "../astronaut-base.png"
+    },
+    {
+      "id": "botanist",
+      "name": "Pip",
+      "source": "botanist-before.png",
+      "image_model": "FLUX Kontext Pro",
+      "image_job": "fafdfe10-fb09-4986-9473-d766a3a418a6",
+      "concept": "botanist-concept.png",
+      "image_workflow": "botanist-image.workflow-api.json",
+      "rig_job": "ecf26f2e-b0d7-42be-b742-c06783a9ff17",
+      "rig_workflow": "botanist-rig.workflow-api.json",
+      "seed": 8612,
+      "files": ["../../station/botanist-walk.glb", "../../station/botanist-idle.glb"],
+      "portrait": "../botanist-base.png"
+    }
+  ],
+  "rig_pipeline": "Tripo P2 image-to-model; 12000 face budget, standard PBR texture; biped rig v1.0-20240301; in-place preset:walk and preset:idle GLBs.",
+  "material_finish": "scripts/finish-neutral-materials.mjs sets the shared material to non-metallic, roughness 0.85 and disconnects the glossy metallic/roughness texture. Geometry, skin, color/normal textures and animations are retained. Applied to both walk and idle files.",
+  "completion": "Both batches confirmed completed via wait_for_batch. Both concepts and all four rigged GLBs downloaded; GLBs validated for skins and animations. Exact executed graphs retrieved via get_job_status(include_workflow:true)."
+}
