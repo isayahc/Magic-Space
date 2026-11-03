@@ -14,6 +14,7 @@ const files = new Map([
   ['/characters/', ['characters/index.html', 'text/html']],
   ...['main.mjs','preview.mjs','catalog.mjs'].map(name=>[`/characters/${name}`,[`characters/${name}`,'application/javascript']]),
   ['/characters/style.css',['characters/style.css','text/css']],
+  ['/characters/viewport.css',['characters/viewport.css','text/css']],
   ['/station', ['station/index.html', 'text/html']],
   ['/station/', ['station/index.html', 'text/html']],
   ...['main.mjs', 'world.mjs', 'navigation.mjs'].map(name => [`/station/${name}`, [`station/${name}`, 'application/javascript']]),

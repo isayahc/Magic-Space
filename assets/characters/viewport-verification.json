@@ -1,0 +1,133 @@
+{
+  "results": [
+    {
+      "width": 1920,
+      "height": 1080,
+      "tab": "Character",
+      "page": [
+        1080,
+        1080
+      ],
+      "editor": [
+        1024,
+        1024
+      ],
+      "right": 1920,
+      "bottom": 1062,
+      "canvas": 857.90625
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "tab": "Loadout",
+      "page": [
+        1080,
+        1080
+      ],
+      "editor": [
+        1024,
+        1024
+      ],
+      "right": 1920,
+      "bottom": 1062,
+      "canvas": 857.90625
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "tab": "Character",
+      "page": [
+        900,
+        900
+      ],
+      "editor": [
+        844,
+        844
+      ],
+      "right": 1440,
+      "bottom": 882,
+      "canvas": 677.90625
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "tab": "Loadout",
+      "page": [
+        900,
+        900
+      ],
+      "editor": [
+        844,
+        844
+      ],
+      "right": 1440,
+      "bottom": 882,
+      "canvas": 677.90625
+    },
+    {
+      "width": 1366,
+      "height": 768,
+      "tab": "Character",
+      "page": [
+        768,
+        768
+      ],
+      "editor": [
+        712,
+        712
+      ],
+      "right": 1366,
+      "bottom": 756,
+      "canvas": 545.90625
+    },
+    {
+      "width": 1366,
+      "height": 768,
+      "tab": "Loadout",
+      "page": [
+        768,
+        768
+      ],
+      "editor": [
+        712,
+        712
+      ],
+      "right": 1366,
+      "bottom": 756,
+      "canvas": 545.90625
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "tab": "Character",
+      "page": [
+        720,
+        720
+      ],
+      "editor": [
+        664,
+        664
+      ],
+      "right": 1280,
+      "bottom": 708,
+      "canvas": 497.90625
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "tab": "Loadout",
+      "page": [
+        720,
+        720
+      ],
+      "editor": [
+        664,
+        664
+      ],
+      "right": 1280,
+      "bottom": 708,
+      "canvas": 497.90625
+    }
+  ],
+  "errors": []
+}

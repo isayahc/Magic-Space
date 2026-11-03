@@ -24,9 +24,9 @@ try{
   await expect(page.getByRole('button',{name:'Select Latch',exact:true})).toHaveCount(1);
   await page.locator('#outfit-name').fill('Flight jacket');await page.locator('#slot-outerwear').fill('Ivory flight jacket');
   await page.getByRole('button',{name:'Save changes',exact:true}).click();
-  await expect(page.getByRole('button',{name:'Wear preview: Flight jacket',exact:true})).toHaveAttribute('aria-pressed','true');
+  await expect(page.locator('#outfit-select')).toHaveValue(outfitId);
   await page.reload();await expect(page.locator('body')).toHaveAttribute('data-ready','true');
-  await page.getByRole('button',{name:'Wear preview: Flight jacket',exact:true}).click();
+  await page.locator('#outfit-select').selectOption(outfitId);
   await expect(page.locator('#slot-outerwear')).toHaveValue('Ivory flight jacket');
   expect(await page.locator('.roster-card').count()).toBe(rosterCount);
   await rm(join(out,'characters/local',outfitId),{recursive:true,force:true});
