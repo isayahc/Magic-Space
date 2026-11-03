@@ -4,7 +4,7 @@ import { mkdtemp,writeFile,readFile,rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createCharacterService,decodeImage,validateRig } from '../characters/server.mjs';
-import { STARTERS,DEFAULT_LOADOUT } from '../characters/catalog.mjs';
+import { STARTERS,DEFAULT_LOADOUT,characterWardrobe,groupWardrobe } from '../characters/catalog.mjs';
 import { makeWorkflow } from '../characters/workflows.mjs';
 const image=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/X8sAAAAASUVORK5CYII=','base64');
 const rig=await readFile(new URL('../assets/station/engineer-walk.glb',import.meta.url));
@@ -20,7 +20,7 @@ test('character drafts survive restart and reject invalid fields/path traversal'
   assert.equal((await createCharacterService({directory}).get(c.id)).loadout.outerwear,'Silver jacket');
   await assert.rejects(service.update(c.id,{...draft,name:''}),/required/);
   assert.throws(()=>service.assetPath('/characters/assets/../../secret'),/Invalid/);
-  await assert.rejects(service.update('engineer',draft),/Duplicate/);
+  await assert.rejects(service.update('engineer',draft),/Create an outfit/);
 });
 test('reference upload checks type and invalidates generated appearances',async t=>{
   const {service}=await fixture(t),c=await service.create({name:'Nova',sourceId:'engineer'});
@@ -71,4 +71,24 @@ test('ambiguous submit failures block a second charge',async t=>{
 });
 test('rig validation rejects unanimated or incomplete model outputs',()=>{
   validateRig(rig);assert.throws(()=>validateRig(Buffer.from('not a glb')),/complete GLB/);
+});
+test('legacy automatic copies become outfits while intentionally named recruits stay distinct',()=>{
+  const original=STARTERS[0],look={...original,id:'look',starter:false,name:'Latch II',sourceCharacter:'engineer',look:'/saved.png',jobs:[{promptId:'kept'}]};
+  const nested={...look,id:'nested',name:'Latch II II',sourceCharacter:'look'};
+  const nova={...look,id:'nova',name:'Nova'};
+  const records=characterWardrobe([original,look,nested,nova]);
+  assert.equal(groupWardrobe(records).length,2);assert.equal(records[1].characterId,'engineer');assert.equal(records[2].characterId,'engineer');
+  assert.equal(records[1].name,'Latch');assert.equal(records[1].look,'/saved.png');assert.equal(records[1].jobs[0].promptId,'kept');assert.equal(records[3].name,'Nova');
+});
+test('new outfits share identity and equipping one replaces the previous outfit',async t=>{
+  const {directory,service}=await fixture(t);
+  const first=await service.create({sourceId:'engineer',kind:'outfit'}),second=await service.create({sourceId:first.id,kind:'outfit'});
+  assert.equal(first.name,'Latch');assert.equal(second.characterId,'engineer');assert.notEqual(first.outfitName,second.outfitName);
+  const renamed=await service.update(first.id,{...first,outfitName:'Night shift'});assert.equal(renamed.outfitName,'Night shift');
+  for(const c of [first,second])await writeFile(join(directory,'local',c.id,'character.json'),JSON.stringify({...c,modelReady:true}));
+  await service.deploy(first.id);await service.deploy(second.id);
+  assert.equal((await service.get(first.id)).deployed,false);assert.equal((await service.get(second.id)).deployed,true);
+  assert.equal(groupWardrobe(await service.list()).length,3);
+  await service.deploy('engineer');assert.equal((await service.get(second.id)).deployed,false);
+  assert.equal((await createCharacterService({directory}).get(second.id)).characterId,'engineer');
 });

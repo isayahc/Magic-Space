@@ -285,10 +285,10 @@ Open **http://127.0.0.1:4194/characters**. The original three crew are reusable 
 
 ### Default character → new drip → 3D
 
-1. **New character** creates a local recruit from a selected base. Choose a preset or edit the six outfit slots. Existing defaults and the bundled sample are duplicated before editing.
+1. The roster lists **one entry per character**. Select a character to see their saved looks in **Loadout → wardrobe**. **New outfit** creates another look for that same person; editing an original saves a new outfit automatically. Name your outfits and switch between their thumbnails. Existing automatic “Latch II” copies appear as looks under Latch, with their assets and job history retained. **New character** is reserved for creating a separately named recruit.
 2. **Generate outfit** sends the character reference and wardrobe description to **FLUX Kontext Pro**. The identity-preserving prompt keeps the face/hair/body while redesigning clothing. Review the actual result under **The new look**.
 3. **Turn this look into 3D** sends that approved image to **Tripo P2 Image to Model**, then rigs a biped skeleton and retargets walk and idle clips. Both GLBs must contain skins and animation before deployment is enabled.
-4. Preview the actual mesh, rotate/zoom it, and switch **Idle / Walk**. **Add to station crew** puts it on the local station roster. Open or reload `/station`; the new crewmate follows the selected base crew member's routine.
+4. Preview the actual mesh, rotate/zoom it, and switch **Idle / Walk**. **Wear this outfit on station** equips an existing crewmate; it replaces their look rather than spawning another person. You can also re-equip their original. **Add to station crew** adds a separately named recruit. Open or reload `/station` to apply the change; new recruits follow their base crew member's routine.
 
 Wardrobe slots describe the next generated outfit. They do not instantly change the current mesh. Clothing is baked into each generated character, not separate detachable equipment; a new outfit needs another image edit and 3D generation. Changing design fields invalidates the previous approval and removes that draft from the deployed roster until rebuilt. An uploaded reference is used by the image model; the original base rig remains the 3D preview until a replacement is generated.
 

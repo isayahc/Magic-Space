@@ -2,7 +2,7 @@ import { readFile,writeFile,mkdir,rename,readdir } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
 import { join,resolve,relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { STARTERS,DEFAULT_LOADOUT } from './catalog.mjs';
+import { STARTERS,DEFAULT_LOADOUT,characterWardrobe } from './catalog.mjs';
 import { makeWorkflow } from './workflows.mjs';
 import { createMcpClient,connection } from './mcp.mjs';
 
@@ -45,7 +45,8 @@ export function createCharacterService({directory=assetsRoot,cloudFactory}={}){
     for(const entry of await readdir(local,{withFileTypes:true}))if(entry.isDirectory()&&validId(entry.name)){
       try{custom.push(JSON.parse(await readFile(file(entry.name),'utf8')));}catch(e){if(e.code!=='ENOENT')throw e;}
     }
-    return [...STARTERS,...await bundled(),...custom];
+    custom.sort((a,b)=>(a.createdAt||'').localeCompare(b.createdAt||'')||a.id.localeCompare(b.id));
+    return characterWardrobe([...STARTERS,...await bundled(),...custom]);
   }
   async function get(id){const c=(await list()).find(c=>c.id===id);if(!c)throw new Error('Character not found');return structuredClone(c);}
   async function save(c){await mkdir(join(local,c.id),{recursive:true});const dest=file(c.id);await writeFile(dest+'.tmp',JSON.stringify(c,null,2));await rename(dest+'.tmp',dest);return c;}
@@ -61,17 +62,22 @@ export function createCharacterService({directory=assetsRoot,cloudFactory}={}){
     if(cloudFactory)return cloudFactory();
     return createMcpClient();
   }
-  function writable(c){if(c.starter||c.bundled)throw new Error('Duplicate this character before editing');if(busy(c))throw new Error('Resolve the current generation before changing this character');}
+  function writable(c){if(c.starter||c.bundled)throw new Error('Create an outfit before editing this original');if(busy(c))throw new Error('Resolve the current generation before changing this character');}
   async function create(input){return serial(async()=>{
-    const source=await get(input.sourceId||'engineer');const draft=validateDraft({...source,name:input.name||`${source.name} II`});
+    const source=await get(input.sourceId||'engineer');const outfit=input.kind==='outfit';
+    const draft=validateDraft({...source,name:outfit?source.name:input.name||'New crewmate'});
     const c={...draft,id:randomUUID(),color:source.color,portrait:source.portrait,reference:source.portrait,walk:source.walk,idle:source.idle,jobs:[],deployed:false,createdAt:new Date().toISOString()};
     // A new recruit starts from the selected character's actual visual reference and rig.
     c.sourceCharacter=source.id;
+    c.characterId=outfit?source.characterId:c.id;
+    c.outfitName=outfit?`Look ${String((await list()).filter(x=>x.characterId===c.characterId).length).padStart(2,'0')}`:'Original';
     if(source.look){c.reference=source.look;c.look=source.look;c.modelReady=source.modelReady;}
     return save(c);
   });}
   async function update(id,input){return serial(async()=>{
     const c=await get(id);writable(c);const draft=validateDraft(input);
+    if(c.characterId!==c.id){draft.name=c.name;draft.role=c.role;}
+    if(input.outfitName!==undefined){if(typeof input.outfitName!=='string'||!input.outfitName.trim()||input.outfitName.length>60)throw new Error('Outfit name must be 1–60 characters');c.outfitName=input.outfitName.trim();}
     const changed=JSON.stringify([c.loadout,c.notes,c.semantic])!==JSON.stringify([draft.loadout,draft.notes,draft.semantic]);
     if(draft.baseId!==c.baseId)throw new Error('Create a new character to change its base');
     Object.assign(c,draft);
@@ -136,9 +142,11 @@ export function createCharacterService({directory=assetsRoot,cloudFactory}={}){
     }
     c.jobs[c.jobs.length-1]=c.job;return save(c);
   });}
-  async function deploy(id){return serial(async()=>{const c=await get(id);if(c.starter)throw new Error('This crew member is already on duty');if(!c.modelReady)throw new Error('Finish the rigged 3D generation first');if(busy(c))throw new Error('Wait for the current job');
+  async function deploy(id){return serial(async()=>{const c=await get(id);if(!c.starter&&!c.modelReady)throw new Error('Finish the rigged 3D generation first');if(busy(c))throw new Error('Wait for the current job');
     // Bundled examples are copied into a local roster record when first deployed.
-    if(c.bundled){const existing=(await list()).find(x=>x.sourceBundle===c.id);if(existing)return existing;c.sourceBundle=c.id;c.id=randomUUID();delete c.bundled;}
+    if(c.bundled){const existing=(await list()).find(x=>x.sourceBundle===c.id);if(existing){Object.assign(c,existing);}else{c.sourceBundle=c.id;c.id=randomUUID();delete c.bundled;}}
+    for(const other of await list())if(other.id!==c.id&&other.characterId===c.characterId&&other.deployed&&!other.bundled&&!other.starter){other.deployed=false;await save(other);}
+    if(c.starter)return c;
     c.deployed=true;return save(c);
   });}
   async function recover(id,promptId){return serial(async()=>{
