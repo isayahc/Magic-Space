@@ -3,6 +3,7 @@ import { createRequire } from 'node:module';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { root, out } from './paths.mjs';
+import { currentRuns, legacyRuns } from './models.mjs';
 const { validateSceneRequest } = await import(pathToFileURL(join(root, 'server/mcp-scene-contract.mjs')).href);
 const { makeManifest, readManifest, hydrateManifest, canonicalJSON } = await import(pathToFileURL(join(root, 'src/lib/workspace.ts')).href);
 const require = createRequire(join(root, 'package.json'));
@@ -11,10 +12,8 @@ const { chromium, expect } = require('@playwright/test');
 const { GifReader } = require('omggif');
 const assets = JSON.parse(await readFile(join(root, 'public/examples/cleanroom/cleanroom-suite.json'), 'utf8')).bundledAssets;
 const assetMap = { 'cleanroom-robot': assets[1], 'cleanroom-desk': assets[2] };
-const runs = [
-  { model: 'Qwen3 4B', kind: 'open-weight', slug: 'qwen3-4b', file: 'qwen3-4b.raw.txt', job: '8cd75a8f-dc80-4364-bfed-6e91bde0117a' },
-  { model: 'GPT-4.1', kind: 'closed-source', slug: 'gpt-4.1', file: 'gpt-4.1.raw.txt', job: '617735fc-0df7-47cf-b430-cd152dc59291' },
-];
+const runs = process.argv.includes('--legacy') ? legacyRuns : currentRuns;
+const resultsFile = process.argv.includes('--legacy') ? 'legacy-results.json' : 'results.json';
 const equal = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 const results = [];
 await mkdir(out, { recursive: true });
@@ -60,7 +59,7 @@ for (const run of runs) {
     compact_json: !raw.trim().includes('\n'), z_path: keys.map(k => k.position[2]), segment_speeds_m_s: speeds,
     note: 'Speed uniformity was not required by the prompt and is reported, not scored.' });
 }
-await writeFile(join(out, 'results.json'), JSON.stringify(results, null, 2));
+await writeFile(join(out, resultsFile), JSON.stringify(results, null, 2));
 console.log(JSON.stringify(results, null, 2));
 
 const web = await createServer({ root, server: { host: '127.0.0.1', port: 4195, strictPort: true } });
@@ -104,7 +103,7 @@ try {
     await writeFile(join(out, `${run.slug}.gif-metadata.json`), JSON.stringify(rendered.metadata, null, 2));
     const row = results.find(r => r.slug === run.slug);
     row.browser = { imported_instances: 5, missing_geometry: 0, errors, gif_frames: 40, gif_range_seconds: [8,12], gif_motion_verified: true };
-    await writeFile(join(out, 'results.json'), JSON.stringify(results, null, 2));
+    await writeFile(join(out, resultsFile), JSON.stringify(results, null, 2));
     console.log(`Verified import and authored-animation GIF: ${run.model}`);
     await page.close();
   }

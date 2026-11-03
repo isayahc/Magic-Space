@@ -1,0 +1,65 @@
+{
+  "items": [
+    {
+      "tool": "run_template",
+      "name": "api_tripo_p2_text_to_model",
+      "description": "Magic-Space astronaut",
+      "input_overrides": {
+        "1": {
+          "model.prompt": "Single full-body stylized sci-fi human game character. An adult female astronaut with dark brown skin, white and orange pressure suit, open helmet showing a friendly face, compact backpack. Adult proportions, appealing clean low-poly game art, complete head hands and boots, standing upright in relaxed A-pose, arms separated from torso, feet apart flat on ground. One character only, no base, no scenery, no props held in hands. Clean textured mesh, readable color blocks, suitable for a miniature orbital greenhouse scene.",
+          "model.face_limit": 12000,
+          "model.texture": "standard",
+          "model.pbr": true,
+          "model.model_seed": 420,
+          "model.image_seed": 420,
+          "model.texture_seed": 420,
+          "model.negative_prompt": "base, pedestal, multiple people, scenery, weapons, missing limbs, extra limbs"
+        },
+        "14": {
+          "filename_prefix": "magic_space/astronaut"
+        }
+      }
+    },
+    {
+      "tool": "run_template",
+      "name": "api_tripo_p2_text_to_model",
+      "description": "Magic-Space engineer",
+      "input_overrides": {
+        "1": {
+          "model.prompt": "Single full-body stylized sci-fi human game character. An adult male spacecraft engineer with medium brown skin, short dark hair, teal and charcoal utility coveralls, orange safety accents, utility belt. Adult proportions, appealing clean low-poly game art, complete head hands and boots, standing upright in relaxed A-pose, arms separated from torso, feet apart flat on ground. One character only, no base, no scenery, no props held in hands. Clean textured mesh, readable color blocks, suitable for a miniature orbital greenhouse scene.",
+          "model.face_limit": 12000,
+          "model.texture": "standard",
+          "model.pbr": true,
+          "model.model_seed": 421,
+          "model.image_seed": 421,
+          "model.texture_seed": 421,
+          "model.negative_prompt": "base, pedestal, multiple people, scenery, weapons, missing limbs, extra limbs"
+        },
+        "14": {
+          "filename_prefix": "magic_space/engineer"
+        }
+      }
+    },
+    {
+      "tool": "run_template",
+      "name": "api_tripo_p2_text_to_model",
+      "description": "Magic-Space botanist",
+      "input_overrides": {
+        "1": {
+          "model.prompt": "Single full-body stylized sci-fi human game character. An adult female space botanist with light brown skin, short curly black hair, green and ivory research jumpsuit, small purple shoulder patch. Adult proportions, appealing clean low-poly game art, complete head hands and boots, standing upright in relaxed A-pose, arms separated from torso, feet apart flat on ground. One character only, no base, no scenery, no props held in hands. Clean textured mesh, readable color blocks, suitable for a miniature orbital greenhouse scene.",
+          "model.face_limit": 12000,
+          "model.texture": "standard",
+          "model.pbr": true,
+          "model.model_seed": 422,
+          "model.image_seed": 422,
+          "model.texture_seed": 422,
+          "model.negative_prompt": "base, pedestal, multiple people, scenery, weapons, missing limbs, extra limbs"
+        },
+        "14": {
+          "filename_prefix": "magic_space/botanist"
+        }
+      }
+    }
+  ],
+  "client_os": "windows"
+}

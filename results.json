@@ -1,60 +1,10 @@
 [
   {
-    "model": "Qwen3 4B",
+    "model": "DeepSeek-V4-Pro",
     "kind": "open-weight",
-    "slug": "qwen3-4b",
-    "file": "qwen3-4b.raw.txt",
-    "job": "8cd75a8f-dc80-4364-bfed-6e91bde0117a",
-    "checks": {
-      "strict_json_and_schema": true,
-      "room_dimensions": true,
-      "exactly_four_beds_and_one_robot": true,
-      "bed_positions": true,
-      "unique_ids_and_bed_names": true,
-      "visible_on_floor": true,
-      "rover_identity_and_start": true,
-      "only_rover_animated": true,
-      "twenty_second_loop": true,
-      "exact_key_times": true,
-      "route_and_aisle": true,
-      "closed_pose_loop": true,
-      "portable_roundtrip": true
-    },
-    "passed": 13,
-    "total": 13,
-    "compact_json": false,
-    "z_path": [
-      -4,
-      -2,
-      2,
-      4,
-      -4
-    ],
-    "segment_speeds_m_s": [
-      0.4,
-      0.8,
-      0.4,
-      1.6
-    ],
-    "note": "Speed uniformity was not required by the prompt and is reported, not scored.",
-    "browser": {
-      "imported_instances": 5,
-      "missing_geometry": 0,
-      "errors": [],
-      "gif_frames": 40,
-      "gif_range_seconds": [
-        8,
-        12
-      ],
-      "gif_motion_verified": true
-    }
-  },
-  {
-    "model": "GPT-4.1",
-    "kind": "closed-source",
-    "slug": "gpt-4.1",
-    "file": "gpt-4.1.raw.txt",
-    "job": "617735fc-0df7-47cf-b430-cd152dc59291",
+    "slug": "deepseek-v4-pro",
+    "file": "deepseek-v4-pro.raw.txt",
+    "job": "4279f940-7c4d-4039-8b53-3d78c87bfdde",
     "checks": {
       "strict_json_and_schema": true,
       "room_dimensions": true,
@@ -75,16 +25,66 @@
     "compact_json": true,
     "z_path": [
       -4,
-      -2,
       4,
-      -2,
+      -4,
+      4,
       -4
     ],
     "segment_speeds_m_s": [
-      0.4,
-      1.2,
-      1.2,
-      0.4
+      1.6,
+      1.6,
+      1.6,
+      1.6
+    ],
+    "note": "Speed uniformity was not required by the prompt and is reported, not scored.",
+    "browser": {
+      "imported_instances": 5,
+      "missing_geometry": 0,
+      "errors": [],
+      "gif_frames": 40,
+      "gif_range_seconds": [
+        8,
+        12
+      ],
+      "gif_motion_verified": true
+    }
+  },
+  {
+    "model": "GPT-6 Astra",
+    "kind": "closed-weight",
+    "slug": "gpt-6-astra",
+    "file": "gpt-6-astra.raw.txt",
+    "job": "8046ef38-ca00-4887-a340-b8e898cb8d48",
+    "checks": {
+      "strict_json_and_schema": true,
+      "room_dimensions": true,
+      "exactly_four_beds_and_one_robot": true,
+      "bed_positions": true,
+      "unique_ids_and_bed_names": true,
+      "visible_on_floor": true,
+      "rover_identity_and_start": true,
+      "only_rover_animated": true,
+      "twenty_second_loop": true,
+      "exact_key_times": true,
+      "route_and_aisle": true,
+      "closed_pose_loop": true,
+      "portable_roundtrip": true
+    },
+    "passed": 13,
+    "total": 13,
+    "compact_json": true,
+    "z_path": [
+      -4,
+      0,
+      4,
+      0,
+      -4
+    ],
+    "segment_speeds_m_s": [
+      0.8,
+      0.8,
+      0.8,
+      0.8
     ],
     "note": "Speed uniformity was not required by the prompt and is reported, not scored.",
     "browser": {

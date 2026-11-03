@@ -4,6 +4,7 @@ import { pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 import assert from 'node:assert/strict';
 import { project, state, modeNames, opencodePath, requireV2, run } from './common.mjs';
+import { currentRuns, legacyRuns } from '../models.mjs';
 
 export function checkServers(payload, mode) {
   if (!Array.isArray(payload?.data)) throw new Error('Unexpected OpenCode /api/mcp response; expected a data array.');
@@ -14,7 +15,7 @@ export function checkServers(payload, mode) {
 }
 export function offlineSmoke() {
   const prompt = readFileSync(join(project, 'prompt.txt'), 'utf8').trim();
-  for (const name of ['qwen3-4b', 'gpt-4.1']) {
+  for (const { slug: name } of [...currentRuns, ...legacyRuns]) {
     const raw = JSON.parse(readFileSync(join(project, `${name}.raw.txt`), 'utf8'));
     const scene = JSON.parse(readFileSync(join(project, `${name}.scene.json`), 'utf8'));
     const workflow = JSON.parse(readFileSync(join(project, `${name}.workflow-api.json`), 'utf8'));
@@ -23,6 +24,16 @@ export function offlineSmoke() {
     assert.equal(raw.animation.duration, 20, `${name}: twenty-second timeline`);
     assert.equal(workflow['2'].inputs.prompt, prompt, `${name}: identical prompt`);
     assert.equal(workflow['3'].class_type, 'SaveText', `${name}: text output node`);
+  }
+  for (const name of ['astronaut', 'engineer', 'botanist']) {
+    const glb = readFileSync(join(project, 'assets', `${name}.glb`));
+    assert.equal(glb.toString('ascii', 0, 4), 'glTF', `${name}: binary glTF header`);
+    assert.equal(glb.readUInt32LE(4), 2, `${name}: glTF version`);
+    assert.equal(glb.readUInt32LE(8), glb.length, `${name}: complete download`);
+    const json = JSON.parse(glb.toString('utf8', 20, 20 + glb.readUInt32LE(12)).trim());
+    assert.ok(json.meshes?.length > 0 && json.materials?.length > 0, `${name}: mesh and materials`);
+    assert.ok(!json.buffers?.some(b => b.uri && !b.uri.startsWith('data:')), `${name}: self-contained geometry`);
+    assert.ok(!json.images?.some(image => image.uri && !image.uri.startsWith('data:')), `${name}: self-contained textures`);
   }
 }
 async function main() {

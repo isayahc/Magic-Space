@@ -1,17 +1,22 @@
 <!doctype html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OpenIndustries — LLM scene comparison</title>
 <style>
-body{margin:0;background:#192322;color:#e4eddf;font:15px system-ui}header{position:absolute;z-index:1;top:16px;left:16px;right:16px;padding:18px;background:#101917ed;border:1px solid #405044;border-radius:12px;max-width:650px}h1{font-size:20px;margin:0 0 12px}select,button{font:inherit;padding:8px;background:#c6ee86;border:0;border-radius:6px;color:#152218;margin-right:8px}p{margin:10px 0 0;color:#bdc9b8}canvas{display:block}input{width:220px;vertical-align:middle}#status{font-variant-numeric:tabular-nums}a{color:#c6ee86}
+body{margin:0;background:#192322;color:#e4eddf;font:15px system-ui}header{position:absolute;z-index:1;top:16px;left:16px;right:16px;padding:18px;background:#101917ed;border:1px solid #405044;border-radius:12px;max-width:650px;max-height:45vh;overflow:auto}h1{font-size:20px;margin:0 0 12px}select,button{font:inherit;padding:8px;background:#c6ee86;border:0;border-radius:6px;color:#152218;margin:0 8px 6px 0;max-width:100%}p{margin:10px 0 0;color:#bdc9b8}canvas{display:block}input[type=range]{width:min(220px,50vw);vertical-align:middle}#status{font-variant-numeric:tabular-nums}a{color:#c6ee86}small{color:#a0b09b}#crew-status{font-size:13px}@media(max-width:600px){header{top:8px;left:8px;right:8px;padding:12px;font-size:13px}h1{font-size:17px}}
 </style></head><body>
-<header><h1>Model-generated robotic farm · OpenIndustries</h1>
-<select id="model" aria-label="Model"><option value="qwen3-4b">Qwen3 4B · Open weight</option><option value="gpt-4.1">GPT-4.1 · Closed source</option></select><button id="play">Pause</button>
+<header><h1>Magic-Space · Orbital greenhouse crew</h1>
+<select id="model" aria-label="Model"><optgroup label="Current comparison"><option value="deepseek-v4-pro">DeepSeek-V4-Pro · Open weight</option><option value="gpt-6-astra">GPT-6 Astra · Closed weight</option></optgroup><optgroup label="Original baseline"><option value="qwen3-4b">Qwen3 4B · Open weight</option><option value="gpt-4.1">GPT-4.1 · Closed weight</option></optgroup></select><button id="play">Pause</button>
 <p><input id="time" aria-label="Animation time" type="range" min="0" max="20" step="0.01" value="0"> <span id="status">Loading…</span></p>
 <p>Drag to orbit · Scroll to zoom · Right-drag to pan</p>
-<p>Four workbenches represent grow beds. Existing robot geometry follows each model’s unedited 20-second route.</p>
-<p><a id="download" download="qwen3-4b.scene.json" href="/comparison/qwen3-4b.json">Download editable scene</a></p></header>
+<p>Four workbenches represent grow beds. The rover follows each model’s unedited 20-second route.</p>
+<p><label><input id="crew-toggle" type="checkbox" checked> Show generated sci-fi crew</label> <button id="crew-view">Meet the crew</button><button id="room-view">Room view</button></p>
+<p id="crew-status" role="status">Loading 3D crew…</p>
+<p><small>Shared Tripo P2 meshes, fixed presentation placement. Static poses; not model-authored or scored.</small></p>
+<p><a id="download" download="deepseek-v4-pro.scene.json" href="/comparison/deepseek-v4-pro.json">Download editable benchmark scene</a></p>
+<p>3D assets: <a download href="/comparison/assets/astronaut.glb">Astronaut</a> · <a download href="/comparison/assets/engineer.glb">Engineer</a> · <a download href="/comparison/assets/botanist.glb">Botanist</a></p></header>
 <script type="module">
 import * as THREE from '/node_modules/three/build/three.module.js';
 import { OrbitControls } from '/node_modules/three/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader } from '/node_modules/three/examples/jsm/loaders/GLTFLoader.js';
 import { createWorld, applyWorldPoses } from '/src/lib/world.ts';
 import { readManifest, hydrateManifest, evaluateWorkspace } from '/src/lib/workspace.ts';
 const model = document.querySelector('#model'), play = document.querySelector('#play'), slider = document.querySelector('#time'), status = document.querySelector('#status');
@@ -21,15 +26,45 @@ const camera = new THREE.PerspectiveCamera(45,innerWidth/innerHeight,.1,200);
 camera.position.set(14,13,17);
 const controls = new OrbitControls(camera,renderer.domElement); controls.target.set(0,0,0); controls.enableDamping=true;
 let state,world,time=0,playing=true,last=performance.now();
+const crew = new THREE.Group(); crew.name = 'shared-sci-fi-crew';
+const crewToggle = document.querySelector('#crew-toggle');
+crewToggle.onchange = () => { crew.visible = crewToggle.checked; };
+document.querySelector('#crew-view').onclick = () => { camera.position.set(1.25,3.5,3.8+Math.max(8,9/camera.aspect));controls.target.set(1.25,2.2,3.8);controls.update(); };
+document.querySelector('#room-view').onclick = () => { camera.position.set(14,13,17);controls.target.set(0,0,0);controls.update(); };
+async function loadCrew(){
+  const loader = new GLTFLoader();
+  const names = ['astronaut','engineer','botanist'];
+  const loaded = await Promise.all(names.map(async (name,index) => {
+    const gltf = await loader.loadAsync(`/comparison/assets/${name}.glb`);
+    const person = gltf.scene;
+    const bounds = new THREE.Box3().setFromObject(person);
+    const size = bounds.getSize(new THREE.Vector3());
+    if(!Number.isFinite(size.y) || size.y <= 0) throw new Error(`${name}: invalid mesh bounds`);
+    person.scale.multiplyScalar(1.75/size.y);
+    const scaled = new THREE.Box3().setFromObject(person), center = scaled.getCenter(new THREE.Vector3());
+    person.position.add(new THREE.Vector3(-center.x,-scaled.min.y,-center.z));
+    const placement = new THREE.Group(); placement.name=name;placement.add(person);
+    placement.rotation.y=-Math.PI/2;
+    placement.position.set([-2,2,4.5][index],0,3.8);
+    crew.add(placement);
+    return {name,meshes: (()=>{let n=0;person.traverse(o=>{if(o.isMesh)n++});return n})(),animations:gltf.animations.length};
+  }));
+  window.crewInfo=loaded;
+  document.body.dataset.crewReady='true';
+  document.querySelector('#crew-status').textContent='3 / 3 crew assets loaded · Astronaut / Engineer / Botanist';
+}
 async function load(){
+  model.disabled=true;
   status.textContent='Loading…';
+  try {
   const response=await fetch(`/comparison/${model.value}.json`);
   if(!response.ok)throw new Error(`Scene load failed: ${response.status}`);
   state=hydrateManifest(readManifest(await response.json()),[]);
-  world?.dispose(); world=createWorld(state.items.map(i=>i.asset),state.room);
+  crew.removeFromParent();world?.dispose(); world=createWorld(state.items.map(i=>i.asset),state.room);world.scene.add(crew);
   time=0;
   const a=document.querySelector('#download');a.href=`/comparison/${model.value}.json`;a.download=`${model.value}.scene.json`;
   document.body.dataset.ready=model.value;
+  } finally {model.disabled=false;}
 }
 model.onchange=()=>load().catch(e=>status.textContent=e.message);
 play.onclick=()=>{playing=!playing;play.textContent=playing?'Pause':'Play'};
@@ -37,6 +72,7 @@ slider.oninput=()=>{time=Number(slider.value);playing=false;play.textContent='Pl
 function resize(){renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix()}
 addEventListener('resize',resize);resize();
 await load();
+loadCrew().catch(error=>{document.querySelector('#crew-status').textContent=`Crew load failed: ${error.message}`;document.body.dataset.crewReady='failed';});
 renderer.setAnimationLoop(now=>{
   const dt=Math.min((now-last)/1000,.1);last=now;
   if(playing)time=(time+dt)%20;

@@ -1,0 +1,35 @@
+{
+  "crew": [
+    {
+      "name": "astronaut",
+      "meshes": 1,
+      "animations": 0
+    },
+    {
+      "name": "engineer",
+      "meshes": 1,
+      "animations": 0
+    },
+    {
+      "name": "botanist",
+      "meshes": 1,
+      "animations": 0
+    }
+  ],
+  "errors": [],
+  "models": [
+    "deepseek-v4-pro",
+    "gpt-6-astra"
+  ],
+  "desktop": [
+    1440,
+    1000
+  ],
+  "mobile": [
+    390,
+    844
+  ],
+  "model_switch": true,
+  "scrub": true,
+  "crew_toggle": true
+}

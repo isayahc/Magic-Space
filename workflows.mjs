@@ -10,7 +10,16 @@ const gpt = {
   '2': { class_type: 'OpenAIChatNode', inputs: { prompt, model: 'gpt-4.1', persist_context: false, advanced_options: ['1', 0] }, _meta: { title: 'Generate scene with GPT-4.1' } },
   '3': { class_type: 'SaveText', inputs: { text: ['2', 0], filename_prefix: 'oi_benchmark_gpt41', format: 'txt' }, _meta: { title: 'Save untouched model answer' } },
 };
-for (const [name, workflow] of [['qwen3-4b', qwen], ['gpt-4.1', gpt]]) {
+const astra = {
+  '1': { class_type: 'OpenAIChatConfig', inputs: { truncation: 'disabled', max_output_tokens: 16384, reasoning_effort: 'high' }, _meta: { title: 'GPT-6 Astra reasoning settings' } },
+  '2': { class_type: 'OpenAIChatNode', inputs: { prompt, model: 'gpt-6-astra', persist_context: false, advanced_options: ['1', 0] }, _meta: { title: 'Generate farm scene with GPT-6 Astra' } },
+  '3': { class_type: 'SaveText', inputs: { text: ['2', 0], filename_prefix: 'magic_space/gpt6_astra', format: 'txt' }, _meta: { title: 'Save untouched model answer' } },
+};
+const deepseek = {
+  '2': { class_type: 'OpenRouterLLMNode', inputs: { prompt, model: 'deepseek/deepseek-v4-pro', 'model.reasoning_effort': 'high', seed: 0 }, _meta: { title: 'Generate farm scene with DeepSeek-V4-Pro' } },
+  '3': { class_type: 'SaveText', inputs: { text: ['2', 0], filename_prefix: 'magic_space/deepseek_v4_pro', format: 'txt' }, _meta: { title: 'Save untouched model answer' } },
+};
+for (const [name, workflow] of [['qwen3-4b', qwen], ['gpt-4.1', gpt], ['gpt-6-astra', astra], ['deepseek-v4-pro', deepseek]]) {
   await writeFile(new URL(`${name}.workflow-api.json`, import.meta.url), JSON.stringify(workflow, null, 2) + '\n');
 }
-console.log('Wrote both API-format workflows. No jobs submitted.');
+console.log('Wrote current and legacy API-format workflows. No jobs submitted.');

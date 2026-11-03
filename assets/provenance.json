@@ -1,0 +1,68 @@
+[
+  {
+    "name": "astronaut",
+    "description": "An adult female astronaut with dark brown skin, white and orange pressure suit, open helmet showing a friendly face, compact backpack",
+    "job": "61fcab21-c34f-4cc4-9e2d-9a1c3fadeba4",
+    "file": "astronaut.glb",
+    "provider": "Tripo",
+    "model": "P2",
+    "template": "api_tripo_p2_text_to_model",
+    "requested_face_limit": 12000,
+    "seed": 420,
+    "viewer_height_m": 1.75,
+    "viewer_rotation_degrees": [
+      0,
+      -90,
+      0
+    ],
+    "viewer_position": [
+      -2,
+      0,
+      3.8
+    ]
+  },
+  {
+    "name": "engineer",
+    "description": "An adult male spacecraft engineer with medium brown skin, short dark hair, teal and charcoal utility coveralls, orange safety accents, utility belt",
+    "job": "bcaa9979-448a-45c4-8caa-608c3f791dcc",
+    "file": "engineer.glb",
+    "provider": "Tripo",
+    "model": "P2",
+    "template": "api_tripo_p2_text_to_model",
+    "requested_face_limit": 12000,
+    "seed": 421,
+    "viewer_height_m": 1.75,
+    "viewer_rotation_degrees": [
+      0,
+      -90,
+      0
+    ],
+    "viewer_position": [
+      2,
+      0,
+      3.8
+    ]
+  },
+  {
+    "name": "botanist",
+    "description": "An adult female space botanist with light brown skin, short curly black hair, green and ivory research jumpsuit, small purple shoulder patch",
+    "job": "85f08a34-1ef3-4f1c-939d-bc56faa792f8",
+    "file": "botanist.glb",
+    "provider": "Tripo",
+    "model": "P2",
+    "template": "api_tripo_p2_text_to_model",
+    "requested_face_limit": 12000,
+    "seed": 422,
+    "viewer_height_m": 1.75,
+    "viewer_rotation_degrees": [
+      0,
+      -90,
+      0
+    ],
+    "viewer_position": [
+      4.5,
+      0,
+      3.8
+    ]
+  }
+]
