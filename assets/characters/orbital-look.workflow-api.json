@@ -1,0 +1,42 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    },
+    "inputs": {
+      "image": "c900df7d26c8fb47729ed44cc172c78203c6358f7694a0ee37001c89759fd462.png"
+    }
+  },
+  "2": {
+    "class_type": "FluxKontextProImageNode",
+    "_meta": {
+      "title": "Flux.1 Kontext [pro] Image"
+    },
+    "inputs": {
+      "input_image": [
+        "1",
+        0
+      ],
+      "prompt": "Edit this image of ONE adult space-station character. Preserve the same face, skin tone, hairstyle, body proportions, and recognizable identity. Change the clothing to this complete coordinated outfit: outerwear: Cropped cream utility jacket with black paneling; top: Black technical undersuit; bottoms: Relaxed black cargo trousers; footwear: Cream high-top magnetic boots; accessory: Orange cross-body utility strap and compact belt pouches; palette: Bone white / charcoal / signal orange. Premium technical streetwear, tactile fabric, clean graphic color blocking, original unbranded design. Full body from head to toes, front view, symmetrical relaxed A-pose with arms clearly separated from the torso and legs apart. Both hands and all limbs visible. Stylized polished 3D game-character concept, clean detailed materials. Neutral light gray studio background, soft even lighting, no text, no logos, no floor props, no weapons, no extra people, no split panels. Keep silhouette simple enough for humanoid skeletal rigging. Clothing should be worn on the character, not floating beside them.",
+      "aspect_ratio": "2:3",
+      "guidance": 3,
+      "steps": 50,
+      "seed": 8451,
+      "prompt_upsampling": false
+    }
+  },
+  "3": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    },
+    "inputs": {
+      "images": [
+        "2",
+        0
+      ],
+      "filename_prefix": "comfy_partner_bfl-flux-kontext-pro_orbital-streetwear-from-default-engineer"
+    }
+  }
+}

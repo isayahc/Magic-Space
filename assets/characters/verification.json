@@ -1,0 +1,66 @@
+{
+  "checks": [
+    "3D skinned preview",
+    "generated outfit rig and moving bones",
+    "approved concept image",
+    "deploy generated character to station",
+    "deployed character navigation",
+    "walk/idle controls",
+    "create character",
+    "edit and persist outfit",
+    "reload persistence",
+    "paid confirmation cancel without submission",
+    "image upload",
+    "identity notes",
+    "workflow download",
+    "desktop/mobile"
+  ],
+  "sample": {
+    "before": {
+      "loadedURL": "/characters/assets/orbital-walk.glb|/characters/assets/orbital-idle.glb",
+      "skins": 1,
+      "mode": "walk",
+      "bone": [
+        0.996097187165585,
+        0.04278088532552259,
+        -0.017707660804196758,
+        0.07514413881760794
+      ]
+    },
+    "after": {
+      "loadedURL": "/characters/assets/orbital-walk.glb|/characters/assets/orbital-idle.glb",
+      "skins": 1,
+      "mode": "walk",
+      "bone": [
+        0.9580891892784988,
+        -0.02069444008459164,
+        -0.08431282959198971,
+        0.2729985751889291
+      ]
+    },
+    "recruit": {
+      "id": "ae770ab4-3d8f-4358-b3ab-e2ee7a304485",
+      "position": [
+        -8,
+        0,
+        9
+      ],
+      "mode": "idle",
+      "distance": 22,
+      "completed": 1,
+      "skins": 1,
+      "bone": [
+        0.9980804494323825,
+        0.03387477732909832,
+        -0.02590706089078698,
+        0.044908176226388825
+      ],
+      "task": {
+        "room": "cargo",
+        "action": "Collect a coolant seal kit",
+        "seconds": 5
+      }
+    }
+  },
+  "errors": []
+}
