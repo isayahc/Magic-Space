@@ -5,6 +5,9 @@ let characters=[],current,configured=false,connectionMessage='',view='model',tab
 const busy=()=>current?.job&&['submitting','running','uncertain'].includes(current.job.status);
 const immutable=()=>current?.starter||current?.bundled;
 const selectedOutfits=new Map();
+const outfitPicker=document.createElement('label');outfitPicker.className='outfit-picker';outfitPicker.textContent='Saved look';
+const outfitSelect=document.createElement('select');outfitSelect.id='outfit-select';outfitPicker.append(outfitSelect);$('#outfit-list').after(outfitPicker);
+outfitSelect.onchange=run(async()=>{const id=outfitSelect.value;if(dirty)await save();await select(id);});
 async function api(path='',options={}){
   const r=await fetch(`/api/characters${path}`,{...options,headers:{'Content-Type':'application/json',...options.headers}});
   const value=await r.json();if(!r.ok)throw new Error(value.error||`HTTP ${r.status}`);return value;
@@ -73,6 +76,8 @@ function update(){
 function renderOutfits(){
   const group=groupWardrobe(characters).find(g=>g.id===current.characterId);
   $('#wardrobe-title').textContent=`${current.name}’s wardrobe`;
+  outfitSelect.replaceChildren(...group.outfits.map(c=>{const option=document.createElement('option');option.value=c.id;option.textContent=c.outfitName;return option;}));outfitSelect.value=current.id;
+  outfitSelect.disabled=!!busy();
   $('#outfit-list').replaceChildren(...group.outfits.map(c=>{
     const button=document.createElement('button');button.type='button';button.className=`outfit-card${c.id===current.id?' selected':''}`;button.setAttribute('aria-pressed',String(c.id===current.id));button.setAttribute('aria-label',`Wear preview: ${c.outfitName}`);
     const img=document.createElement('img');img.src=c.look||c.reference||c.portrait;img.alt='';
@@ -100,7 +105,7 @@ async function ensureDraft(){
 }
 async function save(){await ensureDraft();const c=await api(`/${current.id}`,{method:'PATCH',body:JSON.stringify(formValue())});replace(c);fill();updateButtons();await showView(c.look&&!c.modelReady?'look':'model');}
 $('#character-form').onsubmit=run(async e=>{e.preventDefault();await save();notify('Outfit saved to this character’s wardrobe.');});
-$('#character-form').addEventListener('input',()=>{dirty=true;updateButtons();});
+$('#character-form').addEventListener('input',e=>{if(e.target===outfitSelect)return;dirty=true;updateButtons();});
 $('#duplicate').onclick=run(async()=>{if(dirty)await save();const c=await api('',{method:'POST',body:JSON.stringify({sourceId:current.id,kind:'outfit'})});characters.push(c);await select(c.id);setTab('loadout');$('#outfit-name').focus();$('#outfit-name').select();notify('New outfit, same crewmate.');});
 function setTab(next){tab=next;$('#identity-fields').hidden=next!=='character';$('#loadout-fields').hidden=next!=='loadout';$('#tab-character').setAttribute('aria-selected',String(next==='character'));$('#tab-loadout').setAttribute('aria-selected',String(next==='loadout'));$('#editor-title').textContent=next==='character'?'A life in orbit.':'Build the drip.';$('#editor-subtitle').textContent=next==='character'?'An identity worth keeping.':'Same character. Whole new energy.';}
 $('#tab-character').onclick=()=>setTab('character');$('#tab-loadout').onclick=()=>setTab('loadout');

@@ -1,0 +1,116 @@
+{
+  "1": {
+    "_meta": {
+      "title": "Read scientist concept"
+    },
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "b751b56c205be67811c2c17db7fd391be209a7c6c8421713249bc6aee64ee669.png"
+    }
+  },
+  "2": {
+    "_meta": {
+      "title": "Build scientist mesh"
+    },
+    "class_type": "TripoPSeriesImageToModelNode",
+    "inputs": {
+      "model": "P2",
+      "model.auto_size": false,
+      "model.compress_geometry": false,
+      "model.enable_image_autofix": false,
+      "model.export_uv": true,
+      "model.face_limit": 12000,
+      "model.image": [
+        "1",
+        0
+      ],
+      "model.model_seed": 8711,
+      "model.orientation": "default",
+      "model.pbr": true,
+      "model.quad": false,
+      "model.texture": "standard",
+      "model.texture_alignment": "original_image",
+      "model.texture_seed": 8711
+    }
+  },
+  "3": {
+    "_meta": {
+      "title": "Rig scientist biped"
+    },
+    "class_type": "TripoRigNode",
+    "inputs": {
+      "model_version": "v1.0-20240301",
+      "original_model_task_id": [
+        "2",
+        0
+      ],
+      "out_format": "glb",
+      "rig_type": "biped",
+      "spec": "tripo"
+    }
+  },
+  "4": {
+    "_meta": {
+      "title": "Animate in-place walking"
+    },
+    "class_type": "TripoRetargetNode",
+    "inputs": {
+      "animate_in_place": true,
+      "animation": "preset:walk",
+      "export_with_geometry": true,
+      "original_model_task_id": [
+        "3",
+        1
+      ],
+      "out_format": "glb"
+    }
+  },
+  "5": {
+    "_meta": {
+      "title": "Animate idle stance"
+    },
+    "class_type": "TripoRetargetNode",
+    "inputs": {
+      "animate_in_place": true,
+      "animation": "preset:idle",
+      "export_with_geometry": true,
+      "original_model_task_id": [
+        "3",
+        1
+      ],
+      "out_format": "glb"
+    }
+  },
+  "6": {
+    "_meta": {
+      "title": "Save scientist walk"
+    },
+    "class_type": "Save3DAdvanced",
+    "inputs": {
+      "filename_prefix": "characters/astrophysicist-walk",
+      "height": 1024,
+      "model_3d": [
+        "4",
+        2
+      ],
+      "viewport_state": "",
+      "width": 1024
+    }
+  },
+  "7": {
+    "_meta": {
+      "title": "Save scientist idle"
+    },
+    "class_type": "Save3DAdvanced",
+    "inputs": {
+      "filename_prefix": "characters/astrophysicist-idle",
+      "height": 1024,
+      "model_3d": [
+        "5",
+        2
+      ],
+      "viewport_state": "",
+      "width": 1024
+    }
+  }
+}

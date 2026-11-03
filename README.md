@@ -278,7 +278,7 @@ Set `STATION_URL` to override `http://127.0.0.1:4194/station`. Verification chec
 
 ## Character atelier and loadouts
 
-Open **http://127.0.0.1:4194/characters**. The original three crew are reusable defaults; **Nova** is a completed image-to-image → animated-3D sample. The atelier has two screens:
+Open **http://127.0.0.1:4194/characters**. Five crew are reusable defaults: **Latch**, **Kite**, **Pip**, **Aster** (astrophysics) and **Flint** (materials science). **Nova** is a completed image-to-image → animated-3D sample. The atelier has two screens:
 
 - **Character:** callsign, role, reference upload, and editable visual identity notes. The optional **Read visual details** action uses GPT-6 Astra to describe visible design details from the image.
 - **Loadout:** outerwear, base layer, bottoms, footwear, accessories, and color palette, plus free-form art direction and three starter styles.
@@ -287,7 +287,7 @@ Open **http://127.0.0.1:4194/characters**. The original three crew are reusable 
 
 ### Default character → new drip → 3D
 
-1. The roster lists **one entry per character**. Select a character to see their saved looks in **Loadout → wardrobe**. **New outfit** creates another look for that same person; editing an original saves a new outfit automatically. Name your outfits and switch between their thumbnails. Existing automatic “Latch II” copies appear as looks under Latch, with their assets and job history retained. **New character** is reserved for creating a separately named recruit.
+1. The roster lists **one entry per character**. Select a character to see their saved looks in **Loadout → wardrobe**. **New outfit** creates another look for that same person; editing an original saves a new outfit automatically. Name your outfits and choose a **Saved look** on desktop (thumbnail cards on narrow screens). Existing automatic “Latch II” copies appear as looks under Latch, with their assets and job history retained. **New character** is reserved for creating a separately named recruit.
 2. **Generate outfit** sends the character reference and wardrobe description to **FLUX Kontext Pro**. The identity-preserving prompt keeps the face/hair/body while redesigning clothing. Review the actual result under **The new look**.
 3. **Turn this look into 3D** sends that approved image to **Tripo P2 Image to Model**, then rigs a biped skeleton and retargets walk and idle clips. Both GLBs must contain skins and animation before deployment is enabled.
 4. Preview the actual mesh, rotate/zoom it, and switch **Idle / Walk**. **Wear this outfit on station** equips an existing crewmate; it replaces their look rather than spawning another person. You can also re-equip their original. **Add to station crew** adds a separately named recruit. Open or reload `/station` to apply the change; new recruits follow their base crew member's routine.

@@ -88,7 +88,7 @@ test('new outfits share identity and equipping one replaces the previous outfit'
   for(const c of [first,second])await writeFile(join(directory,'local',c.id,'character.json'),JSON.stringify({...c,modelReady:true}));
   await service.deploy(first.id);await service.deploy(second.id);
   assert.equal((await service.get(first.id)).deployed,false);assert.equal((await service.get(second.id)).deployed,true);
-  assert.equal(groupWardrobe(await service.list()).length,3);
+  assert.equal(groupWardrobe(await service.list()).length,STARTERS.length);
   await service.deploy('engineer');assert.equal((await service.get(second.id)).deployed,false);
   assert.equal((await createCharacterService({directory}).get(second.id)).characterId,'engineer');
 });

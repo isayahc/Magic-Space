@@ -1,0 +1,63 @@
+{
+  "checks": [
+    "two skinned meshes",
+    "changing walk bone transforms",
+    "idle portraits rendered from actual rigs",
+    "updated base thumbnails",
+    "front/rear coverage captures",
+    "desktop/mobile"
+  ],
+  "evidence": {
+    "astrophysicist": {
+      "before": {
+        "loadedURL": "/station/assets/astrophysicist-walk.glb|/station/assets/astrophysicist-idle.glb",
+        "skins": 1,
+        "mode": "walk",
+        "bone": [
+          0.9968093758581433,
+          0.04624316550148631,
+          -0.01539503915512901,
+          0.06321083362538549
+        ]
+      },
+      "after": {
+        "loadedURL": "/station/assets/astrophysicist-walk.glb|/station/assets/astrophysicist-idle.glb",
+        "skins": 1,
+        "mode": "walk",
+        "bone": [
+          0.9771259681447131,
+          -0.0337814013452635,
+          -0.0734159466842911,
+          0.19670719731742264
+        ]
+      },
+      "portrait": "astrophysicist-base.png"
+    },
+    "materials-scientist": {
+      "before": {
+        "loadedURL": "/station/assets/materials-scientist-walk.glb|/station/assets/materials-scientist-idle.glb",
+        "skins": 1,
+        "mode": "walk",
+        "bone": [
+          0.9953768383469328,
+          0.06224838700283898,
+          -0.009082012200916204,
+          0.072578646934902
+        ]
+      },
+      "after": {
+        "loadedURL": "/station/assets/materials-scientist-walk.glb|/station/assets/materials-scientist-idle.glb",
+        "skins": 1,
+        "mode": "walk",
+        "bone": [
+          0.9728110801566698,
+          -0.015543243765771205,
+          -0.06527176425257286,
+          0.2216677981124429
+        ]
+      },
+      "portrait": "materials-scientist-base.png"
+    }
+  },
+  "errors": []
+}

@@ -7,6 +7,7 @@ import { UnrealBloomPass } from '/node_modules/three/examples/jsm/postprocessing
 import { OutputPass } from '/node_modules/three/examples/jsm/postprocessing/OutputPass.js';
 import { createStation } from './world.mjs';
 import { validateBlueprint,makeNavigation,ROOM_CENTERS } from './navigation.mjs';
+import { stationCrew } from './crew.mjs';
 
 const $=selector=>document.querySelector(selector);
 const status=$('#load-status');
@@ -19,9 +20,7 @@ try {
   const libraryResponse=await fetch('/api/characters');
   if(!libraryResponse.ok)throw new Error('Could not load the local crew library');
   const library=await libraryResponse.json();
-  const equipped=new Map(library.characters.filter(c=>c.deployed&&c.modelReady&&!c.starter).map(c=>[c.characterId||c.id,c]));
-  const recruits=[...equipped.values()].map(c=>({id:c.id,callsign:c.name,role:c.role,color:c.color||'#d3ed91',walk:c.walk,idle:c.idle,tasks:data.crew.find(base=>base.id===c.baseId).tasks}));
-  const definitions=[...data.crew.filter(c=>!equipped.has(c.id)),...recruits];
+  const definitions=stationCrew(data,library.characters);
   const nav=makeNavigation(data),world=createStation(data);
   $('#station-name').textContent=data.name;$('#tagline').textContent=data.tagline;
   document.title=`${data.name} / Magic-Space`;
@@ -37,7 +36,7 @@ try {
   function overview(){selected=null;const scale=innerWidth<700?1.9:1;camera.position.set(31*scale,39*scale,40*scale);controls.target.set(0,0,0);controls.update();$('.crew-panel').classList.remove('following');}
   overview();
   function log(text){const item=document.createElement('div');item.className='feed-item';const stamp=document.createElement('time');stamp.textContent=`T+ ${Math.floor(time/60).toString().padStart(2,'0')}:${Math.floor(time%60).toString().padStart(2,'0')}`;item.append(stamp,document.createTextNode(text));$('#feed').prepend(item);while($('#feed').children.length>5)$('#feed').lastChild.remove();}
-  log('Shift handover complete. Department routines loaded from GPT-6’s world blueprint.');
+  log('Shift handover complete. Department routines and scientist research rounds loaded.');
   const loader=new GLTFLoader();
   status.textContent='Loading rigged crew and animation clips…';
   const loaded=await Promise.all(definitions.map(async (definition,index)=>{
